@@ -1,0 +1,64 @@
+---
+title: "Marine Population Dynamics"
+subtitle: OCEA265 
+author: Alexa L. Fredston
+date: April 2025
+format: pdf
+editor: visual
+---
+
+# Introduction to population modeling
+
+## What models are 
+
+\textcolor{blue}{Reflect individually:} What do you think models are? What comes to mind with that word? 
+
+Classes of models: 
+
+* Static (e.g., linear regression) *vs.* dynamic (time is a variable; differential or difference equations describe system evolution over time)
+* Discrete *vs.* continuous (is any biological data ever in continuous time?) 
+* Statistical / phenomenological *vs.* theoretical / mechanistic / process-based
+* Stochastic (incorporates randomness) *vs.* deterministic (get the same outcome every time)
+
+## Structure and content of this class 
+
+### Structure 
+
+* We meet weekly to work through the math of biological models by hand. I suggest taking notes in a notebook or using a tablet and pencil. You can also generate notes like the ones I'm using with LaTeX (see overleaf.com) or Quarto (see posit.co). Classes will be a mix of lecture and in-class activities, with lots of breaks. 
+* Problem sets ask you to explore fitting the models we learned to data. You can do this in any software you like. This course is intentionally software-agnostic to allow you to practice skills in whatever language or interface you use in your own research. 
+* Final grades will be based on problem sets, the midterm, and the final exam. The 7 problem sets are 60% of your grade (10% each, with the lowest grade dropped). The exams (20% of final grade each) are open-book and do not require any memorization. Attendance in class is optional, although the exams will closely mirror content from class. 
+
+### Content
+
+Review syllabus / this document 
+
+## On math anxiety
+
+* "A feeling of tension, apprehension, or fear that interferes with math performance" (Ashcroft, 2002) 
+* Math can initiate physiological responses including increased heart rate and cortisol levels, and neural activations analogous to those from physical pain (Ramirez *et al.,* 2018)
+* These responses are also associated with lower math performance, probably because the person is dividing their working memory between the math problem and anxiety-associated thoughts (e.g., about the consequences of failure) (Ramirez *et al.,* 2018)
+* Math anxiety is extremely common in higher education and is not a binary classification; many students have some degree of math anxiety (Ramirez *et al.,* 2018) 
+* Socioenvironmental factors are a primary driver of math anxiety, including home experiences (parental involvement in schooling), exposure to negative framings ("math is confusing", "I always hated math"), negative classroom experiences (often associated with teachers who also have math anxiety) or assessment outcomes, and students' "self-concept" (Ramirez *et al.,* 2018)
+
+
+### BREAK
+
+## Classes 
+
+# Population growth in continuous time
+
+# Density dependence and discrete time models
+
+# Extensions to harvested populations
+
+# Age and stage structure in discrete time models
+
+# Stochasticity
+
+# Dispersal and spatial population dynamic models
+
+# Interacting populations
+
+# Coexistence
+
+# Applications of population modeling to management and research 
