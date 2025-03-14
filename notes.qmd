@@ -5,7 +5,14 @@ author: Alexa L. Fredston
 date: April 2025
 format: pdf
 editor: visual
+execute:
+  echo: false
+  warning: false
 ---
+
+```{r setup}
+library(ggplot2)
+```
 
 # Introduction to population modeling
 
@@ -22,15 +29,11 @@ Classes of models:
 
 ## Structure and content of this class 
 
-### Structure 
+### Structure and content
 
 * We meet weekly to work through the math of biological models by hand. I suggest taking notes in a notebook or using a tablet and pencil. You can also generate notes like the ones I'm using with LaTeX (see overleaf.com) or Quarto (see posit.co). Classes will be a mix of lecture and in-class activities, with lots of breaks. 
 * Problem sets ask you to explore fitting the models we learned to data. You can do this in any software you like. This course is intentionally software-agnostic to allow you to practice skills in whatever language or interface you use in your own research. 
-* Final grades will be based on problem sets, the midterm, and the final exam. The 7 problem sets are 60% of your grade (10% each, with the lowest grade dropped). The exams (20% of final grade each) are open-book and do not require any memorization. Attendance in class is optional, although the exams will closely mirror content from class. 
-
-### Content
-
-Review syllabus / this document 
+* Review grading policy, the rest of the [syllabus](https://docs.google.com/document/d/13uDEevusyg55NbJjcye-7ScDaJNzR70pEIcCSM0tEYY/edit?tab=t.0), and introduce the [course repo on GitHub](https://github.com/afredston/population-dynamics-course)
 
 ## On math anxiety
 
@@ -40,6 +43,238 @@ Review syllabus / this document
 * Math anxiety is extremely common in higher education and is not a binary classification; many students have some degree of math anxiety (Ramirez *et al.,* 2018) 
 * Socioenvironmental factors are a primary driver of math anxiety, including home experiences (parental involvement in schooling), exposure to negative framings ("math is confusing", "I always hated math"), negative classroom experiences (often associated with teachers who also have math anxiety) or assessment outcomes, and students' "self-concept" (Ramirez *et al.,* 2018)
 
+## Calculus refresher
+
+(Drafted by chatGPT, edited by Alexa) 
+
+### Differentiation
+
+Let's say we have some function that looks like this: 
+
+```{r derivatives}
+f <- function(x) x^2 * exp(-x)
+
+dat <- data.frame(x = seq(0, 5, length.out=100))
+dat$fx = f(dat$x)
+
+ggplot(dat, aes(x=x, y=fx)) +
+         geom_line(aes(color="Function: f(x)")) +
+  labs(color="legend",
+       y="value") +
+  theme_minimal()
+```
+We don't need to do anything to know what the value of $f(x)$ is at any $x$ on this graph; we can already figure that out. 
+
+However, we don't currently know what the **rate of change** is in $f(x)$ at any $x$ on this graph. To figure that out, we have to take the **derivative**, via "differentiation". Differentiation describes the rate of change of a function. If $f(x)$ represents a population size over time, its derivative measures the instantaneous rate of change. 
+
+We describe this mathematically using the concept of **limits**. These let us calculate the derivative at any $x$ as the slope of a line from $x$ to $x + \Delta x$. We define the derivative as the limit of this slope as $\Delta x$ goes to 0. 
+
+$$
+\frac{d}{dx} f(x) = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}
+$$
+
+Let's unpack limits a little more. Limits allow us to compute the derivative at any point $x$ by considering the slope of a line connecting $x$ to $x + \Delta x$. The derivative is then defined as the limit of this slope as $\Delta x$ approaches zero. Let's explore this graphically with a secant line (a line that intersects a curve at two distinct points) and a tangent line (which touches a curve at just one point, and does not cross it). 
+
+```{r limits}
+
+# Define function and derivative
+f <- function(x) x^2 * exp(-x)
+df <- function(x) (2*x - x^2) * exp(-x)
+
+# Select a point and a small Δx
+x0 <- 1
+dx <- 0.5  # Try different values to show secant line changing
+x1 <- x0 + dx
+
+# Compute function values
+y0 <- f(x0)
+y1 <- f(x1)
+
+# Compute secant line equation: y = m(x - x0) + y0
+m_secant <- (y1 - y0) / (x1 - x0)
+secant_line <- function(x) m_secant * (x - x0) + y0
+
+# Compute tangent line equation at x0: y = f'(x0)(x - x0) + f(x0)
+m_tangent <- df(x0)
+tangent_line <- function(x) m_tangent * (x - x0) + y0
+
+# Generate x values for plotting
+x_vals <- seq(0, 3, length.out = 100)
+
+# Create data frame
+data <- data.frame(
+  x = x_vals,
+  f_x = f(x_vals),
+  secant = secant_line(x_vals),
+  tangent = tangent_line(x_vals)
+)
+
+# Plot function, secant, and tangent lines
+ggplot(data, aes(x)) +
+  geom_line(aes(y = f_x, color = "Function f(x)")) +
+  geom_line(aes(y = secant, color = "Secant Line")) +
+  geom_line(aes(y = tangent, color= "Tangent Line")) +
+  geom_point(aes(x = x0, y = y0), color = "black", size = 3) +
+  geom_point(aes(x = x1, y = y1), color = "black", size = 3) +
+  labs(title = "Graphical Interpretation of Limits and Derivatives",
+       y = "f(x)",
+       color = "Legend") +
+  theme_minimal()
+```
+
+This is a good time to remind you that this course has zero memorization! Don't worry if these terms are unfamiliar or don't stick.
+
+Limits help us graphically understand differentiation, but they aren't always convenient for computation or calculation, because we calculate them one $x$ at a time. Thankfully rules exist to derive a general formula to compute the slope of a function at any $x$ in the function's domain. 
+
+### Computing derivatives
+
+Rather than simply stating the limit, let’s derive the derivative of a function from first principles. This procedure always follows the same steps: we take the difference quotient, substitute in the actual function, and try to simplify that as much as possible. This looks different for different classes of functions (polynomials, exponentials, trigonometric, etc.) ChatGPT has several key recommendations for differentiation, regardless of the function: 
+
+* Always substitute $x + \Delta x$ carefully into the function.
+*  Expand and simplify the numerator before dividing.
+*  Factor out $\Delta x$ when possible so it cancels cleanly.
+* Use known limits for trigonometric, exponential, and logarithmic functions.
+
+#### Example: Compute the derivative of $f(x) = x^2$
+
+1. Write the **difference quotient,** the average rate of change of a function over a small interval. (This is the same as the expression you take the limit of as $\Delta x \to 0$.)
+
+   $$
+   \frac{f(x + \Delta x) - f(x)}{\Delta x}
+   $$
+Note that the difference quotient always follows this general form, but the actual expression varies depending on $f(x)$, because in order to compute the derivative we next... 
+
+2. **Substitute $f(x)$** in the above equation with whatever the function actually is, here, $f(x) = x^2$. 
+
+   $$
+   \frac{(x + \Delta x)^2 - x^2}{\Delta x}
+   $$
+
+3. **Expand the square:**  
+   $$
+   \frac{x^2 + 2x\Delta x + (\Delta x)^2 - x^2}{\Delta x}
+   $$
+
+4. **Simplify:**  
+   $$
+   \frac{2x\Delta x + (\Delta x)^2}{\Delta x} = 2x + \Delta x
+   $$
+
+5. **Take the limit as $\Delta x \to 0$:**  
+   $$
+   \lim_{\Delta x \to 0} (2x + \Delta x) = 2x
+   $$
+
+Thus, $\frac{d}{dx} x^2 = 2x$.
+
+### When to Use the Limit Definition vs. Shortcut Rules
+
+While limits provide the **formal definition** of a derivative, in practice, we often use differentiation rules that simplify computation.
+
+#### **When do we use limits?**
+- When proving a derivative from scratch (e.g., showing that $\frac{d}{dx} x^2 = 2x$).
+- When dealing with functions that don’t fit standard differentiation rules (e.g., custom-defined functions or piecewise functions).
+- In cases where we need to rigorously justify why a function is differentiable.
+
+#### **When can we use shortcut rules?**
+- If a function follows well-known rules, we can differentiate directly:
+
+  - **Power Rule**: $\frac{d}{dx} x^n = n x^{n-1}$
+  - **Product Rule**: $\frac{d}{dx} [f(x)g(x)] = f'(x) g(x) + f(x) g'(x)$
+  - **Quotient Rule**: $\frac{d}{dx} \left(\frac{f(x)}{g(x)}\right) = \frac{f'(x) g(x) - f(x) g'(x)}{g(x)^2}$
+  - **Chain Rule**: $\frac{d}{dx} f(g(x)) = f'(g(x)) g'(x)$
+
+For example, rather than using limits to find the derivative of $f(x) = x^3$, we can apply the **power rule** directly:
+
+$$
+\frac{d}{dx} x^3 = 3x^2
+$$
+
+This is much faster than using the limit definition!
+
+
+#### Common Derivatives
+
+- Power rule: $\frac{d}{dx} x^n = n x^{n-1}$
+- Exponential function: $\frac{d}{dx} e^x = e^x$, $\frac{d}{dx} a^x = a^x \ln a$
+- Logarithmic function: $\frac{d}{dx} \ln x = \frac{1}{x}$
+- Chain rule: If $y = g(h(x))$, then $\frac{dy}{dx} = g'(h(x)) h'(x)$
+
+Example: The exponential growth model is defined by:
+
+$$
+\frac{dN}{dt} = rN
+$$
+
+where $N(t)$ is population size and $r$ is the intrinsic growth rate.
+
+### Integration
+
+Integration finds the total accumulation of a quantity. The integral of $f(x)$ over an interval $[a,b]$ is:
+
+$$
+\int_a^b f(x) \,dx
+$$
+
+#### Common Integrals
+
+- Power rule: $\int x^n \,dx = \frac{x^{n+1}}{n+1} + C$ (for $n \neq -1$)
+- Exponential function: $\int e^x \,dx = e^x + C$
+- Logarithmic function: $\int \frac{1}{x} \,dx = \ln |x| + C$
+
+Example: Solving the exponential growth equation:
+
+$$
+\int \frac{dN}{N} = \int r dt
+$$
+
+yields the solution:
+
+$$
+N(t) = N_0 e^{rt}
+$$
+
+where $N_0$ is the initial population size.
+
+### Logarithms and Exponents
+
+Logarithms and exponents frequently appear in population models.
+
+- **Exponential functions** describe growth and decay: $N = N_0 e^{rt}$.
+- **Logarithms** are the inverse of exponentiation: $\ln(e^x) = x$, $a^{\log_a x} = x$.
+- **Log transformation** is often used to linearize growth models: $\ln N = \ln N_0 + rt$.
+
+### Graphical Interpretation
+
+To visualize differentiation and integration, consider the function $f(x) = x^2 e^{-x}$. The derivative represents the slope at each point, while the integral gives the accumulated area under the curve.
+
+```{r}
+# Load necessary library
+library(ggplot2)
+
+# Define function, derivative, and integral
+f <- function(x) x^2 * exp(-x)
+df <- function(x) (2*x - x^2) * exp(-x)
+F_int <- function(x) -exp(-x) * (x^2 + 2*x + 2) + 2  # Indefinite integral with constant C = 2
+
+# Generate data
+x_vals <- seq(0, 5, length.out = 100)
+df_vals <- df(x_vals)
+F_vals <- F_int(x_vals)
+
+# Create a dataframe for plotting
+data <- data.frame(x = x_vals, f = f(x_vals), df = df_vals, F = F_vals)
+
+# Plot function, derivative, and integral
+ggplot(data, aes(x)) +
+  geom_line(aes(y = f, color = "Function: f(x)")) +
+  geom_line(aes(y = df, color = "Derivative: f'(x)"), linetype = "dashed") +
+  geom_line(aes(y = F, color = "Integral: ∫f(x)dx"), linetype = "dotted") +
+  labs(title = "Graphical Interpretation of Differentiation and Integration",
+       y = "Value",
+       color = "Legend") +
+  theme_minimal()
+```
 
 ### BREAK
 
