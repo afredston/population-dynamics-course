@@ -12,13 +12,28 @@ execute:
 
 ```{r setup}
 library(ggplot2)
+library(dplyr)
 ```
+
+Alexa would like to gratefully acknowledge the following sources:
+
+* Alan Hastings' book, "Population Biology: Concepts and Models"
+* Marissa Baskett's ESP121 course notes (UC Davis)
+* Dave Tilman's UCSB course ESM201, for which Alexa was a TA
+* chatGPT, which generated a lot of the Quarto code for the math. 
+
+# Welcome
+
+Introduce yourselves: 
+
+* Your preferred name 
+* What you do at UCSC (your position, research, etc.) 
 
 # Introduction to population modeling
 
 ## What models are 
 
-\textcolor{blue}{Reflect individually:} What do you think models are? What comes to mind with that word? 
+\textcolor{green}{Reflect individually:} What do you think models are? What comes to mind with that word? 
 
 Classes of models: 
 
@@ -31,9 +46,10 @@ Classes of models:
 
 ### Structure and content
 
+* The course textbook is Population Biology: Concepts and Methods (Hastings, 2nd edition). 
 * We meet weekly to work through the math of biological models by hand. I suggest taking notes in a notebook or using a tablet and pencil. You can also generate notes like the ones I'm using with LaTeX (see overleaf.com) or Quarto (see posit.co). Classes will be a mix of lecture and in-class activities, with lots of breaks. 
 * Problem sets ask you to explore fitting the models we learned to data. You can do this in any software you like. This course is intentionally software-agnostic to allow you to practice skills in whatever language or interface you use in your own research. 
-* Review grading policy, the rest of the [syllabus](https://docs.google.com/document/d/13uDEevusyg55NbJjcye-7ScDaJNzR70pEIcCSM0tEYY/edit?tab=t.0), and introduce the [course repo on GitHub](https://github.com/afredston/population-dynamics-course)
+* Review grading policy, the rest of the [syllabus](https://docs.google.com/document/d/13uDEevusyg55NbJjcye-7ScDaJNzR70pEIcCSM0tEYY/edit?tab=t.0), and introduce the [course repo on GitHub](https://github.com/afredston/population-dynamics-course).
 
 ## On math anxiety
 
@@ -124,89 +140,89 @@ ggplot(data, aes(x)) +
 
 This is a good time to remind you that this course has zero memorization! Don't worry if these terms are unfamiliar or don't stick.
 
-Limits help us graphically understand differentiation, but they aren't always convenient for computation or calculation, because we calculate them one $x$ at a time. Thankfully rules exist to derive a general formula to compute the slope of a function at any $x$ in the function's domain. 
+Limits help us graphically understand differentiation, but they aren't always convenient for computation or calculation, because we calculate them one $x$ at a time. Thankfully rules exist to derive a general formula to compute the slope of a function at any $x$ in the function's domain. We're going to hold off on the derivatives refresher though, until it actually comes up in class; knowing the intuition behind what a derivative is will suffice for today. 
 
-### Computing derivatives
+<!-- ### Computing derivatives -->
 
-Rather than simply stating the limit, let’s derive the derivative of a function from first principles. This procedure always follows the same steps: we take the difference quotient, substitute in the actual function, and try to simplify that as much as possible. This looks different for different classes of functions (polynomials, exponentials, trigonometric, etc.) ChatGPT has several key recommendations for differentiation, regardless of the function: 
+<!-- Rather than simply stating the limit, let’s derive the derivative of a function from first principles. This procedure always follows the same steps: we take the difference quotient, substitute in the actual function, and try to simplify that as much as possible. This looks different for different classes of functions (polynomials, exponentials, trigonometric, etc.) ChatGPT has several key recommendations for differentiation, regardless of the function:  -->
 
-* Always substitute $x + \Delta x$ carefully into the function.
-*  Expand and simplify the numerator before dividing.
-*  Factor out $\Delta x$ when possible so it cancels cleanly.
-* Use known limits for trigonometric, exponential, and logarithmic functions.
+<!-- * Always substitute $x + \Delta x$ carefully into the function. -->
+<!-- *  Expand and simplify the numerator before dividing. -->
+<!-- *  Factor out $\Delta x$ when possible so it cancels cleanly. -->
+<!-- * Use known limits for trigonometric, exponential, and logarithmic functions. -->
 
-#### Example: Compute the derivative of $f(x) = x^2$
+<!-- #### Example: Compute the derivative of $f(x) = x^2$ -->
 
-1. Write the **difference quotient,** the average rate of change of a function over a small interval. (This is the same as the expression you take the limit of as $\Delta x \to 0$.)
+<!-- 1. Write the **difference quotient,** the average rate of change of a function over a small interval. (This is the same as the expression you take the limit of as $\Delta x \to 0$.) -->
 
-   $$
-   \frac{f(x + \Delta x) - f(x)}{\Delta x}
-   $$
-Note that the difference quotient always follows this general form, but the actual expression varies depending on $f(x)$, because in order to compute the derivative we next... 
+<!--    $$ -->
+<!--    \frac{f(x + \Delta x) - f(x)}{\Delta x} -->
+<!--    $$ -->
+<!-- Note that the difference quotient always follows this general form, but the actual expression varies depending on $f(x)$, because in order to compute the derivative we next...  -->
 
-2. **Substitute $f(x)$** in the above equation with whatever the function actually is, here, $f(x) = x^2$. 
+<!-- 2. **Substitute $f(x)$** in the above equation with whatever the function actually is, here, $f(x) = x^2$.  -->
 
-   $$
-   \frac{(x + \Delta x)^2 - x^2}{\Delta x}
-   $$
+<!--    $$ -->
+<!--    \frac{(x + \Delta x)^2 - x^2}{\Delta x} -->
+<!--    $$ -->
 
-3. **Expand the square:**  
-   $$
-   \frac{x^2 + 2x\Delta x + (\Delta x)^2 - x^2}{\Delta x}
-   $$
+<!-- 3. **Expand the square:**   -->
+<!--    $$ -->
+<!--    \frac{x^2 + 2x\Delta x + (\Delta x)^2 - x^2}{\Delta x} -->
+<!--    $$ -->
 
-4. **Simplify:**  
-   $$
-   \frac{2x\Delta x + (\Delta x)^2}{\Delta x} = 2x + \Delta x
-   $$
+<!-- 4. **Simplify:**   -->
+<!--    $$ -->
+<!--    \frac{2x\Delta x + (\Delta x)^2}{\Delta x} = 2x + \Delta x -->
+<!--    $$ -->
 
-5. **Take the limit as $\Delta x \to 0$:**  
-   $$
-   \lim_{\Delta x \to 0} (2x + \Delta x) = 2x
-   $$
+<!-- 5. **Take the limit as $\Delta x \to 0$:**   -->
+<!--    $$ -->
+<!--    \lim_{\Delta x \to 0} (2x + \Delta x) = 2x -->
+<!--    $$ -->
 
-Thus, $\frac{d}{dx} x^2 = 2x$.
+<!-- Thus, $\frac{d}{dx} x^2 = 2x$. You can convince yourself this is true graphically by plotting the function and calculating the slope of a line through different points on that function.  -->
 
-### When to Use the Limit Definition vs. Shortcut Rules
+<!-- ### When to Use the Limit Definition vs. Shortcut Rules -->
 
-While limits provide the **formal definition** of a derivative, in practice, we often use differentiation rules that simplify computation.
+<!-- While limits provide the **formal definition** of a derivative, in practice, we often use differentiation rules that simplify computation. -->
 
-#### **When do we use limits?**
-- When proving a derivative from scratch (e.g., showing that $\frac{d}{dx} x^2 = 2x$).
-- When dealing with functions that don’t fit standard differentiation rules (e.g., custom-defined functions or piecewise functions).
-- In cases where we need to rigorously justify why a function is differentiable.
+<!-- #### **When do we use limits?** -->
+<!-- - When proving a derivative from scratch (e.g., showing that $\frac{d}{dx} x^2 = 2x$). -->
+<!-- - When dealing with functions that don’t fit standard differentiation rules (e.g., custom-defined functions or piecewise functions). -->
+<!-- - In cases where we need to rigorously justify why a function is differentiable. -->
 
-#### **When can we use shortcut rules?**
-- If a function follows well-known rules, we can differentiate directly:
+<!-- #### **When can we use shortcut rules?** -->
+<!-- - If a function follows well-known rules, we can differentiate directly: -->
 
-  - **Power Rule**: $\frac{d}{dx} x^n = n x^{n-1}$
-  - **Product Rule**: $\frac{d}{dx} [f(x)g(x)] = f'(x) g(x) + f(x) g'(x)$
-  - **Quotient Rule**: $\frac{d}{dx} \left(\frac{f(x)}{g(x)}\right) = \frac{f'(x) g(x) - f(x) g'(x)}{g(x)^2}$
-  - **Chain Rule**: $\frac{d}{dx} f(g(x)) = f'(g(x)) g'(x)$
+<!--   - **Power Rule**: $\frac{d}{dx} x^n = n x^{n-1}$ -->
+<!--   - **Product Rule**: $\frac{d}{dx} [f(x)g(x)] = f'(x) g(x) + f(x) g'(x)$ -->
+<!--   - **Quotient Rule**: $\frac{d}{dx} \left(\frac{f(x)}{g(x)}\right) = \frac{f'(x) g(x) - f(x) g'(x)}{g(x)^2}$ -->
+<!--   - **Chain Rule**: $\frac{d}{dx} f(g(x)) = f'(g(x)) g'(x)$ -->
 
-For example, rather than using limits to find the derivative of $f(x) = x^3$, we can apply the **power rule** directly:
+<!-- For example, rather than using limits to find the derivative of $f(x) = x^3$, we can apply the **power rule** directly: -->
 
-$$
-\frac{d}{dx} x^3 = 3x^2
-$$
+<!-- $$ -->
+<!-- \frac{d}{dx} x^3 = 3x^2 -->
+<!-- $$ -->
 
-This is much faster than using the limit definition!
+<!-- This is much faster than using the limit definition! -->
 
 
-#### Common Derivatives
+<!-- #### Common Derivatives -->
 
-- Power rule: $\frac{d}{dx} x^n = n x^{n-1}$
-- Exponential function: $\frac{d}{dx} e^x = e^x$, $\frac{d}{dx} a^x = a^x \ln a$
-- Logarithmic function: $\frac{d}{dx} \ln x = \frac{1}{x}$
-- Chain rule: If $y = g(h(x))$, then $\frac{dy}{dx} = g'(h(x)) h'(x)$
+<!-- - Power rule: $\frac{d}{dx} x^n = n x^{n-1}$ -->
+<!-- - Exponential function: $\frac{d}{dx} e^x = e^x$, $\frac{d}{dx} a^x = a^x \ln a$ -->
+<!-- - Logarithmic function: $\frac{d}{dx} \ln x = \frac{1}{x}$ -->
+<!-- - Chain rule: If $y = g(h(x))$, then $\frac{dy}{dx} = g'(h(x)) h'(x)$ -->
 
-Example: The exponential growth model is defined by:
+<!-- Example: The exponential growth model is defined by: -->
 
-$$
-\frac{dN}{dt} = rN
-$$
+<!-- $$ -->
+<!-- \frac{dN}{dt} = rN -->
+<!-- $$ -->
 
-where $N(t)$ is population size and $r$ is the intrinsic growth rate.
+<!-- where $N(t)$ is population size and $r$ is the intrinsic growth rate. -->
 
 ### Integration
 
@@ -222,33 +238,33 @@ $$
 - Exponential function: $\int e^x \,dx = e^x + C$
 - Logarithmic function: $\int \frac{1}{x} \,dx = \ln |x| + C$
 
-Example: Solving the exponential growth equation:
+<!-- Example: Solving the exponential growth equation: -->
 
-$$
-\int \frac{dN}{N} = \int r dt
-$$
+<!-- $$ -->
+<!-- \int \frac{dN}{N} = \int r dt -->
+<!-- $$ -->
 
-yields the solution:
+<!-- yields the solution: -->
 
-$$
-N(t) = N_0 e^{rt}
-$$
+<!-- $$ -->
+<!-- N(t) = N_0 e^{rt} -->
+<!-- $$ -->
 
-where $N_0$ is the initial population size.
+<!-- where $N_0$ is the initial population size. -->
 
-### Logarithms and Exponents
+<!-- ### Logarithms and Exponents -->
 
-Logarithms and exponents frequently appear in population models.
+<!-- Logarithms and exponents frequently appear in population models. -->
 
-- **Exponential functions** describe growth and decay: $N = N_0 e^{rt}$.
-- **Logarithms** are the inverse of exponentiation: $\ln(e^x) = x$, $a^{\log_a x} = x$.
-- **Log transformation** is often used to linearize growth models: $\ln N = \ln N_0 + rt$.
+<!-- - **Exponential functions** describe growth and decay: $N = N_0 e^{rt}$. -->
+<!-- - **Logarithms** are the inverse of exponentiation: $\ln(e^x) = x$, $a^{\log_a x} = x$. -->
+<!-- - **Log transformation** is often used to linearize growth models: $\ln N = \ln N_0 + rt$. -->
 
-### Graphical Interpretation
+### Graphical interpretation
 
 To visualize differentiation and integration, consider the function $f(x) = x^2 e^{-x}$. The derivative represents the slope at each point, while the integral gives the accumulated area under the curve.
 
-```{r}
+```{r graphical-calculus}
 # Load necessary library
 library(ggplot2)
 
@@ -276,11 +292,267 @@ ggplot(data, aes(x)) +
   theme_minimal()
 ```
 
+### BREAK 
+
+## Density-independent population growth
+
+(Hastings pp1-16)
+
+This is the simplest population model we can write down. It assumes that:
+
+* The rate of births is proportional to the number of individuals present.
+* The rate of deaths is proportional to the number of individuals present. 
+
+\textcolor{green}{Discuss:} What are the implications for this model at small population sizes? At large population sizes? 
+
+Here and forever, the population size is going to be denoted by $N$. 
+
+### The discrete time case (geometric growth) 
+
+This model has separate time steps. 
+
+When would we want to use a model like this?
+
+* Non-overlapping generations (e.g., seasonal insects) 
+* Synchronous and distinct reproductive events (e.g., salmon, annual plants) 
+
+For now, let's ignore organisms that live for more than one time step (i.e., no age structure), and just think about something whose entire life cycle happens between $t$ and $t+1$. Note that we often think of $t$ as a year in discrete-time models, but it is actually in units of *a single generation.* This could be days, weeks, months, seasons, or many years.  
+
+**All** discrete-time models can be stated as:
+
+$$
+N_{t+1} = F(N_t)
+$$
+We'll spend a lot of this class talking about all the forms F can take! 
+
+The simplest form is a dimensionless coefficient:
+
+$$
+N_{t+1} = RN_t
+$$
+"Big R" represents the chance of survival *on average* per offspring. You can define $R=B-M$ where $B$ is the average *per capita* birth rate and $M$ is the average *per capita* death rate (mortality). Let's plot out the implications of this model for population dynamics, starting at $t=0$ with an initial population size (defined as $N_0$) of 100 and set $R=2$, with $t$ on the x-axis and $N$ on the y-axis. (This is a really common plot that we'll draw a zillion times in this course.)
+
+![](discrete_geometric_growth.jpg)
+
+This implies a general way to calculate population size at any time step if we know the initial population size $R_0$ and the average chance of survival per offspring, $R$:
+
+$$
+N_t = R^tN_0
+$$
+
+Based on the example above, what does this imply for population change over time if $R$ is relatively large? 
+
+What if $R=1$?
+
+Draw it out---the population stays constant; for any $t$, if $R=1$, then $N_t = 1 \times N_0 = N_0$. 
+
+What happens if $R$ is less than 1? \textcolor{green}{Ask the students to collectively plot} this graph ($t$ *vs.* $x$) for $R=0.5$ and $N_0=1000$. We call this "geometric decay" (the case above was "geometric growth"). 
+
+$N_t = R^tN_0$ is a **geometric population model**. Remember, this is a discrete-time model assuming that births and deaths are both proportional to $N$. 
+
+This model implies that:
+
+* If R > 1, populations will grow unbounded.
+* If R < 1, populations will go extinct. 
+
+Under what circumstances are those reasonable assumptions and implications in nature? 
+
+### The continuous time case (exponential growth)
+
+Let's deal with one of those statements that is not always realistic: that generations are non-overlapping and reproduction is a discrete event. In many populations, generations are overlapping and reproduction is happening continuously. 
+
+Can you think of some examples?
+
+* Most microbes, including plankton 
+* People
+
+This necessitates a **continuous time model**. Because this isn't broken into time steps, rather than talking about the difference between $N_t$ and $N_{t+1}$, we'll phrase this model in terms of ${dN}/{dt}$. This is defined as the **instantaneous rate of population change**. 
+
+The simplest model of continuous-time population change is:
+
+$$
+\frac{dN}{dt} = rN
+$$
+There's a new term here: $r$. "Little r" is also defined as the per-capita average birth rate $b$ minus the per-capita average death rate $m$, but note that these are all lowercase letters: they're instantaneous rates. (Before they were also averaged over time within the generation $t$; that's no longer true here.) Little r is also called the *intrinsic rate of increase* or *intrinsic growth rate*. 
+
+This is a really important concept in population biology so let's spend a little more time on the intuition behind $r$. If ${dN}/{dt}$ is in units of population size / time, then dividing both sides of the equation above by N gives us $r = {dN}/{Ndt}$. Notice two things: $r$ is a *per capita* rate ($N$ is on the bottom of the equation), and the units of $r$ itself are $1 / time$. So, $r$ is telling us about the per-capita average population change over a really, really, small---instantaneous!---time step. 
+
+It would be useful to have an explicit formula for $N(t)$, and ${dN}/{dt}=rN$ is simple enough that we can actually solve it for N. Let's integrate this. Assume the initial population size is \( N(0) = N_0 \), and we want to find the population size at time \( T \), which we’ll call \( N(T) \).
+
+First, we'll *separate the variables*---put $t$ on one side and $N$ on the other. 
+
+$$
+\frac{dN}{dt} = rN
+$$
+
+Divide both sides by $N$ (assuming $N>0$):
+
+$$
+\frac{1}{N} \frac{dN}{dt} = r
+$$
+
+Now multiply both sides by $dt$:
+
+$$
+\frac{1}{N} \, dN = r \, dt
+$$
+
+Now that we've separated the variables we can integrate both sides. Remember our very brief calculus refresher? What were the common integrals, again?
+
+- Power rule: $\int x^n \,dx = \frac{x^{n+1}}{n+1} + C$ (for $n \neq -1$)
+- Exponential function: $\int e^x \,dx = e^x + C$
+- Logarithmic function: $\int \frac{1}{x} \,dx = \ln |x| + C$
+
+So if we want to integrate both sides of this equation:
+
+$$
+\int_{t=0}^{t=T} \frac{1}{N} \, dN = \int_{t=0}^{t=T} r \, dt
+$$
+
+We can use the *logarithmic function* to integrate the left-hand side: 
+
+$$
+\left[ \ln N(t) \right]_{t=0}^{t=T} = \ln N(T) - \ln N_0
+$$
+
+
+On the right-hand side, we evaluate the integral of the constant $r$ with respect to $dt$ (which integrates to a constant, $rt$) at both values of $t$. This yields: 
+
+$$
+\left[ rt \right]_{t=0}^{t=T} = rT - 0 = rT
+$$
+(Why is the integral of any constant (like $r$) times $dt$ just that same constant times $t$? Again, let's think back to what led us to having $r \, dt$ in the derivative to begin with. We're asking, "What function has a derivative equal to a constant $r$?" And the answer to that is, it's a straight line with slope $r$, so the equation for that line is $rt$. We'll unpack this more on your homework.) 
+
+Putting the two sides back together:
+
+$$
+\ln N(T) - \ln N_0 = rT
+$$
+
+Now we want to get $N(T)$ on its own. Recall that $ln \, a - ln \, b = ln(a/b)$. In other words, the difference of two logarithms is the same as the logarithm of a quotient. So we can rewrite the above as,
+
+$$
+ln(\frac{N(T)}{N_0}) = rT 
+$$
+Now that we have only one logarithm we can exponentiate both sides:
+
+$$
+\frac{N(T)}{N_0} = e^{rT}
+$$
+or
+
+$$
+N(T) = N_0e^{rT}
+$$
+
+<!-- (Technically the right-hand side should have a $+C$. This is a constant we add in whenever we do *indefinite integrals*, which are the kind without little numbers above and below the integral---when we find the general integral rather than evaluating it between limits. It's a reminder that if the original function had a constant and we'd taken the derivative to end up with the differential equation we just integrated, we would have lost that constant in the process, because the derivative of a constant is 0.) -->
+
+**This is the equation for exponential growth in continuous time.** We don't actually need "big T" here, since it can be evaluated at any value of $t$, so it's usually written as $N(t) = N_0e^{rt}$. 
+
+
 ### BREAK
 
-## Classes 
+### Relationship between continous and discrete time (r and R)
 
-# Population growth in continuous time
+Since it's a little harder to do exponents in your head, we won't manually calculate the population size in an exponential growth model for different values of $r$ the way we did for the discrete time case, with the exception of $r=0$. What does that evaluate to?
+
+$$
+N(t) = N_0e^0 = N_0 
+$$
+
+Here is the exponential growth curve for some other values of $r$. 
+
+```{r cont-exp}
+
+
+# Parameters
+N0 <- 100             # Initial population size
+r_values <- c(-0.5, -0.2, 0, 0.2, 0.3)  # Growth rates to explore
+T_max <- 5           # Maximum time
+times <- seq(0, T_max, by = 0.1)  # Time vector
+
+# Generate population trajectories for each r
+pop_data <- expand.grid(t = times, r = r_values) %>%
+  mutate(N = N0 * exp(r * t))
+
+# Convert r to factor for cleaner labeling
+pop_data$r_label <- factor(pop_data$r, labels = paste("r =", r_values))
+
+# Plot
+ggplot(pop_data, aes(x = t, y = N, color = r_label)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Exponential Growth and Decline for Different r Values",
+    x = "Time (t)",
+    y = "Population Size (N)",
+    color = "Growth Rate"
+  ) +
+  theme_minimal(base_size = 14)
+```
+Let's think back to how this model connects to the discrete-time case. To recap, we started thinking about rates of population change in discrete time:
+
+$$
+N_{t+1} = RN_t
+$$
+And in continuous time:
+
+$$
+\frac{dN}{dt} = rN
+$$
+In both cases, we wanted to get a general equation for $N$. We were able to get this algebraically for the discrete time case: 
+
+$$
+N_{t+1} = N_0R^t
+$$
+
+And we integrated the continuous-time case to get:
+$$
+N(t) = N_0e^{rt}
+$$
+
+What do these equations---and N and r---have to do with each other *mathematically?* We saw graphically that they result in the same curve shapes, which we called "geometric" in the discrete case and "exponential" in the continuous case.  
+
+\textcolor{green}{Question:} For what values of $R$ and $r$ respectively do the discrete- and continuous-time models lead to stable population sizes over time? 
+
+We can think of $e^r$ and $R$ as being analogous to one another. If we compare the discrete and continuous time equations, we see that they can essentially be substituted for one another. But remember that $r$ is **not the same** as R. To convert instantaneous to time-averaged per capita population change, we need to integrate, which is what $e^r$ does. 
+
+In reality, which set of math you use (continuous vs discrete time) depends partly on the system you're studying and partly on mathematical convenience. 
+
+### BREAK
+
+### Per capita population change in continuous-time exponential growth
+
+We've been talking about several quantities: Population size $N$ and its change ($dN/dt$), and per capita population growth rate ($R$ or $r$). I want to build your intuition for the relationships between these quantities in the continuous-time exponential model. 
+
+Here's a graph of $N$ vs $t$: 
+```{r}
+r = 0.1
+n0 = 1000
+tvec <- seq(0, 100, 1)
+nvec <- n0 + exp(r * tvec)
+dat <- data.frame(t = tvec, N = nvec)
+
+ggplot(dat, aes(x=t, y=N)) +
+  geom_line() +
+  labs(title="Exponential growth in continuous time, r = 0.1") +
+  theme_bw()
+```
+
+Now, let's plot the derivative of this curve:
+
+```{r}
+r = 0.1
+N = seq(1000, 25000, 100)
+dNdt = r * N
+
+dat <- data.frame(N, dNdt)
+
+ggplot(dat, aes(x=N, y=dNdt)) +
+  geom_line() +
+  labs(title="Population rate of change vs. population size, r = 0.1") +
+  theme_bw()
+```
+Talk through the intuition behind this graph---that the population-level rate of change is proportional to the population size. (This is true in both continuous and discrete time.) This was obvious mathematically because we knew $dN/dt = rN$, which is the equation for a line of slope $r$, but it isn't always obvious graphically. If we divide both sides of that equation by $N$, we would get a flat line, $r = dN/Ndt$.  
 
 # Density dependence and discrete time models
 
@@ -297,3 +569,4 @@ ggplot(data, aes(x)) +
 # Coexistence
 
 # Applications of population modeling to management and research 
+

@@ -1,0 +1,37 @@
+---
+title: "Marine Population Dynamics"
+subtitle: Homework 1 
+author: Alexa L. Fredston
+date: April 2025
+format: pdf
+editor: visual
+execute:
+  echo: false
+  warning: false
+---
+
+# Foreword
+
+I'm trying a new approach to problem sets in this class where I ask you to analyze your own data. This approach is system- and software-agnostic; you can do this in Matlab, R, python, Excel, on paper, or however else you like. My goal here is for the course to focus on mathematical intuition but for you individually to learn that through the lens of whatever is useful in your research. If you want to reinforce the theoretical content from class, the problems in the textbook are a great place to start, but I won't assign them for points in this course. 
+
+# Part 1 
+
+Find a time-series. Ideally it's from your own data. This can be a time-series of anything biological, so long as it has a column for time, and a column for abundance, i.e., population size. If you don't have this kind of data in hand, you can ask a friend at UCSC, or download one that you're interested in---from [OBIS](https://obis.org/), for example. If you're having a hard time wading through OBIS, try [BioTime](https://biotime.st-andrews.ac.uk/) or [FISHGLOB](https://github.com/AquaAuma/FishGlob_data). It doesn't have to be marine, although that might be most useful to you. If you want to branch out and find some disease data, today's homework would probably be quite interesting with $N$ = "numbers of people infected with COVID" and $t$ = "days since Jan 1, 2020". 
+
+**Question 1:** Write a brief paragraph describing the metadata, describing the source (where did the data come from?), data collection methods, geographic and temporal scope, focal species, etc. 
+
+**Question 2:** Did you have to edit or reshape the data in any way to get it into the format required above (a dataframe with a column for $t$ and a column for $N$)? If so, describe that here. 
+
+# Part 2
+
+**Question 3:** Graph your data! Make a plot with $t$ on the x=axis and $N$ on the y-axis, and insert it here.
+
+**Question 4:** Do you think this system is better described by a continuous or a discrete time model? Answer in 1-2 sentences.
+
+**Question 5:** By eyeballing the graph above, do you think it will be well-described by an exponential model, a logistic model, or neither? (1-2 sentences)
+
+# Part 3
+
+**Question 6:** Fit one of the models from class to your data. It doesn't have to be a particularly optimal fit; you can do this manually by choosing values (e.g., $r$, $R$) that look approximately right. Or, you can use a curve-fitting algorithm---there are lots available in any programming language. Make a plot with whatever model you chose overlaid on top of the data points from Part 2, and insert it here.
+
+**Question 7:** What do you think of the model fit to the data? Is there any part of the time-series that seems to be well-described by the model? (1-2 sentences)
