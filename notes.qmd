@@ -554,8 +554,140 @@ ggplot(dat, aes(x=N, y=dNdt)) +
 ```
 Talk through the intuition behind this graph---that the population-level rate of change is proportional to the population size. (This is true in both continuous and discrete time.) This was obvious mathematically because we knew $dN/dt = rN$, which is the equation for a line of slope $r$, but it isn't always obvious graphically. If we divide both sides of that equation by $N$, we would get a flat line, $r = dN/Ndt$.  
 
-# Density dependence and discrete time models
+# Density-dependent population growth
 
+Hastings pp81-95 
+
+## Logistic model
+
+Exponential (or geometric) growth are rare in nature. \textcolor{green}{Discuss: Why?}
+
+The growth of natural populations cannot continue forever. Eventually population growth rates must slow down. \textcolor{green}{Discuss:} Can we think of examples of this in nature? At what population sizes was the population growth rate ($dN/dt$) fast *vs.* slow? Sketch $N$ *vs.* $t$ on the board. 
+
+Over and over we see a pattern of fast growth when things are rare (i.e., populations are small) and slowing growth as populations get bigger---think of diseases and invasive species. 
+
+\textcolor{green}{Reflect individually:} Many hypotheses have been proposed for what regulates the growth of populations. 
+
+* Changing weather and climate 
+* Resources, such as food supply 
+* Interactions with other species: predation, parasitism, competition 
+* Populations regulate themselves through behavior (territoriality, cannibalism) 
+
+The simplest case is one of intrinsic factors (e.g., running out of resources), so we'll start with that one. Earlier we discussed the simplest possible (continuous-time) population model, 
+
+$$
+\frac{dN}{dt} = rN
+$$
+
+Now rather than a constant per-capita growth rate $r$ we introduce a function on the right-hand side, 
+
+
+$$
+\frac{dN}{dt} = N \, g(N) 
+$$
+Now the population growth rate is not simply proportional to population size. $g(N)$ still represents the per-capita growth rate, but *it is no longer a constant.* Because this growth rate is now dependent in some way on $N$, this is called a **density-dependent model.** Exponential growth is a **density-independent model** because $r$ is not dependent on $N$. Recall that in the exponential growth model, we said that if we plotted $N$ *vs.* $dN/Ndt$, we would get a straight line?
+
+```{r}
+r = 0.1
+N = seq(1000, 25000, 100)
+dN_Ndt = r * N / N
+
+dat <- data.frame(N, dN_Ndt)
+
+ggplot(dat, aes(x=N, y=dN_Ndt)) +
+  geom_line() +
+  labs(title="Per-capita population growth rate vs. population size, r = 0.1") +
+  theme_bw()
+```
+
+The simplest possible extension to this is that the *per capita population growth rate*, $g(N)$ or $dN/Ndt$, goes down with $N$. This suggests that when the population size is higher, the average number of offspring per individual goes down. 
+
+```{r}
+
+# Parameters
+r <- 1      # Intrinsic growth rate
+K <- 100    # Carrying capacity
+
+# Population values
+N_vals <- seq(0, K, by = 1)
+
+# Per capita growth function
+g_N <- function(N) {
+  r * (1 - N / K)
+}
+
+# Create data frame
+df <- data.frame(
+  N = N_vals,
+  g = g_N(N_vals)
+)
+
+# Plot
+ggplot(df, aes(x = N, y = g)) +
+  geom_line(size = 1.2, color = "steelblue") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = K, linetype = "dotted", color = "darkred") +
+  annotate("text", x = 0.01 * K, y = 0.99 * r, label = "r", size = 5) +
+annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "K", size = 5, color = "darkred") +
+
+  labs(
+    title = "Per Capita Growth Rate in Logistic Model",
+    x = "Population Size (N)",
+    y = "Per Capita Growth Rate, g(N)"
+  ) +
+  coord_cartesian() +
+  theme_minimal(base_size = 14)
+
+```
+
+The equation describing this line is,
+$$
+g(N) = r(1-\frac{N}{K})
+$$
+
+This is the same $r$ as before, but now---as we said previously---the per-capita population growth rate is a function of density as well, and this quantity $K$. $K$ is a core ecological concept called **carrying capacity**. The intuition behind K is that it's the largest population size the ecosystem can sustain without per-capita population growth becoming negative, i.e., deaths outweighing births. 
+
+Before we solve the equation above let's try to intuitively reconstruct the relationship between $N$ and $dN/dt$---i.e., to multiply the equation for the line above by *N*. Recall from the exponential model that we are trying to understand three sets of relationships: $dN/Ndt$ *vs.* $N$ (plotted above), $dN/dt$ *vs.* $N$ (which we're about to figure out), and $N$ *vs.* $t$ (which we sketched earlier on the board). \textcolor{green}{Discuss:} Where are the points when population size is not changing? What is $dN/dt$ at those values? What do we think it is between those values? 
+
+```{r}
+r <- 1      
+K <- 100    
+
+N <- seq(0, K, by = 1)
+
+dNdt <- N * r * (1 - N / K)
+
+# Create data frame
+df <- data.frame(N, dNdt)
+
+# Plot
+ggplot(df, aes(x = N, y = dNdt)) +
+  geom_line(size = 1.2, color = "steelblue") +
+#  geom_hline(yintercept = 0, linetype = "dashed") +
+#  geom_vline(xintercept = K, linetype = "dotted", color = "darkred") +
+  annotate("text", x = 0.01 * K, y = 0.99 * r, label = "N=0", size = 5) +
+annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "N=K", size = 5)  
+  labs(
+    title = "Growth Rate in Logistic Model",
+    x = "Population Size (N)",
+    y = "Growth Rate, dN/dt"
+  ) +
+  coord_cartesian() +
+  theme_bw()
+```
+
+Because $g(N)$ = $dN/Ndt$, if $g(N) = r(1-\frac{N}{K})$, then the equation for the curve above simply multiplies both sides by $N$:
+
+$$
+\frac{dN}{dt} = rN(1-\frac{N}{K})
+$$
+
+This is the logistic population rate of change in continuous time. We'll pick up next week with stability analyses, integration of the above equation, and discrete-time logistic growth. 
+
+## Stability analysis and intuition 
+
+
+ 
 # Extensions to harvested populations
 
 # Age and stage structure in discrete time models
@@ -569,4 +701,9 @@ Talk through the intuition behind this graph---that the population-level rate of
 # Coexistence
 
 # Applications of population modeling to management and research 
+
+# Other topics to add:
+
+* R* 
+* Stability analysis 
 
