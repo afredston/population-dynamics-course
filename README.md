@@ -1,6 +1,7 @@
 # Population dynamics teaching notes
+## Alexa Fredston, Ocean Sciences, UCSC
 
-Currently taught as OCEA265: Marine Population Dynamics 
+Currently taught as OCEA165 / OCEA265, Marine Population Dynamics, at UCSC. Students enrolled in those courses are welcome to access anything in this repository, but should plan to take their own notes; these are my board teaching notes and may change without warning. 
 
 You are welcome to reuse these notes and/or homeworks in your teaching and learning. If you do so, please tell me (email fredston@ucsc.edu) so I can track the impact of my work. 
 
