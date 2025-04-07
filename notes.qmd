@@ -17,55 +17,55 @@ library(dplyr)
 
 Alexa would like to gratefully acknowledge the following sources:
 
-* Alan Hastings' book, "Population Biology: Concepts and Models"
-* Marissa Baskett's ESP121 course notes (UC Davis)
-* Dave Tilman's UCSB course ESM201, for which Alexa was a TA
-* chatGPT, which generated a lot of the Quarto code for the math. 
+-   Alan Hastings' book, "Population Biology: Concepts and Models"
+-   Marissa Baskett's ESP121 course notes (UC Davis)
+-   Dave Tilman's UCSB course ESM201, for which Alexa was a TA
+-   chatGPT, which generated a lot of the Quarto code for the math.
 
 # Welcome
 
-Introduce yourselves: 
+Introduce yourselves:
 
-* Your preferred name 
-* What you do at UCSC (your position, research, etc.) 
+-   Your preferred name
+-   What you do at UCSC (your position, research, etc.)
 
 # Introduction to population modeling
 
-## What models are 
+## What models are
 
-\textcolor{green}{Reflect individually:} What do you think models are? What comes to mind with that word? 
+\textcolor{green}{Reflect individually:} What do you think models are? What comes to mind with that word?
 
-Classes of models: 
+Classes of models:
 
-* Static (e.g., linear regression) *vs.* dynamic (time is a variable; differential or difference equations describe system evolution over time)
-* Discrete *vs.* continuous (is any biological data ever in continuous time?) 
-* Statistical / phenomenological *vs.* theoretical / mechanistic / process-based
-* Stochastic (incorporates randomness) *vs.* deterministic (get the same outcome every time)
+-   Static (e.g., linear regression) *vs.* dynamic (time is a variable; differential or difference equations describe system evolution over time)
+-   Discrete *vs.* continuous (is any biological data ever in continuous time?)
+-   Statistical / phenomenological *vs.* theoretical / mechanistic / process-based
+-   Stochastic (incorporates randomness) *vs.* deterministic (get the same outcome every time)
 
-## Structure and content of this class 
+## Structure and content of this class
 
 ### Structure and content
 
-* The course textbook is Population Biology: Concepts and Methods (Hastings, 2nd edition). 
-* We meet weekly to work through the math of biological models by hand. I suggest taking notes in a notebook or using a tablet and pencil. You can also generate notes like the ones I'm using with LaTeX (see overleaf.com) or Quarto (see posit.co). Classes will be a mix of lecture and in-class activities, with lots of breaks. 
-* Problem sets ask you to explore fitting the models we learned to data. You can do this in any software you like. This course is intentionally software-agnostic to allow you to practice skills in whatever language or interface you use in your own research. 
-* Review grading policy, the rest of the [syllabus](https://docs.google.com/document/d/13uDEevusyg55NbJjcye-7ScDaJNzR70pEIcCSM0tEYY/edit?tab=t.0), and introduce the [course repo on GitHub](https://github.com/afredston/population-dynamics-course).
+-   The course textbook is Population Biology: Concepts and Methods (Hastings, 2nd edition).
+-   We meet weekly to work through the math of biological models by hand. I suggest taking notes in a notebook or using a tablet and pencil. You can also generate notes like the ones I'm using with LaTeX (see overleaf.com) or Quarto (see posit.co). Classes will be a mix of lecture and in-class activities, with lots of breaks.
+-   Problem sets ask you to explore fitting the models we learned to data. You can do this in any software you like. This course is intentionally software-agnostic to allow you to practice skills in whatever language or interface you use in your own research.
+-   Review grading policy, the rest of the [syllabus](https://docs.google.com/document/d/13uDEevusyg55NbJjcye-7ScDaJNzR70pEIcCSM0tEYY/edit?tab=t.0), and introduce the [course repo on GitHub](https://github.com/afredston/population-dynamics-course).
 
 ## On math anxiety
 
-* "A feeling of tension, apprehension, or fear that interferes with math performance" (Ashcroft, 2002) 
-* Math can initiate physiological responses including increased heart rate and cortisol levels, and neural activations analogous to those from physical pain (Ramirez *et al.,* 2018)
-* These responses are also associated with lower math performance, probably because the person is dividing their working memory between the math problem and anxiety-associated thoughts (e.g., about the consequences of failure) (Ramirez *et al.,* 2018)
-* Math anxiety is extremely common in higher education and is not a binary classification; many students have some degree of math anxiety (Ramirez *et al.,* 2018) 
-* Socioenvironmental factors are a primary driver of math anxiety, including home experiences (parental involvement in schooling), exposure to negative framings ("math is confusing", "I always hated math"), negative classroom experiences (often associated with teachers who also have math anxiety) or assessment outcomes, and students' "self-concept" (Ramirez *et al.,* 2018)
+-   "A feeling of tension, apprehension, or fear that interferes with math performance" (Ashcroft, 2002)
+-   Math can initiate physiological responses including increased heart rate and cortisol levels, and neural activations analogous to those from physical pain (Ramirez *et al.,* 2018)
+-   These responses are also associated with lower math performance, probably because the person is dividing their working memory between the math problem and anxiety-associated thoughts (e.g., about the consequences of failure) (Ramirez *et al.,* 2018)
+-   Math anxiety is extremely common in higher education and is not a binary classification; many students have some degree of math anxiety (Ramirez *et al.,* 2018)
+-   Socioenvironmental factors are a primary driver of math anxiety, including home experiences (parental involvement in schooling), exposure to negative framings ("math is confusing", "I always hated math"), negative classroom experiences (often associated with teachers who also have math anxiety) or assessment outcomes, and students' "self-concept" (Ramirez *et al.,* 2018)
 
 ## Calculus refresher
 
-(Drafted by chatGPT, edited by Alexa) 
+(Drafted by chatGPT, edited by Alexa)
 
 ### Differentiation
 
-Let's say we have some function that looks like this: 
+Let's say we have some function that looks like this:
 
 ```{r derivatives}
 f <- function(x) x^2 * exp(-x)
@@ -79,17 +79,18 @@ ggplot(dat, aes(x=x, y=fx)) +
        y="value") +
   theme_minimal()
 ```
-We don't need to do anything to know what the value of $f(x)$ is at any $x$ on this graph; we can already figure that out. 
 
-However, we don't currently know what the **rate of change** is in $f(x)$ at any $x$ on this graph. To figure that out, we have to take the **derivative**, via "differentiation". Differentiation describes the rate of change of a function. If $f(x)$ represents a population size over time, its derivative measures the instantaneous rate of change. 
+We don't need to do anything to know what the value of $f(x)$ is at any $x$ on this graph; we can already figure that out.
 
-We describe this mathematically using the concept of **limits**. These let us calculate the derivative at any $x$ as the slope of a line from $x$ to $x + \Delta x$. We define the derivative as the limit of this slope as $\Delta x$ goes to 0. 
+However, we don't currently know what the **rate of change** is in $f(x)$ at any $x$ on this graph. To figure that out, we have to take the **derivative**, via "differentiation". Differentiation describes the rate of change of a function. If $f(x)$ represents a population size over time, its derivative measures the instantaneous rate of change.
+
+We describe this mathematically using the concept of **limits**. These let us calculate the derivative at any $x$ as the slope of a line from $x$ to $x + \Delta x$. We define the derivative as the limit of this slope as $\Delta x$ goes to 0.
 
 $$
 \frac{d}{dx} f(x) = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}
 $$
 
-Let's unpack limits a little more. Limits allow us to compute the derivative at any point $x$ by considering the slope of a line connecting $x$ to $x + \Delta x$. The derivative is then defined as the limit of this slope as $\Delta x$ approaches zero. Let's explore this graphically with a secant line (a line that intersects a curve at two distinct points) and a tangent line (which touches a curve at just one point, and does not cross it). 
+Let's unpack limits a little more. Limits allow us to compute the derivative at any point $x$ by considering the slope of a line connecting $x$ to $x + \Delta x$. The derivative is then defined as the limit of this slope as $\Delta x$ approaches zero. Let's explore this graphically with a secant line (a line that intersects a curve at two distinct points) and a tangent line (which touches a curve at just one point, and does not cross it).
 
 ```{r limits}
 
@@ -140,15 +141,18 @@ ggplot(data, aes(x)) +
 
 This is a good time to remind you that this course has zero memorization! Don't worry if these terms are unfamiliar or don't stick.
 
-Limits help us graphically understand differentiation, but they aren't always convenient for computation or calculation, because we calculate them one $x$ at a time. Thankfully rules exist to derive a general formula to compute the slope of a function at any $x$ in the function's domain. We're going to hold off on the derivatives refresher though, until it actually comes up in class; knowing the intuition behind what a derivative is will suffice for today. 
+Limits help us graphically understand differentiation, but they aren't always convenient for computation or calculation, because we calculate them one $x$ at a time. Thankfully rules exist to derive a general formula to compute the slope of a function at any $x$ in the function's domain. We're going to hold off on the derivatives refresher though, until it actually comes up in class; knowing the intuition behind what a derivative is will suffice for today.
 
 <!-- ### Computing derivatives -->
 
 <!-- Rather than simply stating the limit, let’s derive the derivative of a function from first principles. This procedure always follows the same steps: we take the difference quotient, substitute in the actual function, and try to simplify that as much as possible. This looks different for different classes of functions (polynomials, exponentials, trigonometric, etc.) ChatGPT has several key recommendations for differentiation, regardless of the function:  -->
 
 <!-- * Always substitute $x + \Delta x$ carefully into the function. -->
+
 <!-- *  Expand and simplify the numerator before dividing. -->
+
 <!-- *  Factor out $\Delta x$ when possible so it cancels cleanly. -->
+
 <!-- * Use known limits for trigonometric, exponential, and logarithmic functions. -->
 
 <!-- #### Example: Compute the derivative of $f(x) = x^2$ -->
@@ -156,29 +160,43 @@ Limits help us graphically understand differentiation, but they aren't always co
 <!-- 1. Write the **difference quotient,** the average rate of change of a function over a small interval. (This is the same as the expression you take the limit of as $\Delta x \to 0$.) -->
 
 <!--    $$ -->
+
 <!--    \frac{f(x + \Delta x) - f(x)}{\Delta x} -->
+
 <!--    $$ -->
+
 <!-- Note that the difference quotient always follows this general form, but the actual expression varies depending on $f(x)$, because in order to compute the derivative we next...  -->
 
 <!-- 2. **Substitute $f(x)$** in the above equation with whatever the function actually is, here, $f(x) = x^2$.  -->
 
 <!--    $$ -->
+
 <!--    \frac{(x + \Delta x)^2 - x^2}{\Delta x} -->
+
 <!--    $$ -->
 
 <!-- 3. **Expand the square:**   -->
+
 <!--    $$ -->
+
 <!--    \frac{x^2 + 2x\Delta x + (\Delta x)^2 - x^2}{\Delta x} -->
+
 <!--    $$ -->
 
 <!-- 4. **Simplify:**   -->
+
 <!--    $$ -->
+
 <!--    \frac{2x\Delta x + (\Delta x)^2}{\Delta x} = 2x + \Delta x -->
+
 <!--    $$ -->
 
 <!-- 5. **Take the limit as $\Delta x \to 0$:**   -->
+
 <!--    $$ -->
+
 <!--    \lim_{\Delta x \to 0} (2x + \Delta x) = 2x -->
+
 <!--    $$ -->
 
 <!-- Thus, $\frac{d}{dx} x^2 = 2x$. You can convince yourself this is true graphically by plotting the function and calculating the slope of a line through different points on that function.  -->
@@ -188,38 +206,51 @@ Limits help us graphically understand differentiation, but they aren't always co
 <!-- While limits provide the **formal definition** of a derivative, in practice, we often use differentiation rules that simplify computation. -->
 
 <!-- #### **When do we use limits?** -->
+
 <!-- - When proving a derivative from scratch (e.g., showing that $\frac{d}{dx} x^2 = 2x$). -->
+
 <!-- - When dealing with functions that don’t fit standard differentiation rules (e.g., custom-defined functions or piecewise functions). -->
+
 <!-- - In cases where we need to rigorously justify why a function is differentiable. -->
 
 <!-- #### **When can we use shortcut rules?** -->
+
 <!-- - If a function follows well-known rules, we can differentiate directly: -->
 
 <!--   - **Power Rule**: $\frac{d}{dx} x^n = n x^{n-1}$ -->
+
 <!--   - **Product Rule**: $\frac{d}{dx} [f(x)g(x)] = f'(x) g(x) + f(x) g'(x)$ -->
+
 <!--   - **Quotient Rule**: $\frac{d}{dx} \left(\frac{f(x)}{g(x)}\right) = \frac{f'(x) g(x) - f(x) g'(x)}{g(x)^2}$ -->
+
 <!--   - **Chain Rule**: $\frac{d}{dx} f(g(x)) = f'(g(x)) g'(x)$ -->
 
 <!-- For example, rather than using limits to find the derivative of $f(x) = x^3$, we can apply the **power rule** directly: -->
 
 <!-- $$ -->
+
 <!-- \frac{d}{dx} x^3 = 3x^2 -->
+
 <!-- $$ -->
 
 <!-- This is much faster than using the limit definition! -->
 
-
 <!-- #### Common Derivatives -->
 
 <!-- - Power rule: $\frac{d}{dx} x^n = n x^{n-1}$ -->
+
 <!-- - Exponential function: $\frac{d}{dx} e^x = e^x$, $\frac{d}{dx} a^x = a^x \ln a$ -->
+
 <!-- - Logarithmic function: $\frac{d}{dx} \ln x = \frac{1}{x}$ -->
+
 <!-- - Chain rule: If $y = g(h(x))$, then $\frac{dy}{dx} = g'(h(x)) h'(x)$ -->
 
 <!-- Example: The exponential growth model is defined by: -->
 
 <!-- $$ -->
+
 <!-- \frac{dN}{dt} = rN -->
+
 <!-- $$ -->
 
 <!-- where $N(t)$ is population size and $r$ is the intrinsic growth rate. -->
@@ -234,20 +265,24 @@ $$
 
 #### Common Integrals
 
-- Power rule: $\int x^n \,dx = \frac{x^{n+1}}{n+1} + C$ (for $n \neq -1$)
-- Exponential function: $\int e^x \,dx = e^x + C$
-- Logarithmic function: $\int \frac{1}{x} \,dx = \ln |x| + C$
+-   Power rule: $\int x^n \,dx = \frac{x^{n+1}}{n+1} + C$ (for $n \neq -1$)
+-   Exponential function: $\int e^x \,dx = e^x + C$
+-   Logarithmic function: $\int \frac{1}{x} \,dx = \ln |x| + C$
 
 <!-- Example: Solving the exponential growth equation: -->
 
 <!-- $$ -->
+
 <!-- \int \frac{dN}{N} = \int r dt -->
+
 <!-- $$ -->
 
 <!-- yields the solution: -->
 
 <!-- $$ -->
+
 <!-- N(t) = N_0 e^{rt} -->
+
 <!-- $$ -->
 
 <!-- where $N_0$ is the initial population size. -->
@@ -257,7 +292,9 @@ $$
 <!-- Logarithms and exponents frequently appear in population models. -->
 
 <!-- - **Exponential functions** describe growth and decay: $N = N_0 e^{rt}$. -->
+
 <!-- - **Logarithms** are the inverse of exponentiation: $\ln(e^x) = x$, $a^{\log_a x} = x$. -->
+
 <!-- - **Log transformation** is often used to linearize growth models: $\ln N = \ln N_0 + rt$. -->
 
 ### Graphical interpretation
@@ -292,7 +329,7 @@ ggplot(data, aes(x)) +
   theme_minimal()
 ```
 
-### BREAK 
+### BREAK
 
 ## Density-independent population growth
 
@@ -300,37 +337,35 @@ ggplot(data, aes(x)) +
 
 This is the simplest population model we can write down. It assumes that:
 
-* The rate of births is proportional to the number of individuals present.
-* The rate of deaths is proportional to the number of individuals present. 
+-   The rate of births is proportional to the number of individuals present.
+-   The rate of deaths is proportional to the number of individuals present.
 
-\textcolor{green}{Discuss:} What are the implications for this model at small population sizes? At large population sizes? 
+\textcolor{green}{Discuss:} What are the implications for this model at small population sizes? At large population sizes?
 
-Here and forever, the population size is going to be denoted by $N$. 
+Here and forever, the population size is going to be denoted by $N$.
 
-### The discrete time case (geometric growth) 
+### The discrete time case (geometric growth)
 
-This model has separate time steps. 
+This model has separate time steps.
 
 When would we want to use a model like this?
 
-* Non-overlapping generations (e.g., seasonal insects) 
-* Synchronous and distinct reproductive events (e.g., salmon, annual plants) 
+-   Non-overlapping generations (e.g., seasonal insects)
+-   Synchronous and distinct reproductive events (e.g., salmon, annual plants)
 
-For now, let's ignore organisms that live for more than one time step (i.e., no age structure), and just think about something whose entire life cycle happens between $t$ and $t+1$. Note that we often think of $t$ as a year in discrete-time models, but it is actually in units of *a single generation.* This could be days, weeks, months, seasons, or many years.  
+For now, let's ignore organisms that live for more than one time step (i.e., no age structure), and just think about something whose entire life cycle happens between $t$ and $t+1$. Note that we often think of $t$ as a year in discrete-time models, but it is actually in units of *a single generation.* This could be days, weeks, months, seasons, or many years.
 
 **All** discrete-time models can be stated as:
 
 $$
 N_{t+1} = F(N_t)
-$$
-We'll spend a lot of this class talking about all the forms F can take! 
+$$ We'll spend a lot of this class talking about all the forms F can take!
 
 The simplest form is a dimensionless coefficient:
 
 $$
 N_{t+1} = RN_t
-$$
-"Big R" represents the chance of survival *on average* per offspring. You can define $R=B-M$ where $B$ is the average *per capita* birth rate and $M$ is the average *per capita* death rate (mortality). Let's plot out the implications of this model for population dynamics, starting at $t=0$ with an initial population size (defined as $N_0$) of 100 and set $R=2$, with $t$ on the x-axis and $N$ on the y-axis. (This is a really common plot that we'll draw a zillion times in this course.)
+$$ "Big R" represents the chance of survival *on average* per offspring. You can define $R=B-M$ where $B$ is the average *per capita* birth rate and $M$ is the average *per capita* death rate (mortality). Let's plot out the implications of this model for population dynamics, starting at $t=0$ with an initial population size (defined as $N_0$) of 100 and set $R=2$, with $t$ on the x-axis and $N$ on the y-axis. (This is a really common plot that we'll draw a zillion times in this course.)
 
 ![](discrete_geometric_growth.jpg)
 
@@ -340,46 +375,45 @@ $$
 N_t = R^tN_0
 $$
 
-Based on the example above, what does this imply for population change over time if $R$ is relatively large? 
+Based on the example above, what does this imply for population change over time if $R$ is relatively large?
 
 What if $R=1$?
 
-Draw it out---the population stays constant; for any $t$, if $R=1$, then $N_t = 1 \times N_0 = N_0$. 
+Draw it out---the population stays constant; for any $t$, if $R=1$, then $N_t = 1 \times N_0 = N_0$.
 
-What happens if $R$ is less than 1? \textcolor{green}{Ask the students to collectively plot} this graph ($t$ *vs.* $x$) for $R=0.5$ and $N_0=1000$. We call this "geometric decay" (the case above was "geometric growth"). 
+What happens if $R$ is less than 1? \textcolor{green}{Ask the students to collectively plot} this graph ($t$ *vs.* $x$) for $R=0.5$ and $N_0=1000$. We call this "geometric decay" (the case above was "geometric growth").
 
-$N_t = R^tN_0$ is a **geometric population model**. Remember, this is a discrete-time model assuming that births and deaths are both proportional to $N$. 
+$N_t = R^tN_0$ is a **geometric population model**. Remember, this is a discrete-time model assuming that births and deaths are both proportional to $N$.
 
 This model implies that:
 
-* If R > 1, populations will grow unbounded.
-* If R < 1, populations will go extinct. 
+-   If R \> 1, populations will grow unbounded.
+-   If R \< 1, populations will go extinct.
 
-Under what circumstances are those reasonable assumptions and implications in nature? 
+Under what circumstances are those reasonable assumptions and implications in nature?
 
 ### The continuous time case (exponential growth)
 
-Let's deal with one of those statements that is not always realistic: that generations are non-overlapping and reproduction is a discrete event. In many populations, generations are overlapping and reproduction is happening continuously. 
+Let's deal with one of those statements that is not always realistic: that generations are non-overlapping and reproduction is a discrete event. In many populations, generations are overlapping and reproduction is happening continuously.
 
 Can you think of some examples?
 
-* Most microbes, including plankton 
-* People
+-   Most microbes, including plankton
+-   People
 
-This necessitates a **continuous time model**. Because this isn't broken into time steps, rather than talking about the difference between $N_t$ and $N_{t+1}$, we'll phrase this model in terms of ${dN}/{dt}$. This is defined as the **instantaneous rate of population change**. 
+This necessitates a **continuous time model**. Because this isn't broken into time steps, rather than talking about the difference between $N_t$ and $N_{t+1}$, we'll phrase this model in terms of ${dN}/{dt}$. This is defined as the **instantaneous rate of population change**.
 
 The simplest model of continuous-time population change is:
 
 $$
 \frac{dN}{dt} = rN
-$$
-There's a new term here: $r$. "Little r" is also defined as the per-capita average birth rate $b$ minus the per-capita average death rate $m$, but note that these are all lowercase letters: they're instantaneous rates. (Before they were also averaged over time within the generation $t$; that's no longer true here.) Little r is also called the *intrinsic rate of increase* or *intrinsic growth rate*. 
+$$ There's a new term here: $r$. "Little r" is also defined as the per-capita average birth rate $b$ minus the per-capita average death rate $m$, but note that these are all lowercase letters: they're instantaneous rates. (Before they were also averaged over time within the generation $t$; that's no longer true here.) Little r is also called the *intrinsic rate of increase* or *intrinsic growth rate*.
 
-This is a really important concept in population biology so let's spend a little more time on the intuition behind $r$. If ${dN}/{dt}$ is in units of population size / time, then dividing both sides of the equation above by N gives us $r = {dN}/{Ndt}$. Notice two things: $r$ is a *per capita* rate ($N$ is on the bottom of the equation), and the units of $r$ itself are $1 / time$. So, $r$ is telling us about the per-capita average population change over a really, really, small---instantaneous!---time step. 
+This is a really important concept in population biology so let's spend a little more time on the intuition behind $r$. If ${dN}/{dt}$ is in units of population size / time, then dividing both sides of the equation above by N gives us $r = {dN}/{Ndt}$. Notice two things: $r$ is a *per capita* rate ($N$ is on the bottom of the equation), and the units of $r$ itself are $1 / time$. So, $r$ is telling us about the per-capita average population change over a really, really, small---instantaneous!---time step.
 
-It would be useful to have an explicit formula for $N(t)$, and ${dN}/{dt}=rN$ is simple enough that we can actually solve it for N. Let's integrate this. Assume the initial population size is \( N(0) = N_0 \), and we want to find the population size at time \( T \), which we’ll call \( N(T) \).
+It would be useful to have an explicit formula for $N(t)$, and ${dN}/{dt}=rN$ is simple enough that we can actually solve it for N. Let's integrate this. Assume the initial population size is ( N(0) = N_0 ), and we want to find the population size at time ( T ), which we’ll call ( N(T) ).
 
-First, we'll *separate the variables*---put $t$ on one side and $N$ on the other. 
+First, we'll *separate the variables*---put $t$ on one side and $N$ on the other.
 
 $$
 \frac{dN}{dt} = rN
@@ -399,9 +433,9 @@ $$
 
 Now that we've separated the variables we can integrate both sides. Remember our very brief calculus refresher? What were the common integrals, again?
 
-- Power rule: $\int x^n \,dx = \frac{x^{n+1}}{n+1} + C$ (for $n \neq -1$)
-- Exponential function: $\int e^x \,dx = e^x + C$
-- Logarithmic function: $\int \frac{1}{x} \,dx = \ln |x| + C$
+-   Power rule: $\int x^n \,dx = \frac{x^{n+1}}{n+1} + C$ (for $n \neq -1$)
+-   Exponential function: $\int e^x \,dx = e^x + C$
+-   Logarithmic function: $\int \frac{1}{x} \,dx = \ln |x| + C$
 
 So if we want to integrate both sides of this equation:
 
@@ -409,19 +443,17 @@ $$
 \int_{t=0}^{t=T} \frac{1}{N} \, dN = \int_{t=0}^{t=T} r \, dt
 $$
 
-We can use the *logarithmic function* to integrate the left-hand side: 
+We can use the *logarithmic function* to integrate the left-hand side:
 
 $$
 \left[ \ln N(t) \right]_{t=0}^{t=T} = \ln N(T) - \ln N_0
 $$
 
-
-On the right-hand side, we evaluate the integral of the constant $r$ with respect to $dt$ (which integrates to a constant, $rt$) at both values of $t$. This yields: 
+On the right-hand side, we evaluate the integral of the constant $r$ with respect to $dt$ (which integrates to a constant, $rt$) at both values of $t$. This yields:
 
 $$
 \left[ rt \right]_{t=0}^{t=T} = rT - 0 = rT
-$$
-(Why is the integral of any constant (like $r$) times $dt$ just that same constant times $t$? Again, let's think back to what led us to having $r \, dt$ in the derivative to begin with. We're asking, "What function has a derivative equal to a constant $r$?" And the answer to that is, it's a straight line with slope $r$, so the equation for that line is $rt$. We'll unpack this more on your homework.) 
+$$ (Why is the integral of any constant (like $r$) times $dt$ just that same constant times $t$? Again, let's think back to what led us to having $r \, dt$ in the derivative to begin with. We're asking, "What function has a derivative equal to a constant $r$?" And the answer to that is, it's a straight line with slope $r$, so the equation for that line is $rt$. We'll unpack this more on your homework.)
 
 Putting the two sides back together:
 
@@ -433,13 +465,11 @@ Now we want to get $N(T)$ on its own. Recall that $ln \, a - ln \, b = ln(a/b)$.
 
 $$
 ln(\frac{N(T)}{N_0}) = rT 
-$$
-Now that we have only one logarithm we can exponentiate both sides:
+$$ Now that we have only one logarithm we can exponentiate both sides:
 
 $$
 \frac{N(T)}{N_0} = e^{rT}
-$$
-or
+$$ or
 
 $$
 N(T) = N_0e^{rT}
@@ -447,8 +477,7 @@ $$
 
 <!-- (Technically the right-hand side should have a $+C$. This is a constant we add in whenever we do *indefinite integrals*, which are the kind without little numbers above and below the integral---when we find the general integral rather than evaluating it between limits. It's a reminder that if the original function had a constant and we'd taken the derivative to end up with the differential equation we just integrated, we would have lost that constant in the process, because the derivative of a constant is 0.) -->
 
-**This is the equation for exponential growth in continuous time.** We don't actually need "big T" here, since it can be evaluated at any value of $t$, so it's usually written as $N(t) = N_0e^{rt}$. 
-
+**This is the equation for exponential growth in continuous time.** We don't actually need "big T" here, since it can be evaluated at any value of $t$, so it's usually written as $N(t) = N_0e^{rt}$.
 
 ### BREAK
 
@@ -460,7 +489,7 @@ $$
 N(t) = N_0e^0 = N_0 
 $$
 
-Here is the exponential growth curve for some other values of $r$. 
+Here is the exponential growth curve for some other values of $r$.
 
 ```{r cont-exp}
 
@@ -489,42 +518,41 @@ ggplot(pop_data, aes(x = t, y = N, color = r_label)) +
   ) +
   theme_minimal(base_size = 14)
 ```
+
 Let's think back to how this model connects to the discrete-time case. To recap, we started thinking about rates of population change in discrete time:
 
 $$
 N_{t+1} = RN_t
-$$
-And in continuous time:
+$$ And in continuous time:
 
 $$
 \frac{dN}{dt} = rN
-$$
-In both cases, we wanted to get a general equation for $N$. We were able to get this algebraically for the discrete time case: 
+$$ In both cases, we wanted to get a general equation for $N$. We were able to get this algebraically for the discrete time case:
 
 $$
 N_{t+1} = N_0R^t
 $$
 
-And we integrated the continuous-time case to get:
-$$
+And we integrated the continuous-time case to get: $$
 N(t) = N_0e^{rt}
 $$
 
-What do these equations---and N and r---have to do with each other *mathematically?* We saw graphically that they result in the same curve shapes, which we called "geometric" in the discrete case and "exponential" in the continuous case.  
+What do these equations---and N and r---have to do with each other *mathematically?* We saw graphically that they result in the same curve shapes, which we called "geometric" in the discrete case and "exponential" in the continuous case.
 
-\textcolor{green}{Question:} For what values of $R$ and $r$ respectively do the discrete- and continuous-time models lead to stable population sizes over time? 
+\textcolor{green}{Question:} For what values of $R$ and $r$ respectively do the discrete- and continuous-time models lead to stable population sizes over time?
 
-We can think of $e^r$ and $R$ as being analogous to one another. If we compare the discrete and continuous time equations, we see that they can essentially be substituted for one another. But remember that $r$ is **not the same** as R. To convert instantaneous to time-averaged per capita population change, we need to integrate, which is what $e^r$ does. 
+We can think of $e^r$ and $R$ as being analogous to one another. If we compare the discrete and continuous time equations, we see that they can essentially be substituted for one another. But remember that $r$ is **not the same** as R. To convert instantaneous to time-averaged per capita population change, we need to integrate, which is what $e^r$ does.
 
-In reality, which set of math you use (continuous vs discrete time) depends partly on the system you're studying and partly on mathematical convenience. 
+In reality, which set of math you use (continuous vs discrete time) depends partly on the system you're studying and partly on mathematical convenience.
 
 ### BREAK
 
 ### Per capita population change in continuous-time exponential growth
 
-We've been talking about several quantities: Population size $N$ and its change ($dN/dt$), and per capita population growth rate ($R$ or $r$). I want to build your intuition for the relationships between these quantities in the continuous-time exponential model. 
+We've been talking about several quantities: Population size $N$ and its change ($dN/dt$), and per capita population growth rate ($R$ or $r$). I want to build your intuition for the relationships between these quantities in the continuous-time exponential model.
 
-Here's a graph of $N$ vs $t$: 
+Here's a graph of $N$ vs $t$:
+
 ```{r}
 r = 0.1
 n0 = 1000
@@ -552,40 +580,39 @@ ggplot(dat, aes(x=N, y=dNdt)) +
   labs(title="Population rate of change vs. population size, r = 0.1") +
   theme_bw()
 ```
-Talk through the intuition behind this graph---that the population-level rate of change is proportional to the population size. (This is true in both continuous and discrete time.) This was obvious mathematically because we knew $dN/dt = rN$, which is the equation for a line of slope $r$, but it isn't always obvious graphically. If we divide both sides of that equation by $N$, we would get a flat line, $r = dN/Ndt$.  
+
+Talk through the intuition behind this graph---that the population-level rate of change is proportional to the population size. (This is true in both continuous and discrete time.) This was obvious mathematically because we knew $dN/dt = rN$, which is the equation for a line of slope $r$, but it isn't always obvious graphically. If we divide both sides of that equation by $N$, we would get a flat line, $r = dN/Ndt$.
 
 # Density-dependent population growth
 
-Hastings pp81-95 
+Hastings pp81-95
 
 ## Logistic model
 
 Exponential (or geometric) growth are rare in nature. \textcolor{green}{Discuss: Why?}
 
-The growth of natural populations cannot continue forever. Eventually population growth rates must slow down. \textcolor{green}{Discuss:} Can we think of examples of this in nature? At what population sizes was the population growth rate ($dN/dt$) fast *vs.* slow? Sketch $N$ *vs.* $t$ on the board. 
+The growth of natural populations cannot continue forever. Eventually population growth rates must slow down. \textcolor{green}{Discuss:} Can we think of examples of this in nature? At what population sizes was the population growth rate ($dN/dt$) fast *vs.* slow? Sketch $N$ *vs.* $t$ on the board.
 
-Over and over we see a pattern of fast growth when things are rare (i.e., populations are small) and slowing growth as populations get bigger---think of diseases and invasive species. 
+Over and over we see a pattern of fast growth when things are rare (i.e., populations are small) and slowing growth as populations get bigger---think of diseases and invasive species.
 
-\textcolor{green}{Reflect individually:} Many hypotheses have been proposed for what regulates the growth of populations. 
+\textcolor{green}{Reflect individually:} Many hypotheses have been proposed for what regulates the growth of populations.
 
-* Changing weather and climate 
-* Resources, such as food supply 
-* Interactions with other species: predation, parasitism, competition 
-* Populations regulate themselves through behavior (territoriality, cannibalism) 
+-   Changing weather and climate
+-   Resources, such as food supply
+-   Interactions with other species: predation, parasitism, competition
+-   Populations regulate themselves through behavior (territoriality, cannibalism)
 
-The simplest case is one of intrinsic factors (e.g., running out of resources), so we'll start with that one. Earlier we discussed the simplest possible (continuous-time) population model, 
+The simplest case is one of intrinsic factors (e.g., running out of resources), so we'll start with that one. Earlier we discussed the simplest possible (continuous-time) population model,
 
 $$
 \frac{dN}{dt} = rN
 $$
 
-Now rather than a constant per-capita growth rate $r$ we introduce a function on the right-hand side, 
-
+Now rather than a constant per-capita growth rate $r$ we introduce a function on the right-hand side,
 
 $$
 \frac{dN}{dt} = N \, g(N) 
-$$
-Now the population growth rate is not simply proportional to population size. $g(N)$ still represents the per-capita growth rate, but *it is no longer a constant.* Because this growth rate is now dependent in some way on $N$, this is called a **density-dependent model.** Exponential growth is a **density-independent model** because $r$ is not dependent on $N$. Recall that in the exponential growth model, we said that if we plotted $N$ *vs.* $dN/Ndt$, we would get a straight line?
+$$ Now the population growth rate is not simply proportional to population size. $g(N)$ still represents the per-capita growth rate, but *it is no longer a constant.* Because this growth rate is now dependent in some way on $N$, this is called a **density-dependent model.** Exponential growth is a **density-independent model** because $r$ is not dependent on $N$. Recall that in the exponential growth model, we said that if we plotted $N$ *vs.* $dN/Ndt$, we would get a straight line?
 
 ```{r}
 r = 0.1
@@ -600,7 +627,7 @@ ggplot(dat, aes(x=N, y=dN_Ndt)) +
   theme_bw()
 ```
 
-The simplest possible extension to this is that the *per capita population growth rate*, $g(N)$ or $dN/Ndt$, goes down with $N$. This suggests that when the population size is higher, the average number of offspring per individual goes down. 
+The simplest possible extension to this is that the *per capita population growth rate*, $g(N)$ or $dN/Ndt$, goes down with $N$. This suggests that when the population size is higher, the average number of offspring per individual goes down.
 
 ```{r}
 
@@ -640,14 +667,13 @@ annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "K", size = 5, color = 
 
 ```
 
-The equation describing this line is,
-$$
+The equation describing this line is, $$
 g(N) = r(1-\frac{N}{K})
 $$
 
-This is the same $r$ as before, but now---as we said previously---the per-capita population growth rate is a function of density as well, and this quantity $K$. $K$ is a core ecological concept called **carrying capacity**. The intuition behind K is that it's the largest population size the ecosystem can sustain without per-capita population growth becoming negative, i.e., deaths outweighing births. 
+This is the same $r$ as before, but now---as we said previously---the per-capita population growth rate is a function of density as well, and this quantity $K$. $K$ is a core ecological concept called **carrying capacity**. The intuition behind K is that it's the largest population size the ecosystem can sustain without per-capita population growth becoming negative, i.e., deaths outweighing births.
 
-Before we solve the equation above let's try to intuitively reconstruct the relationship between $N$ and $dN/dt$---i.e., to multiply the equation for the line above by *N*. Recall from the exponential model that we are trying to understand three sets of relationships: $dN/Ndt$ *vs.* $N$ (plotted above), $dN/dt$ *vs.* $N$ (which we're about to figure out), and $N$ *vs.* $t$ (which we sketched earlier on the board). \textcolor{green}{Discuss:} Where are the points when population size is not changing? What is $dN/dt$ at those values? What do we think it is between those values? 
+Before we solve the equation above let's try to intuitively reconstruct the relationship between $N$ and $dN/dt$---i.e., to multiply the equation for the line above by *N*. Recall from the exponential model that we are trying to understand three sets of relationships: $dN/Ndt$ *vs.* $N$ (plotted above), $dN/dt$ *vs.* $N$ (which we're about to figure out), and $N$ *vs.* $t$ (which we sketched earlier on the board). \textcolor{green}{Discuss:} Where are the points when population size is not changing? What is $dN/dt$ at those values? What do we think it is between those values?
 
 ```{r}
 r <- 1      
@@ -682,12 +708,197 @@ $$
 \frac{dN}{dt} = rN(1-\frac{N}{K})
 $$
 
-This is the logistic population rate of change in continuous time. We'll pick up next week with stability analyses, integration of the above equation, and discrete-time logistic growth. 
+This is the logistic population rate of change in continuous time. We'll pick up next week with stability analyses, integration of the above equation, and discrete-time logistic growth.
 
-## Stability analysis and intuition 
+# Density-dependent population models, continued
+
+Hastings pp81-95
+
+Let's start by putting on the board what we learned last week:
+
+Geometric growth in discrete time---$N_{t+1}=RN$, from which we calculated that $N=N_0R^t$, and exponential growth in continuous time---$dN/dt=rN$, which we integrated to find that $N(t) = N_0e^{rt}$. \textcolor{green}{What is the per capita growth rate in each of these models?} Answer: in discrete time, it's $R = N_{t+1}/N$, and in continuous time, it's $r=dN/Ndt$. Recall these are both constants! This is basically the only model in which per capita growth is a constant.
+
+We addressed that assumption by making per capita growth conditional on population size, such that $dN/Ndt = r(1-\frac{N}{K})$. If we multiply both sides by N to get the population growth rate, we get $dN/dt = rN(1-N/K)$. This is called the logistic model in continuous time. Integrating this equation leads us to:
+
+$$
+N(t) =  \frac{N_0e^{rt}}{1+N_0(e^{rt}-1)/K}
+$$ If you want to challenge yourself to walk through this integral, it's on p84-85 of the textbook. Before we go any further, let's draw $N$ vs. $t$, $dN/dt$ vs. $N$, and $dN/Ndt$ vs. $N$ on the board.
+
+## Stability and equilibrium analysis
+
+In this class, our goal is always to connect math to populations. How well does the logistic model describe populations? In some cases, it may describe (and predict!) them quantitatively. But often we don't have the ability to fit this model well, or it fits the data we have but as population dynamics unfold it turns out it wasn't very predictive. \textcolor{green}{What are some ways that we might think a logistic model is fitting well and then learn later we were wrong?}
+
+This model may be most useful in making *qualitative* predictions. These are more robust (meaning that they won't change with changes to the model parameters, unlike quantitative predictions). One great way to do this is through equilibrium analysis.
+
+**Equilibria** are points where the population is *stable*. Mathematically, what does that mean in terms of the quantities we have been calculating and plotting?
+
+If we want to know at what size the population is stable, i.e. $dN/dt = 0$, for any model, we can just set the equation for $dN/dt$ equal to zero, and figure out at what population sizes (N) it solves to 0. Let's try that for the exponential model first:
+
+$$
+\frac{dN}{dt} = rN = 0
+$$ This model only has one equilibrium state, when $N = 0$. \textcolor{green}{Does it make sense that an exponential-growth model has no stable population size once N > 0?}
+
+Let's do the logistic model next:
+
+$$
+\frac{dN}{dt} = rN(1-\frac{N}{K}) = 0
+$$
+
+This equation has two solutions, $\hat{N}=K$ and $\hat{N}=0$. (It's always worth checking if $N=0$ is a solution; it usually is, because extinct populations are stable!)
+
+In addition to finding this algebraically, we could have figured it out graphically. \textcolor{green}{How?} By graphing $dN/dt$ vs. $N$ and looking for the population sizes at which growth rates are zero.
+
+We're going through this whole exercise to build more intuition about the qualitative predictions of these models. Last week we talked about how the logistic model, qualitatively, predicts rapid *per capita* growth when populations are small, and a leveling-off when populations are big. Equilibrium analysis gives us a different kind of intuition: it helps us understand when populations *are likely to remain where they are.*
+
+Equilibrium analysis has a mathematical meaning: it's when the derivative goes to zero, meaning the system is not changing. But this can happen for a blink of an eye or for a long time. Whether we reach a **stable equilibrium** affects the qualitative behavior we expect. \textcolor{green}{Intuitively, what do you think is the difference between a stable and an unstable equilibrium?}
+
+To find out whether equilibria or stable or unstable, we need to understand the behavior of solutions near the equilibrium point. The most intuitive way to do this is graphically. Returning to our graph:
+
+```{r}
+r <- 1      
+K <- 100    
+
+N <- seq(0, K + 10, by = 1)
+
+dNdt <- N * r * (1 - N / K)
+
+# Create data frame
+df <- data.frame(N, dNdt)
+
+# Plot
+ggplot(df, aes(x = N, y = dNdt)) +
+  geom_line(size = 1.2, color = "steelblue") +
+  annotate("text", x = 0.01 * K, y = 0.99 * r, label = "N=0", size = 5) +
+annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "N=K", size = 5)  
+  labs(
+    title = "Growth Rate in Logistic Model",
+    x = "Population Size (N)",
+    y = "Growth Rate, dN/dt"
+  ) +
+  coord_cartesian() +
+  theme_bw()
+```
+
+If the population is close to $\hat{N}=0$, what happens to $dN/dt$? Does that bring it closer to or further from the equilibrium? \[Draw arrows showing that as N increases, $dN/dt$ increases, so small perturbations will drive the system away from that equilibrium, meaning it is unstable.\]
+
+If the population is close to $\hat{N}=K$, what happens to $dN/dt$? Does that bring it closer to or further from the equilibrium? \[Draw arrows showing that as N increases, $dN/dt$ decreases, and as N decreases, $dN/dt$ increases, so small perturbations will drive the system toward that equilibrium, meaning it is stable.\]
+
+This conclusion---that the equilibrium $\hat{N}=0$ is an unstable one, and that $\hat{N}=K$ is a stable equilibrium, is a feature of many models with density-dependence---not just the logistic function. This happens whenever we have the qualitative pattern that *per capita* growth is high when populations are rare, and when we have feedbacks to slow population growth when populations are abundant (i.e., "negative" density dependence.)
+
+### Local stability analysis: the graphical explanation 
+
+Above we mathematically found equilibria by setting the derivative function $dN/dt = 0$ and solving it. But that didn't tell us whether the equilibrium was stable or unstable. We can also do that mathematically, but it takes a bit more work. To find an equilibrium we have to set the function, say $G(N)$, equal to 0. To find if the equilibrium is stable, we have to understand the *slope* of the function near that equilibrium---specifically, whether the slope is negative (stable) or positive (unstable). Keep in mind that these are slope values *at an intercept*, because we're already at an equilibrium, which means by definition that $G(N) = 0$. The reason that a negative-slope function crossing the intercept creates a stable equilibrium is that, if $N$ goes down a little (below $\hat{N}$), suddenly the function is positive and brings the population back up. Conversely, if $N$ goes up a little, suddenly the function is negative and brings $N$ back down. The inverse is true for a positive-slope function crossing the intercept (and creating an unstable equilibrium). 
+
+### Local stability analysis: the mathematical explanation (optional) 
+
+The more mathematical way to do this is to actually calculate the slope of the derivative function $G'(N)$ and ask whether it is negative or positive at different equilibria. We can do this for any population model in two steps (finding the equibria and then testing them for stability). We're going to walk through this in great detail here becuase you can build a lot of intuition about stability from the logistic model, which is relatively straightforward. In future models you may not do all the math but this will help you understand the relationship between the population model and the stability of its equilibria. 
+
+We begin, again, by setting the derivative equal to 0---for convenience we're going to call it $G(N)$ and say that the values of $N$ that give equilibria (i.e., $G(N) = 0$) are $\hat{N}$. So, we're looking for:
+
+$$
+G(\hat{N}) = 0
+$$
+
+We already identified the equilibria for the logistic model earlier ($\hat{N}=0$ and $\hat{N}=K$). Next, we want to understand the dynamics of $G(N)$ when it is close to $\hat{N}$. We use a similar approach as we do for derivation: we think about the value of $G(N)$ very close but not exactly at $\hat{N}$, and try to understand its behavior as we approach $\hat{N}$. Let's define a new quantity $n$, defined as the *deviation from the equilibrium in units of N*: $n + \hat{N} = N$.
+
+We want to understand how $n$ changes with time. That sounds like a derivative! Let's differentiate both sides of that equation, $n + \hat{N} = N$. Since $\hat{N}$ is a constant, the left- and right-hand sides of the equation above have the same derivative:
+
+$$
+dn/dt = dN/dt
+$$
+
+And recall that since we defined $G(N) = dN/dt$ and $x + \hat{N} = N$,
+
+$$
+dn/dt = G(N) = G(n + \hat{N})
+$$
+
+We really just want to understand the dynamics of $G(N)$ when $N = x + \hat{N}$. We can approximate the value of the population size equation, $G(N)$, at this value using a *Taylor series.* A Taylor series allows us to approximate any function at a single point. As Hastings (p55) says, "any function $f(x)$ can be approximated near the value $x_0$ using a *Taylor series* as $f(x_0)$ plus the difference between $x$ and $x_0$ multiplied by how much the function $f$ changes as its argument, $x$, changes:" 
+
+$$
+f(x) \approx f(x_0) + (x-x_0) \frac{df}{dx} \Big|_{x=x_0}
+$$
+
+In our applications, $f(x_0)$ is always an equilibrium point that corresponds to a known value of $N$. Let's try to re-write the equation for the Taylor series above in our use case.
+
+$$
+G(\hat{N} + n) \approx G(\hat{N}) + n \frac{dG}{dN} \Big|_{N=\hat{N}}
+$$
+
+In words, this equation is telling us that the rate of population growth a little bit away from the equilibrium value can be approximated by the rate of population growth at the equilibrium value plus an extra term, calculated by multiplying the distance from equilibrium by how fast the function is changing when it is close to the equilibrium value. 
+
+Let's substitute in the actual equation for the rate of population change in the logistic model:
+
+$$
+G(N) = rN(1-\frac{N}{K})
+$$
+
+Let's deal with the easiest part of our Taylor series first. We know that at $\hat{N}$, the population is at equilibrium, so $dN/dt = G(N) = 0$. (You can also convince yourself of that by substituting 0 into the logistic growth equation above.) This simplifies our Taylor series down to: 
+
+$$
+G(\hat{N} + n) \approx n \frac{dG}{dN} \Big|_{N=\hat{N}}
+$$
+
+Next we'll figure out that weird term on the right. What is $dG/dN$? Well, that sounds a lot like the derivative of a function called $G(N)$ with respect to $N$. No problem! We can find the derivative of that function, $rN(1-N/K)$. Let's rearrange it to look more like a polynomial:
+
+$$
+G(N) = rN - \frac{rN^2}{K}
+$$
+
+Now we can totally take the derivative of this. The derivative of $rN$ with respect to $N$ is just $r$, since $r$ is a constant. To calculate the second term, let's separate out $N^2$: $d/dN (N^2 \times R/K)$. The derivative of $N^2$ is just $2N$, so that term becomes $2rN/K$. 
+
+$$
+G'(N) = dG/dN = r - \frac{2rN}{K}
+$$
+
+Now, we're ready to calculate the Taylor approximation at both equilibria. Let's substitute the equation we just derived for $dG/dN$:  
+
+$$
+G(\hat{N} + n) \approx n \frac{dG}{dN} \Big|_{N=\hat{N}} \approx n \big(r - \frac{2rN}{K} \Big|_{N=\hat{N}} \big)
+$$
+
+Let's start with $\hat{N} = 0$. In this case, we get:
+
+$$
+G(\hat{N} + n) \approx rn
+$$
+
+This is positive, implying it is an **unstable equilibrium.** Next, we want $\hat{N} = K$:
+
+$$
+G(\hat{N} + n) \approx n \big(r - \frac{2rK}{K} \big) = n(r - 2r) = n(-r) = -rn
+$$
+
+This is negative, implying it is a **stable equilibrium.** 
+
+### Local stability analysis: the mathematical shortcut 
+
+You can generalize this procedure of mathematical stability analysis by simply saying that we want to calculate the slope of $G'(N)$ at a small deviation from equilibrium, $n = N - \hat{N}$. We can approximate $dN/dt \approx \lambda n$, where 
+
+$$
+\lambda = \frac{dG}{dN} \Big|_{N = \hat{N}}
+$$
+
+If $\lambda$ is positive the equilibrium is unstable, and it's stable if negative. In other words, all you need to do is get the equation for the derivative of the population growth function and evaluate it at $\hat{N}$. (Hastings, 91: "The rate of return to the equilibrium, or the rate at which the system moves away from the equilibrium, is determined by $\lambda$.") The reason this works is the Taylor expansion we walked through, but in reality you'd mostly use the equation above---or the graphical interpretation---to calculate stability. 
+
+Here's how that would have looked for the logistic model:
+
+$$
+G(N) = dN/dt = rN(1-N/K)
+$$
+
+Taking the derivative (which we did above, by restating the equation as $rN - rN^2/K$: 
+
+$$
+G'(N) = dG/dN = r - \frac{2rN}{K}
+$$
+
+Plugging in 0 for $N$ gives you $G'(N) = r$, and plugging in $K$ gives you $G'(N) = -r$. 
+
+## Case study: maximum sustainable yield of harvested populations
 
 
- 
+
 # Extensions to harvested populations
 
 # Age and stage structure in discrete time models
@@ -700,10 +911,9 @@ This is the logistic population rate of change in continuous time. We'll pick up
 
 # Coexistence
 
-# Applications of population modeling to management and research 
+# Applications of population modeling to management and research
 
 # Other topics to add:
 
-* R* 
-* Stability analysis 
-
+-   R\*
+-   Stability analysis
