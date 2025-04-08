@@ -895,12 +895,91 @@ $$
 
 Plugging in 0 for $N$ gives you $G'(N) = r$, and plugging in $K$ gives you $G'(N) = -r$. 
 
-## Case study: maximum sustainable yield of harvested populations
-
-
-
 # Extensions to harvested populations
 
+One of the remarkable things about population modeling is that it really underpins a lot of how we manage ocean resources---from marine spatial planning (we'll get to that in the metapopulations lecture) to fisheries management. 
+
+ \textcolor{green}{Discuss:} What would sustainable fisheries mean in quantitative terms? What do we want the terms we've learned about so far to be or not be? Are we trying to maximize or minimize something? If so, what quantity? 
+ 
+## Maximum sustainable yield in a logistic model  
+ 
+Let's assume we have a fish population that actually follows the logistic growth model. If we imagine subtracting a set quota of fish every year, $H$, then 
+
+$$
+\frac{dN}{dt} = rN(1 - N/K) - H
+$$
+
+\textcolor{green}{How would harvest affect our graph of $dN/dt$ vs. $N$?} 
+
+Start out by drawing the curve with no $H$ and then a moderate $H$. Discuss the equilibrium points and whether they are stable or unstable. Then add the line for $H=H_{max}$. May want to draw this with H bringing up the x-axis rather than bringing the curve down. 
+ 
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+H_max <- r * K / 4  # maximum sustainable harvest
+
+# Harvest values and labels
+H_vals <- c(0, H_max / 2, H_max)
+harvest_labels <- data.frame(
+  H = H_vals,
+  H_label = paste0("H = ", round(H_vals, 2))
+)
+
+# Population values
+N_vals <- seq(0, 120, by = 0.5)
+
+# Define the logistic growth with harvesting
+F_N <- function(N, H) {
+  r * N * (1 - N / K) - H
+}
+
+# Create data frame
+df <- expand.grid(N = N_vals, H = H_vals) %>%
+  mutate(dNdt = F_N(N, H)) %>%
+  left_join(harvest_labels, by = "H")
+
+# Plot
+ggplot(df, aes(x = N, y = dNdt, color = H_label)) +
+  geom_line(size = 1.2) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    title = "Logistic Growth With Varying Harvest Rates",
+    subtitle = paste("H_max =", round(H_max, 2), "occurs at N = K/2 =", K / 2),
+    x = "Population Size (N)",
+    y = "dN/dt",
+    color = "Harvest Rate"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+ 
+Is the equilibrium at $H=H_{max}$ stable or unstable? Let's use our rule of thumb previously to figure this out. 
+
+$$
+G'(N) = dG/dN = r - \frac{2rN}{K}
+$$
+
+Because $H_{max} = K/2$, we can state:
+
+$$
+r - \frac{2rN}{K} = r - \frac{2r \times K/2}{K} = r - r = 0
+$$
+
+Zero! We didn't have a rule of thumb for this above. We know that at this point, the first derivative of population size $dN/dt$ or $F'(N)$ is zero (because we're at the x-intercept), and the second derivative $dG/dN$ or $G'(N)$ or $F''(N)$ is... also zero---meaning the slope is flat. In math this is called a "degenerate case" because the system is neither classically stable or unstable. But we can figure out the answer graphically. Let's call $H_{max} = 25$ fish/year and $K = 100$. Then at $H_{max}$, $N = 50$. What happens if we slightly overshoot---meaning we harvest 26 fish by accident? Then $dN/dt$ becomes negative---in other words, the population's natural rate of increase is less than $H_{max}$. What happens if we harvest 24 fish? That essentially shifts the curve upwards by 1---so you are back in the land of two equilibria, a stable one at higher $N$ and an unstable one at lower $N$. This is a *saddle-node bifurcation*: it is stable on one side, and unstable on the other. (We can also see this graphically at the top of the parabola.)
+
+This point is *an optimal harvest level from an economic standpoint* because it maximizes revenue by balancing production (of the fish stock) with returns (of harvest). There is no mathematical solution that yields greater yearly harvest. However, **it is not stable**, and is extremely sensitive to any level of overharvesting. Roughgarden and Smith (1996) wrote, "Maintaining the stock at the optimal size... is like balancing a marble on top of a dome." 
+
+### Alternatives to MSY management
+
+Are there more robust ways to achieve sustainable yields than setting harvest quotas equal to the maximum $dN/dt$? An alternative is a constant effort model, where $H$ is proportional to population size and **effort** (the intensity of fishing, e.g., hours on the water, number of nets deployed, etc.)
+
+
+ 
 # Age and stage structure in discrete time models
 
 # Stochasticity
@@ -916,4 +995,5 @@ Plugging in 0 for $N$ gives you $G'(N) = r$, and plugging in $K$ gives you $G'(N
 # Other topics to add:
 
 -   R\*
--   Stability analysis
+-   Alternative stable states and hysteresis 
+-   Resilience, multiple stressors, ball-and-cup theory 
