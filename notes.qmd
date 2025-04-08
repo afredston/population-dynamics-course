@@ -785,13 +785,13 @@ If the population is close to $\hat{N}=K$, what happens to $dN/dt$? Does that br
 
 This conclusion---that the equilibrium $\hat{N}=0$ is an unstable one, and that $\hat{N}=K$ is a stable equilibrium, is a feature of many models with density-dependence---not just the logistic function. This happens whenever we have the qualitative pattern that *per capita* growth is high when populations are rare, and when we have feedbacks to slow population growth when populations are abundant (i.e., "negative" density dependence.)
 
-### Local stability analysis: the graphical explanation 
+### Local stability analysis: the graphical explanation
 
-Above we mathematically found equilibria by setting the derivative function $dN/dt = 0$ and solving it. But that didn't tell us whether the equilibrium was stable or unstable. We can also do that mathematically, but it takes a bit more work. To find an equilibrium we have to set the function, say $G(N)$, equal to 0. To find if the equilibrium is stable, we have to understand the *slope* of the function near that equilibrium---specifically, whether the slope is negative (stable) or positive (unstable). Keep in mind that these are slope values *at an intercept*, because we're already at an equilibrium, which means by definition that $G(N) = 0$. The reason that a negative-slope function crossing the intercept creates a stable equilibrium is that, if $N$ goes down a little (below $\hat{N}$), suddenly the function is positive and brings the population back up. Conversely, if $N$ goes up a little, suddenly the function is negative and brings $N$ back down. The inverse is true for a positive-slope function crossing the intercept (and creating an unstable equilibrium). 
+Above we mathematically found equilibria by setting the derivative function $dN/dt = 0$ and solving it. But that didn't tell us whether the equilibrium was stable or unstable. We can also do that mathematically, but it takes a bit more work. To find an equilibrium we have to set the function, say $G(N)$, equal to 0. To find if the equilibrium is stable, we have to understand the *slope* of the function near that equilibrium---specifically, whether the slope is negative (stable) or positive (unstable). Keep in mind that these are slope values *at an intercept*, because we're already at an equilibrium, which means by definition that $G(N) = 0$. The reason that a negative-slope function crossing the intercept creates a stable equilibrium is that, if $N$ goes down a little (below $\hat{N}$), suddenly the function is positive and brings the population back up. Conversely, if $N$ goes up a little, suddenly the function is negative and brings $N$ back down. The inverse is true for a positive-slope function crossing the intercept (and creating an unstable equilibrium).
 
-### Local stability analysis: the mathematical explanation (optional) 
+### Local stability analysis: the mathematical explanation (optional)
 
-The more mathematical way to do this is to actually calculate the slope of the derivative function $G'(N)$ and ask whether it is negative or positive at different equilibria. We can do this for any population model in two steps (finding the equibria and then testing them for stability). We're going to walk through this in great detail here becuase you can build a lot of intuition about stability from the logistic model, which is relatively straightforward. In future models you may not do all the math but this will help you understand the relationship between the population model and the stability of its equilibria. 
+The more mathematical way to do this is to actually calculate the slope of the derivative function $G'(N)$ and ask whether it is negative or positive at different equilibria. We can do this for any population model in two steps (finding the equibria and then testing them for stability). We're going to walk through this in great detail here becuase you can build a lot of intuition about stability from the logistic model, which is relatively straightforward. In future models you may not do all the math but this will help you understand the relationship between the population model and the stability of its equilibria.
 
 We begin, again, by setting the derivative equal to 0---for convenience we're going to call it $G(N)$ and say that the values of $N$ that give equilibria (i.e., $G(N) = 0$) are $\hat{N}$. So, we're looking for:
 
@@ -813,7 +813,7 @@ $$
 dn/dt = G(N) = G(n + \hat{N})
 $$
 
-We really just want to understand the dynamics of $G(N)$ when $N = x + \hat{N}$. We can approximate the value of the population size equation, $G(N)$, at this value using a *Taylor series.* A Taylor series allows us to approximate any function at a single point. As Hastings (p55) says, "any function $f(x)$ can be approximated near the value $x_0$ using a *Taylor series* as $f(x_0)$ plus the difference between $x$ and $x_0$ multiplied by how much the function $f$ changes as its argument, $x$, changes:" 
+We really just want to understand the dynamics of $G(N)$ when $N = x + \hat{N}$. We can approximate the value of the population size equation, $G(N)$, at this value using a *Taylor series.* A Taylor series allows us to approximate any function at a single point. As Hastings (p55) says, "any function $f(x)$ can be approximated near the value $x_0$ using a *Taylor series* as $f(x_0)$ plus the difference between $x$ and $x_0$ multiplied by how much the function $f$ changes as its argument, $x$, changes:"
 
 $$
 f(x) \approx f(x_0) + (x-x_0) \frac{df}{dx} \Big|_{x=x_0}
@@ -825,7 +825,7 @@ $$
 G(\hat{N} + n) \approx G(\hat{N}) + n \frac{dG}{dN} \Big|_{N=\hat{N}}
 $$
 
-In words, this equation is telling us that the rate of population growth a little bit away from the equilibrium value can be approximated by the rate of population growth at the equilibrium value plus an extra term, calculated by multiplying the distance from equilibrium by how fast the function is changing when it is close to the equilibrium value. 
+In words, this equation is telling us that the rate of population growth a little bit away from the equilibrium value can be approximated by the rate of population growth at the equilibrium value plus an extra term, calculated by multiplying the distance from equilibrium by how fast the function is changing when it is close to the equilibrium value.
 
 Let's substitute in the actual equation for the rate of population change in the logistic model:
 
@@ -833,7 +833,7 @@ $$
 G(N) = rN(1-\frac{N}{K})
 $$
 
-Let's deal with the easiest part of our Taylor series first. We know that at $\hat{N}$, the population is at equilibrium, so $dN/dt = G(N) = 0$. (You can also convince yourself of that by substituting 0 into the logistic growth equation above.) This simplifies our Taylor series down to: 
+Let's deal with the easiest part of our Taylor series first. We know that at $\hat{N}$, the population is at equilibrium, so $dN/dt = G(N) = 0$. (You can also convince yourself of that by substituting 0 into the logistic growth equation above.) This simplifies our Taylor series down to:
 
 $$
 G(\hat{N} + n) \approx n \frac{dG}{dN} \Big|_{N=\hat{N}}
@@ -845,13 +845,13 @@ $$
 G(N) = rN - \frac{rN^2}{K}
 $$
 
-Now we can totally take the derivative of this. The derivative of $rN$ with respect to $N$ is just $r$, since $r$ is a constant. To calculate the second term, let's separate out $N^2$: $d/dN (N^2 \times R/K)$. The derivative of $N^2$ is just $2N$, so that term becomes $2rN/K$. 
+Now we can totally take the derivative of this. The derivative of $rN$ with respect to $N$ is just $r$, since $r$ is a constant. To calculate the second term, let's separate out $N^2$: $d/dN (N^2 \times R/K)$. The derivative of $N^2$ is just $2N$, so that term becomes $2rN/K$.
 
 $$
 G'(N) = dG/dN = r - \frac{2rN}{K}
 $$
 
-Now, we're ready to calculate the Taylor approximation at both equilibria. Let's substitute the equation we just derived for $dG/dN$:  
+Now, we're ready to calculate the Taylor approximation at both equilibria. Let's substitute the equation we just derived for $dG/dN$:
 
 $$
 G(\hat{N} + n) \approx n \frac{dG}{dN} \Big|_{N=\hat{N}} \approx n \big(r - \frac{2rN}{K} \Big|_{N=\hat{N}} \big)
@@ -869,17 +869,17 @@ $$
 G(\hat{N} + n) \approx n \big(r - \frac{2rK}{K} \big) = n(r - 2r) = n(-r) = -rn
 $$
 
-This is negative, implying it is a **stable equilibrium.** 
+This is negative, implying it is a **stable equilibrium.**
 
-### Local stability analysis: the mathematical shortcut 
+### Local stability analysis: the mathematical shortcut
 
-You can generalize this procedure of mathematical stability analysis by simply saying that we want to calculate the slope of $G'(N)$ at a small deviation from equilibrium, $n = N - \hat{N}$. We can approximate $dN/dt \approx \lambda n$, where 
+You can generalize this procedure of mathematical stability analysis by simply saying that we want to calculate the slope of $G'(N)$ at a small deviation from equilibrium, $n = N - \hat{N}$. We can approximate $dN/dt \approx \lambda n$, where
 
 $$
 \lambda = \frac{dG}{dN} \Big|_{N = \hat{N}}
 $$
 
-If $\lambda$ is positive the equilibrium is unstable, and it's stable if negative. In other words, all you need to do is get the equation for the derivative of the population growth function and evaluate it at $\hat{N}$. (Hastings, 91: "The rate of return to the equilibrium, or the rate at which the system moves away from the equilibrium, is determined by $\lambda$.") The reason this works is the Taylor expansion we walked through, but in reality you'd mostly use the equation above---or the graphical interpretation---to calculate stability. 
+If $\lambda$ is positive the equilibrium is unstable, and it's stable if negative. In other words, all you need to do is get the equation for the derivative of the population growth function and evaluate it at $\hat{N}$. (Hastings, 91: "The rate of return to the equilibrium, or the rate at which the system moves away from the equilibrium, is determined by $\lambda$.") The reason this works is the Taylor expansion we walked through, but in reality you'd mostly use the equation above---or the graphical interpretation---to calculate stability.
 
 Here's how that would have looked for the logistic model:
 
@@ -887,32 +887,32 @@ $$
 G(N) = dN/dt = rN(1-N/K)
 $$
 
-Taking the derivative (which we did above, by restating the equation as $rN - rN^2/K$: 
+Taking the derivative (which we did above, by restating the equation as $rN - rN^2/K$:
 
 $$
 G'(N) = dG/dN = r - \frac{2rN}{K}
 $$
 
-Plugging in 0 for $N$ gives you $G'(N) = r$, and plugging in $K$ gives you $G'(N) = -r$. 
+Plugging in 0 for $N$ gives you $G'(N) = r$, and plugging in $K$ gives you $G'(N) = -r$.
 
 # Extensions to harvested populations
 
-One of the remarkable things about population modeling is that it really underpins a lot of how we manage ocean resources---from marine spatial planning (we'll get to that in the metapopulations lecture) to fisheries management. 
+One of the remarkable things about population modeling is that it really underpins a lot of how we manage ocean resources---from marine spatial planning (we'll get to that in the metapopulations lecture) to fisheries management.
 
- \textcolor{green}{Discuss:} What would sustainable fisheries mean in quantitative terms? What do we want the terms we've learned about so far to be or not be? Are we trying to maximize or minimize something? If so, what quantity? 
- 
-## Maximum sustainable yield in a logistic model  
- 
-Let's assume we have a fish population that actually follows the logistic growth model. If we imagine subtracting a set quota of fish every year, $H$, then 
+\textcolor{green}{Discuss:} What would sustainable fisheries mean in quantitative terms? What do we want the terms we've learned about so far to be or not be? Are we trying to maximize or minimize something? If so, what quantity?
+
+## Maximum sustainable yield in a logistic model (constant harvest)
+
+Let's assume we have a fish population that actually follows the logistic growth model. If we imagine subtracting a set quota of fish every year, $H$, then
 
 $$
 \frac{dN}{dt} = rN(1 - N/K) - H
 $$
 
-\textcolor{green}{How would harvest affect our graph of $dN/dt$ vs. $N$?} 
+\textcolor{green}{How would harvest affect our graph of $dN/dt$ vs. $N$?}
 
-Start out by drawing the curve with no $H$ and then a moderate $H$. Discuss the equilibrium points and whether they are stable or unstable. Then add the line for $H=H_{max}$. May want to draw this with H bringing up the x-axis rather than bringing the curve down. 
- 
+Start out by drawing the curve with no $H$ and then a moderate $H$. Discuss the equilibrium points and whether they are stable or unstable. Then add the line for $H=H_{max}$. May want to draw this with H bringing up the x-axis rather than bringing the curve down.
+
 ```{r}
 library(ggplot2)
 library(dplyr)
@@ -957,8 +957,7 @@ ggplot(df, aes(x = N, y = dNdt, color = H_label)) +
 
 ```
 
- 
-Is the equilibrium at $H=H_{max}$ stable or unstable? Let's use our rule of thumb previously to figure this out. 
+Is the equilibrium at $H=H_{max}$ stable or unstable? Let's use our rule of thumb previously to figure this out.
 
 $$
 G'(N) = dG/dN = r - \frac{2rN}{K}
@@ -972,15 +971,387 @@ $$
 
 Zero! We didn't have a rule of thumb for this above. We know that at this point, the first derivative of population size $dN/dt$ or $F'(N)$ is zero (because we're at the x-intercept), and the second derivative $dG/dN$ or $G'(N)$ or $F''(N)$ is... also zero---meaning the slope is flat. In math this is called a "degenerate case" because the system is neither classically stable or unstable. But we can figure out the answer graphically. Let's call $H_{max} = 25$ fish/year and $K = 100$. Then at $H_{max}$, $N = 50$. What happens if we slightly overshoot---meaning we harvest 26 fish by accident? Then $dN/dt$ becomes negative---in other words, the population's natural rate of increase is less than $H_{max}$. What happens if we harvest 24 fish? That essentially shifts the curve upwards by 1---so you are back in the land of two equilibria, a stable one at higher $N$ and an unstable one at lower $N$. This is a *saddle-node bifurcation*: it is stable on one side, and unstable on the other. (We can also see this graphically at the top of the parabola.)
 
-This point is *an optimal harvest level from an economic standpoint* because it maximizes revenue by balancing production (of the fish stock) with returns (of harvest). There is no mathematical solution that yields greater yearly harvest. However, **it is not stable**, and is extremely sensitive to any level of overharvesting. Roughgarden and Smith (1996) wrote, "Maintaining the stock at the optimal size... is like balancing a marble on top of a dome." 
+This point is *an optimal harvest level from an economic standpoint* because it maximizes revenue by balancing production (of the fish stock) with returns (of harvest). There is no mathematical solution that yields greater yearly harvest. However, **it is not stable**, and is extremely sensitive to any level of overharvesting. Roughgarden and Smith (1996) wrote, "Maintaining the stock at the optimal size... is like balancing a marble on top of a dome." \textcolor{green}{What are some other reasons why this might not be the most realistic or wise approach to fisheries management?}
 
-### Alternatives to MSY management
+## Alternatives to MSY management (constant effort) 
 
-Are there more robust ways to achieve sustainable yields than setting harvest quotas equal to the maximum $dN/dt$? An alternative is a constant effort model, where $H$ is proportional to population size and **effort** (the intensity of fishing, e.g., hours on the water, number of nets deployed, etc.)
+Are there more robust ways to achieve sustainable yields than setting harvest quotas equal to the maximum $dN/dt$? An alternative to a constant harvest rate (measured in fish per unit time) is a constant effort model (still measured in units of fish per time, but now a dynamic equation). Here, harvest is proportional to population size and **effort** (the intensity of fishing, e.g., hours on the water, number of nets deployed, etc.)
+
+Instead of 
+
+$$
+\frac{dN}{dt} = rN(1 - N/K) - H
+$$
+
+Where $H$ was a constant rate, we now have:
+
+$$
+\frac{dN}{dt} = rN(1 - N/K) - qEN
+$$
+
+Where N is the population size, q is a catchability coefficient (more on this later), and E is effort. Wait---but shouldn't this still be a rate? Let's work through the units and intuition of these different parameters.
+
+The unit of N is individuals. The unit of E is effort; something like boats, days, permits, traps, etc. \textcolor{green}{For this to end up in the same units of individuals per time, what are the units of $q$?} 
+
+q is measured in 1 / (effort x individuals x time). Here, it's a scaling constant that translates the fishing effort into the number of fish that will actually be caught. 
+
+So q is a constant here. Since this is a "constant effort" model, E is also a constant! It tells us that regardless of how many fish are in the ocean, the fishing industry will do the same thing to try to catch them. \textcolor{green}{Is this a more or less realistic model than the constant harvest model, above?} 
+
+But because N is not a constant, harvest here ($qEN$) is now a dynamic equation. \textcolor{green}{What form would you expect this equation to take?}
+
+Let's draw it on top of our now-familiar curve for $dN/dt$ vs. $N$ in the logistic model. \textcolor{green}{For moderate levels of E, where are the equilibria? Which are stable and which are not?}
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1          # Intrinsic growth rate
+K <- 100        # Carrying capacity
+q <- 0.01       # Catchability
+E_vals <- c(10, 20, 40, 80)  # Different effort levels
+N_vals <- seq(0, 120, by = 1)
+
+# Logistic growth function
+logistic_growth <- function(N) {
+  r * N * (1 - N / K)
+}
+
+# Create growth data
+growth_df <- data.frame(
+  N = N_vals,
+  dNdt = logistic_growth(N_vals)
+)
+
+# Create harvest data
+harvest_df <- expand.grid(N = N_vals, E = E_vals) %>%
+  mutate(H = q * E * N,
+         E_label = factor(E, labels = paste("Effort E =", E_vals)))
+
+# Plot
+ggplot() +
+  # Harvest curves
+  geom_line(data = harvest_df, aes(x = N, y = H, color = E_label), size = 1.2) +
+  # Logistic growth curve
+  geom_line(data = growth_df, aes(x = N, y = dNdt), color = "black", size = 1.2) +
+  labs(
+    title = "Logistic Growth and Constant Effort Harvest",
+    subtitle = "Black curve: dN/dt = rN(1 - N/K), Colored lines: H = qEN",
+    x = "Population Size (N)",
+    y = "Rate (individuals per unit time)",
+    color = "Fishing Effort"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+For moderate levels of effort, aside from the trivial equilibrium of $N=0$ (no fish = no growth), there is only one other equilibrium, and it is stable. If population size exceeds harvest, then the population will grow up to the point where the diagonal crosses the curved line. If harvest exceeds population growth (i.e., if you go further up the constant effort line), then population size will go down, and effort will also go down. Let's explore this mathematically by writing the equation for this model and setting it equal to 0.
+
+$$
+0 = rN(1 - N/K) - qEN = rN - rN^2/K - qEN = N(r - rN/K - qE) = N(r(1-N/K)-qE)
+
+$$
+
+What are the solutions to this equilibrium? As we said above there is one where $N=0$. To find the other, we start with 
+
+$$
+qE = r(1-N/K)
+$$
+
+and solve for N: 
 
 
- 
-# Age and stage structure in discrete time models
+$$
+qE/r = 1-N/K
+$$
+
+$$
+N/K = 1 - qE/r
+$$
+
+$$
+\hat{N} = K(1-qE/r)
+$$
+
+**When does this yield a stable equilibrium?** Well, let's take the derivative of ($dN/dt$) and plug in our equilibrium value, $\hat{N}$. 
+
+
+$$
+G(N) = rN(1 - N/K) - qEN = N(r-qE) -N^2(r/K)
+$$
+
+$$
+G'(N) = r-qE-2N(r/K)
+$$
+
+Plugging in $\hat{N}$,
+
+$$
+G'(\hat{N}) = r-qE-2(K(1-\frac{qE}{r}))(\frac{r}{K}) = r - qE - 2r(1-\frac{qE}{r}) = r - qE - 2r + 2qE = qE - r
+$$
+
+Great! But now ... is $qE-r$ positive or negative? \textcolor{green}{What is the intuition behind the difference between these two numbers?} Recall that $r$ is the intrinsic growth rate or the maximum per capita growth rate, which $dN/Ndt$ approaches when N is small. $qE$ is in the same units and represents the harvest rate per capita. 
+
+\textcolor{green}{So, under what circumstances is this a stable equilibrium?} It's when $qE < r$, meaning that the per capita harvest rate never exceeds the population's intrinsic growth rate. 
+
+Let's go back to our graph of constant effort and draw a really high effort rate. \textcolor{green}{Does this ever have a stable equilibrium?} You can see that it does not graphically, because it never intersects the growth function when it has a negative slope (meaning that $G'(\hat{N})$ would be negative). 
+
+\textcolor{green}{Discuss:} What else might cause overfishing or collapse of a harvested population that isn't captured here?
+
+## Other forms of density dependence in continuous time
+
+We've been working a lot with plots of $dN/dt$ vs. $N$. But recall that we usually think about three plots: $N$ vs. $t$, $dN/dt$ vs. $N$, and $dN/Ndt$ vs. $N$. We're going to revisit the latter. Recall that this was a straight, horizontal line in the exponential, continuous-time model, and it was a straight, sloping line in the logistic, continuous-time model. This represents an assumption that density dependence is linear: i.e., that as N increases, the density-dependent term (1-N/K) decreases linearly from 1 (at N=0) to 0 (at N=K). This implies that per capita growth slows down at a constant rate as populations increase. 
+
+
+### Gompertz model 
+
+
+This is an easy thing to modify, because in reality, we might expect this relationship to be nonlinear: maybe per capita growth is not super sensitive at low N, and then drops steeply at high N. Let's try this equation instead:
+
+$$
+dN/Ndt = r \ ln (K/N)
+$$
+
+(Because $ln(A/B) = -ln(B/A)$, you could also restate this as $-r \ ln(N/K)$, if you want to compare it more directly to the slope we had before with $K$ in the denominator.)
+
+```{r}
+library(ggplot2)
+
+# Parameters
+r_L <- 1.5       # logistic r
+K_L <- 100     # logistic K
+
+r_G <- 0.5     # gompertz r (lower to cross)
+K_G <- 80     # gompertz K (higher to cross)
+
+N_vals <- seq(1, 110, by = 1)
+
+# Per capita growth functions
+logistic_percap <- r_L * (1 - N_vals / K_L)
+gompertz_percap <- r_G * log(K_G / N_vals)
+
+df_percap <- data.frame(
+  N = N_vals,
+  Logistic = logistic_percap,
+  Gompertz = gompertz_percap
+)
+
+ggplot(df_percap, aes(x = N)) +
+  geom_line(aes(y = Logistic, color = "Logistic"), size = 1.2) +
+  geom_line(aes(y = Gompertz, color = "Gompertz"), size = 1.2) +
+  labs(
+    title = "Per Capita Growth Rate vs. Population Size",
+    subtitle = "Adjusted parameters so curves intersect",
+    y = "Per Capita Growth Rate (1/N × dN/dt)",
+    x = "Population Size (N)",
+    color = "Model"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+We said earlier that the Gompertz model was going to start off with gradual population growth and then show steeper density dependence at high $N$. Let's plot $dN/dt$ vs. $N$ to explore this. 
+
+```{r}
+# Net growth rate functions
+logistic_growth <- r_L * N_vals * (1 - N_vals / K_L)
+gompertz_growth <- r_G * N_vals * log(K_G / N_vals)
+
+df_growth <- data.frame(
+  N = N_vals,
+  Logistic = logistic_growth,
+  Gompertz = gompertz_growth
+)
+
+ggplot(df_growth, aes(x = N)) +
+  geom_line(aes(y = Logistic, color = "Logistic"), size = 1.2) +
+  geom_line(aes(y = Gompertz, color = "Gompertz"), size = 1.2) +
+  labs(
+    title = "Net Growth Rate vs. Population Size",
+    subtitle = "Same parameters as per capita growth comparison",
+    y = "Net Growth Rate (dN/dt)",
+    x = "Population Size (N)",
+    color = "Model"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+And finally, $N$ vs. $t$. 
+
+```{r}
+# Time and initial population
+t_vals <- seq(0, 20, by = 0.1)
+N0 <- 10
+
+# Logistic solution
+logistic_Nt <- K_L / (1 + ((K_L - N0)/N0) * exp(-r_L * t_vals))
+
+# Gompertz solution
+gompertz_Nt <- K_G * exp(log(N0 / K_G) * exp(-r_G * t_vals))
+
+df_time <- data.frame(
+  t = t_vals,
+  Logistic = logistic_Nt,
+  Gompertz = gompertz_Nt
+)
+
+ggplot(df_time, aes(x = t)) +
+  geom_line(aes(y = Logistic, color = "Logistic"), size = 1.2) +
+  geom_line(aes(y = Gompertz, color = "Gompertz"), size = 1.2) +
+  labs(
+    title = "Population Growth Over Time",
+    subtitle = "Same parameters as growth rate plots",
+    x = "Time (t)",
+    y = "Population Size (N)",
+    color = "Model"
+  ) +
+  theme_minimal(base_size = 14)
+
+
+```
+
+Note that the shape of these curves relative to one another is totally dependent on the parameter values. One $K$ may be higher than the other, depending on parameters. The thing to remember about the Gompertz model is basically just that the relationship between per capita growth rate and population size is nonlinear, which may fit some data and some models better. If you work in fisheries and you hear someone mention a Gompertz model, just understand it is a density-dependent, continuous-time model that has a slightly different formulation than the logistic. 
+
+# Time lags and density dependence
+
+One criticism that would be very valid of all the models we have discussed so far is that they are too "neat." You all plotted data of an actual system this week, and saw that it is almost certainly much more dynamic than these smooth curves. The textbook goes into more detail about criticism of the logistic model, which mostly centers around it being very difficult to quantitatively prove, partly because it's hard to know if a stable equilibrium has been reached when looking at real data, and partly because our ability to estimate the exact parameters (of any density-dependent model---logistic, Gompertz, etc.) is limited. 
+
+## Delayed logistic 
+
+Most of the rest of the course will be adding different forms of complexity to better approximate real systems. Probably the next simplest case is a population that does not reach a single stable equilibrium, but instead oscillates around $K$. This is common in microbes and insects, especially in laboratory studies.
+
+We can model this relatively simply by introducing a time delay in the logistic model. This implies that there is a lag between when population size changes, and when population growth rate changes. We call that lag $T$, and define
+
+$$
+dN/dt = rN_t(1-N_{t-T}/K)
+$$
+
+You can see here that the effect of density dependence (1-N/K) is lagged $T$ amount behind $t$. 
+
+```{r}
+library(deSolve)
+library(ggplot2)
+
+# Parameters
+r <- .5        # intrinsic growth rate
+K <- 100      # carrying capacity
+T_delay <- 4  # time delay
+N0 <- 3      # initial population
+
+# Define the delayed logistic model
+delayed_logistic <- function(t, state, parms) {
+  with(as.list(c(state, parms)), {
+    # Check if the lag value is defined
+    if (t <= T_delay) {
+      N_lag <- N0  # before delay kicks in
+    } else {
+      N_lag <- lagvalue(t - T_delay)
+    }
+    dN <- r * N * (1 - N_lag / K)
+    return(list(dN))
+  })
+}
+
+# Parameters and initial state
+parms <- c(r = r, K = K)
+state <- c(N = N0)
+times <- seq(0, 50, by = 0.1)
+
+# Solve the delayed differential equation
+out <- dede(y = state, times = times, func = delayed_logistic, parms = parms)
+
+# Plot the result
+out_df <- as.data.frame(out)
+
+ggplot(out_df, aes(x = time, y = N)) +
+  geom_line(size = 1.2, color = "steelblue") +
+  labs(
+    title = "Delayed Logistic Population Growth",
+    subtitle = paste("Delay T =", T_delay, ", r =", r),
+    x = "Time",
+    y = "Population Size (N)"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+This is a really fun equation to play around with, because you can see that the predicted dynamics change with r and T (and, specifically, their product; you get oscillations when $rT > \pi /2 \approx 1.57$, and sustained oscillations at even greater values.) If I shrink T I get damped oscillations: 
+
+```{r}
+library(deSolve)
+library(ggplot2)
+
+# Parameters
+r <- .5        # intrinsic growth rate
+K <- 100      # carrying capacity
+T_delay <- 2  # time delay
+N0 <- 3      # initial population
+
+# Define the delayed logistic model
+delayed_logistic <- function(t, state, parms) {
+  with(as.list(c(state, parms)), {
+    # Check if the lag value is defined
+    if (t <= T_delay) {
+      N_lag <- N0  # before delay kicks in
+    } else {
+      N_lag <- lagvalue(t - T_delay)
+    }
+    dN <- r * N * (1 - N_lag / K)
+    return(list(dN))
+  })
+}
+
+# Parameters and initial state
+parms <- c(r = r, K = K)
+state <- c(N = N0)
+times <- seq(0, 50, by = 0.1)
+
+# Solve the delayed differential equation
+out <- dede(y = state, times = times, func = delayed_logistic, parms = parms)
+
+# Plot the result
+out_df <- as.data.frame(out)
+
+ggplot(out_df, aes(x = time, y = N)) +
+  geom_line(size = 1.2, color = "steelblue") +
+  labs(
+    title = "Delayed Logistic Population Growth",
+    subtitle = paste("Delay T =", T_delay, ", r =", r),
+    x = "Time",
+    y = "Population Size (N)"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+This model can approximate some, but not all, population dynamics. Crucially, it is missing:
+
+- The effect of different generations and histories of reproductive success (i.e., age structure) 
+- More complex lagged effects 
+- The effects of seasonal reproduction 
+
+# Density dependence in discrete time 
+
+Let's return to discrete time and explore the dynamics of some discrete-time models that also include density dependence. The first equation we wrote down in this class was:
+
+$$
+N_{t+1} = F(N_t)
+$$ 
+
+And I promised you that we'd spend a lot of the class talking about the forms that F can take. The first form we looked at was the simplest, 
+
+$$
+F(N_t) = RN_t
+$$
+
+Where the way you get from population size at time t to population size at time t+1 is just multiplying by a constant, R. Let's write down some options with density dependence. \textcolor{green}{Discuss: Qualitatively, what would a discrete-time model for density dependence look like? What would be on the right-hand side of $F(N_t)$?} 
+
+
+
+## Age structure
+
+## Stage structure 
 
 # Stochasticity
 
@@ -995,5 +1366,6 @@ Are there more robust ways to achieve sustainable yields than setting harvest qu
 # Other topics to add:
 
 -   R\*
--   Alternative stable states and hysteresis 
--   Resilience, multiple stressors, ball-and-cup theory 
+-   Alternative stable states and hysteresis
+-   Resilience, multiple stressors, ball-and-cup theory
+- Logistic growth with lags (p92-95)
