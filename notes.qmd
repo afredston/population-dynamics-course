@@ -74,7 +74,7 @@ dat <- data.frame(x = seq(0, 5, length.out=100))
 dat$fx = f(dat$x)
 
 ggplot(dat, aes(x=x, y=fx)) +
-         geom_line(aes(color="Function: f(x)")) +
+  geom_line(aes(color="Function: f(x)")) +
   labs(color="legend",
        y="value") +
   theme_minimal()
@@ -407,7 +407,9 @@ The simplest model of continuous-time population change is:
 
 $$
 \frac{dN}{dt} = rN
-$$ There's a new term here: $r$. "Little r" is also defined as the per-capita average birth rate $b$ minus the per-capita average death rate $m$, but note that these are all lowercase letters: they're instantaneous rates. (Before they were also averaged over time within the generation $t$; that's no longer true here.) Little r is also called the *intrinsic rate of increase* or *intrinsic growth rate*.
+$$ 
+
+There's a new term here: $r$. "Little r" is also defined as the per-capita average birth rate $b$ minus the per-capita average death rate $m$, but note that these are all lowercase letters: they're instantaneous rates. (Before they were also averaged over time within the generation $t$; that's no longer true here.) Little r is also called the *intrinsic rate of increase* or *intrinsic growth rate*.
 
 This is a really important concept in population biology so let's spend a little more time on the intuition behind $r$. If ${dN}/{dt}$ is in units of population size / time, then dividing both sides of the equation above by N gives us $r = {dN}/{Ndt}$. Notice two things: $r$ is a *per capita* rate ($N$ is on the bottom of the equation), and the units of $r$ itself are $1 / time$. So, $r$ is telling us about the per-capita average population change over a really, really, small---instantaneous!---time step.
 
@@ -533,7 +535,9 @@ $$
 N_{t+1} = N_0R^t
 $$
 
-And we integrated the continuous-time case to get: $$
+And we integrated the continuous-time case to get: 
+
+$$
 N(t) = N_0e^{rt}
 $$
 
@@ -655,8 +659,8 @@ ggplot(df, aes(x = N, y = g)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   geom_vline(xintercept = K, linetype = "dotted", color = "darkred") +
   annotate("text", x = 0.01 * K, y = 0.99 * r, label = "r", size = 5) +
-annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "K", size = 5, color = "darkred") +
-
+  annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "K", size = 5, color = "darkred") +
+  
   labs(
     title = "Per Capita Growth Rate in Logistic Model",
     x = "Population Size (N)",
@@ -689,15 +693,15 @@ df <- data.frame(N, dNdt)
 # Plot
 ggplot(df, aes(x = N, y = dNdt)) +
   geom_line(size = 1.2, color = "steelblue") +
-#  geom_hline(yintercept = 0, linetype = "dashed") +
-#  geom_vline(xintercept = K, linetype = "dotted", color = "darkred") +
+  #  geom_hline(yintercept = 0, linetype = "dashed") +
+  #  geom_vline(xintercept = K, linetype = "dotted", color = "darkred") +
   annotate("text", x = 0.01 * K, y = 0.99 * r, label = "N=0", size = 5) +
-annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "N=K", size = 5)  
-  labs(
-    title = "Growth Rate in Logistic Model",
-    x = "Population Size (N)",
-    y = "Growth Rate, dN/dt"
-  ) +
+  annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "N=K", size = 5)  
+labs(
+  title = "Growth Rate in Logistic Model",
+  x = "Population Size (N)",
+  y = "Growth Rate, dN/dt"
+) +
   coord_cartesian() +
   theme_bw()
 ```
@@ -769,12 +773,12 @@ df <- data.frame(N, dNdt)
 ggplot(df, aes(x = N, y = dNdt)) +
   geom_line(size = 1.2, color = "steelblue") +
   annotate("text", x = 0.01 * K, y = 0.99 * r, label = "N=0", size = 5) +
-annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "N=K", size = 5)  
-  labs(
-    title = "Growth Rate in Logistic Model",
-    x = "Population Size (N)",
-    y = "Growth Rate, dN/dt"
-  ) +
+  annotate("text", x = K - 0.01 * K, y = 0.01 * r, label = "N=K", size = 5)  
+labs(
+  title = "Growth Rate in Logistic Model",
+  x = "Population Size (N)",
+  y = "Growth Rate, dN/dt"
+) +
   coord_cartesian() +
   theme_bw()
 ```
@@ -973,11 +977,11 @@ Zero! We didn't have a rule of thumb for this above. We know that at this point,
 
 This point is *an optimal harvest level from an economic standpoint* because it maximizes revenue by balancing production (of the fish stock) with returns (of harvest). There is no mathematical solution that yields greater yearly harvest. However, **it is not stable**, and is extremely sensitive to any level of overharvesting. Roughgarden and Smith (1996) wrote, "Maintaining the stock at the optimal size... is like balancing a marble on top of a dome." \textcolor{green}{What are some other reasons why this might not be the most realistic or wise approach to fisheries management?}
 
-## Alternatives to MSY management (constant effort) 
+## Alternatives to MSY management (constant effort)
 
 Are there more robust ways to achieve sustainable yields than setting harvest quotas equal to the maximum $dN/dt$? An alternative to a constant harvest rate (measured in fish per unit time) is a constant effort model (still measured in units of fish per time, but now a dynamic equation). Here, harvest is proportional to population size and **effort** (the intensity of fishing, e.g., hours on the water, number of nets deployed, etc.)
 
-Instead of 
+Instead of
 
 $$
 \frac{dN}{dt} = rN(1 - N/K) - H
@@ -991,11 +995,11 @@ $$
 
 Where N is the population size, q is a catchability coefficient (more on this later), and E is effort. Wait---but shouldn't this still be a rate? Let's work through the units and intuition of these different parameters.
 
-The unit of N is individuals. The unit of E is effort; something like boats, days, permits, traps, etc. \textcolor{green}{For this to end up in the same units of individuals per time, what are the units of $q$?} 
+The unit of N is individuals. The unit of E is effort; something like boats, days, permits, traps, etc. \textcolor{green}{For this to end up in the same units of individuals per time, what are the units of $q$?}
 
-q is measured in 1 / (effort x individuals x time). Here, it's a scaling constant that translates the fishing effort into the number of fish that will actually be caught. 
+q is measured in 1 / (effort x individuals x time). Here, it's a scaling constant that translates the fishing effort into the number of fish that will actually be caught.
 
-So q is a constant here. Since this is a "constant effort" model, E is also a constant! It tells us that regardless of how many fish are in the ocean, the fishing industry will do the same thing to try to catch them. \textcolor{green}{Is this a more or less realistic model than the constant harvest model, above?} 
+So q is a constant here. Since this is a "constant effort" model, E is also a constant! It tells us that regardless of how many fish are in the ocean, the fishing industry will do the same thing to try to catch them. \textcolor{green}{Is this a more or less realistic model than the constant harvest model, above?}
 
 But because N is not a constant, harvest here ($qEN$) is now a dynamic equation. \textcolor{green}{What form would you expect this equation to take?}
 
@@ -1047,19 +1051,17 @@ ggplot() +
 
 For moderate levels of effort, aside from the trivial equilibrium of $N=0$ (no fish = no growth), there is only one other equilibrium, and it is stable. If population size exceeds harvest, then the population will grow up to the point where the diagonal crosses the curved line. If harvest exceeds population growth (i.e., if you go further up the constant effort line), then population size will go down, and effort will also go down. Let's explore this mathematically by writing the equation for this model and setting it equal to 0.
 
-$$
-0 = rN(1 - N/K) - qEN = rN - rN^2/K - qEN = N(r - rN/K - qE) = N(r(1-N/K)-qE)
+\$\$ 0 = rN(1 - N/K) - qEN = rN - rN\^2/K - qEN = N(r - rN/K - qE) = N(r(1-N/K)-qE)
 
-$$
+\$\$
 
-What are the solutions to this equilibrium? As we said above there is one where $N=0$. To find the other, we start with 
+What are the solutions to this equilibrium? As we said above there is one where $N=0$. To find the other, we start with
 
 $$
 qE = r(1-N/K)
 $$
 
-and solve for N: 
-
+and solve for N:
 
 $$
 qE/r = 1-N/K
@@ -1073,8 +1075,7 @@ $$
 \hat{N} = K(1-qE/r)
 $$
 
-**When does this yield a stable equilibrium?** Well, let's take the derivative of ($dN/dt$) and plug in our equilibrium value, $\hat{N}$. 
-
+**When does this yield a stable equilibrium?** Well, let's take the derivative of ($dN/dt$) and plug in our equilibrium value, $\hat{N}$.
 
 $$
 G(N) = rN(1 - N/K) - qEN = N(r-qE) -N^2(r/K)
@@ -1090,21 +1091,19 @@ $$
 G'(\hat{N}) = r-qE-2(K(1-\frac{qE}{r}))(\frac{r}{K}) = r - qE - 2r(1-\frac{qE}{r}) = r - qE - 2r + 2qE = qE - r
 $$
 
-Great! But now ... is $qE-r$ positive or negative? \textcolor{green}{What is the intuition behind the difference between these two numbers?} Recall that $r$ is the intrinsic growth rate or the maximum per capita growth rate, which $dN/Ndt$ approaches when N is small. $qE$ is in the same units and represents the harvest rate per capita. 
+Great! But now ... is $qE-r$ positive or negative? \textcolor{green}{What is the intuition behind the difference between these two numbers?} Recall that $r$ is the intrinsic growth rate or the maximum per capita growth rate, which $dN/Ndt$ approaches when N is small. $qE$ is in the same units and represents the harvest rate per capita.
 
-\textcolor{green}{So, under what circumstances is this a stable equilibrium?} It's when $qE < r$, meaning that the per capita harvest rate never exceeds the population's intrinsic growth rate. 
+\textcolor{green}{So, under what circumstances is this a stable equilibrium?} It's when $qE < r$, meaning that the per capita harvest rate never exceeds the population's intrinsic growth rate.
 
-Let's go back to our graph of constant effort and draw a really high effort rate. \textcolor{green}{Does this ever have a stable equilibrium?} You can see that it does not graphically, because it never intersects the growth function when it has a negative slope (meaning that $G'(\hat{N})$ would be negative). 
+Let's go back to our graph of constant effort and draw a really high effort rate. \textcolor{green}{Does this ever have a stable equilibrium?} You can see that it does not graphically, because it never intersects the growth function when it has a negative slope (meaning that $G'(\hat{N})$ would be negative).
 
 \textcolor{green}{Discuss:} What else might cause overfishing or collapse of a harvested population that isn't captured here?
 
 ## Other forms of density dependence in continuous time
 
-We've been working a lot with plots of $dN/dt$ vs. $N$. But recall that we usually think about three plots: $N$ vs. $t$, $dN/dt$ vs. $N$, and $dN/Ndt$ vs. $N$. We're going to revisit the latter. Recall that this was a straight, horizontal line in the exponential, continuous-time model, and it was a straight, sloping line in the logistic, continuous-time model. This represents an assumption that density dependence is linear: i.e., that as N increases, the density-dependent term (1-N/K) decreases linearly from 1 (at N=0) to 0 (at N=K). This implies that per capita growth slows down at a constant rate as populations increase. 
+We've been working a lot with plots of $dN/dt$ vs. $N$. But recall that we usually think about three plots: $N$ vs. $t$, $dN/dt$ vs. $N$, and $dN/Ndt$ vs. $N$. We're going to revisit the latter. Recall that this was a straight, horizontal line in the exponential, continuous-time model, and it was a straight, sloping line in the logistic, continuous-time model. This represents an assumption that density dependence is linear: i.e., that as N increases, the density-dependent term (1-N/K) decreases linearly from 1 (at N=0) to 0 (at N=K). This implies that per capita growth slows down at a constant rate as populations increase.
 
-
-### Gompertz model 
-
+### Gompertz model
 
 This is an easy thing to modify, because in reality, we might expect this relationship to be nonlinear: maybe per capita growth is not super sensitive at low N, and then drops steeply at high N. Let's try this equation instead:
 
@@ -1150,7 +1149,7 @@ ggplot(df_percap, aes(x = N)) +
 
 ```
 
-We said earlier that the Gompertz model was going to start off with gradual population growth and then show steeper density dependence at high $N$. Let's plot $dN/dt$ vs. $N$ to explore this. 
+We said earlier that the Gompertz model was going to start off with gradual population growth and then show steeper density dependence at high $N$. Let's plot $dN/dt$ vs. $N$ to explore this.
 
 ```{r}
 # Net growth rate functions
@@ -1177,7 +1176,7 @@ ggplot(df_growth, aes(x = N)) +
 
 ```
 
-And finally, $N$ vs. $t$. 
+And finally, $N$ vs. $t$.
 
 ```{r}
 # Time and initial population
@@ -1211,23 +1210,23 @@ ggplot(df_time, aes(x = t)) +
 
 ```
 
-Note that the shape of these curves relative to one another is totally dependent on the parameter values. One $K$ may be higher than the other, depending on parameters. The thing to remember about the Gompertz model is basically just that the relationship between per capita growth rate and population size is nonlinear, which may fit some data and some models better. If you work in fisheries and you hear someone mention a Gompertz model, just understand it is a density-dependent, continuous-time model that has a slightly different formulation than the logistic. 
+Note that the shape of these curves relative to one another is totally dependent on the parameter values. One $K$ may be higher than the other, depending on parameters. The thing to remember about the Gompertz model is basically just that the relationship between per capita growth rate and population size is nonlinear, which may fit some data and some models better. If you work in fisheries and you hear someone mention a Gompertz model, just understand it is a density-dependent, continuous-time model that has a slightly different formulation than the logistic.
 
 # Time lags and density dependence
 
-One criticism that would be very valid of all the models we have discussed so far is that they are too "neat." You all plotted data of an actual system this week, and saw that it is almost certainly much more dynamic than these smooth curves. The textbook goes into more detail about criticism of the logistic model, which mostly centers around it being very difficult to quantitatively prove, partly because it's hard to know if a stable equilibrium has been reached when looking at real data, and partly because our ability to estimate the exact parameters (of any density-dependent model---logistic, Gompertz, etc.) is limited. 
+One criticism that would be very valid of all the models we have discussed so far is that they are too "neat." You all plotted data of an actual system this week, and saw that it is almost certainly much more dynamic than these smooth curves. The textbook goes into more detail about criticism of the logistic model, which mostly centers around it being very difficult to quantitatively prove, partly because it's hard to know if a stable equilibrium has been reached when looking at real data, and partly because our ability to estimate the exact parameters (of any density-dependent model---logistic, Gompertz, etc.) is limited.
 
-## Delayed logistic 
+## Delayed logistic
 
 Most of the rest of the course will be adding different forms of complexity to better approximate real systems. Probably the next simplest case is a population that does not reach a single stable equilibrium, but instead oscillates around $K$. This is common in microbes and insects, especially in laboratory studies.
 
-We can model this relatively simply by introducing a time delay in the logistic model. This implies that there is a lag between when population size changes, and when population growth rate changes. We call that lag $T$, and define
+The analogy in the textbook is a thermostat in a room: even though the mean air temperature is at a given setting, in practice the continuous temperature probably repeatedly dips and warms. We can model this relatively simply by introducing a time delay in the logistic model. This implies that there is a lag between when population size changes, and when population growth rate changes. We call that lag $T$, and define
 
 $$
 dN/dt = rN_t(1-N_{t-T}/K)
 $$
 
-You can see here that the effect of density dependence (1-N/K) is lagged $T$ amount behind $t$. 
+You can see here that the effect of density dependence (1-N/K) is lagged $T$ amount behind $t$.
 
 ```{r}
 library(deSolve)
@@ -1276,7 +1275,7 @@ ggplot(out_df, aes(x = time, y = N)) +
 
 ```
 
-This is a really fun equation to play around with, because you can see that the predicted dynamics change with r and T (and, specifically, their product; you get oscillations when $rT > \pi /2 \approx 1.57$, and sustained oscillations at even greater values.) If I shrink T I get damped oscillations: 
+This is a really fun equation to play around with, because you can see that the predicted dynamics change with r and T (and, specifically, their product; you get oscillations when $rT > \pi /2 \approx 1.57$, and sustained oscillations at even greater values.) If I shrink T I get damped oscillations:
 
 ```{r}
 library(deSolve)
@@ -1327,31 +1326,232 @@ ggplot(out_df, aes(x = time, y = N)) +
 
 This model can approximate some, but not all, population dynamics. Crucially, it is missing:
 
-- The effect of different generations and histories of reproductive success (i.e., age structure) 
-- More complex lagged effects 
-- The effects of seasonal reproduction 
+-   The effect of different generations and histories of reproductive success (i.e., age structure)
+-   More complex lagged effects
+-   The effects of seasonal reproduction
 
-# Density dependence in discrete time 
+# Density dependence in discrete time
+
+(Hastings 96-101) 
 
 Let's return to discrete time and explore the dynamics of some discrete-time models that also include density dependence. The first equation we wrote down in this class was:
 
 $$
 N_{t+1} = F(N_t)
-$$ 
+$$
 
-And I promised you that we'd spend a lot of the class talking about the forms that F can take. The first form we looked at was the simplest, 
+And I promised you that we'd spend a lot of the class talking about the forms that F can take. The first form we looked at was the simplest,
 
 $$
 F(N_t) = RN_t
 $$
 
-Where the way you get from population size at time t to population size at time t+1 is just multiplying by a constant, R. Let's write down some options with density dependence. \textcolor{green}{Discuss: Qualitatively, what would a discrete-time model for density dependence look like? What would be on the right-hand side of $F(N_t)$?} 
+$$
+N_t = N_0R^t
+$$
 
 
+Where the way you get from population size at time t to population size at time t+1 is just multiplying by a constant, R. Let's write down some options with density dependence. \textcolor{green}{Discuss: Qualitatively, what would a discrete-time model for density dependence look like? What would be on the right-hand side of $F(N_t)$?}
+
+### First return plots
+
+We've been looking at three classes of graphs, but today we're going to add in a fourth one: $N_t$ vs. $N_{t+1}$. These are called "first return" or "next-generation" plots, and they're really common in discrete-time models. This shows how the population at time $t$ determines the population at $t+1$; in other words, given its current value, where will the population go? To orient ourselves to these figures let's quickly plot one for geometric growth, $N_{t+1}=RN_t$. \textcolor{green}{Take a few minutes and try to draw this figure yourself.} 
+
+\textcolor{green}{What graph did we see much earlier in the class that looks like this one?} This plot is highly analogous to $dN/dt$ vs. $N$ in the exponential growth continuous time case. They both describe how the current population size affects the rate of change, and they both give us the direction and speed of population change. 
+
+\textcolor{green}{Take a moment to think: Where are the equilibria of this model? How would you know?} Here, we can find equilibria graphically when the function crosses the "identity" (1:1) line. 
+
+## Ricker model
+
+We're starting with this model because we know all the parameters in the equation, although the equation itself is new to us:
+
+$$
+N_{t+1} = N_te^{r(1-\frac{N_t}{K})}
+$$
+
+Recall how we discussed above that for a discrete-time model to have density dependence, in this equation, $N_t$ would have to be multiplied by something that isn't a constant (and is, in fact, a function of $N$)? Here we go! Most people start with graphs of $N_{t}$ vs. $N_{t+1}$ but I always like to look at a population trend image so we'll do that first. 
+
+```{r}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+# Shared parameters
+K <- 100
+N0 <- 10
+steps <- 50
+
+# Ricker parameters
+r_ricker <- 2.2
+r_ricker_alt <- 0.5
+r_ricker_alt2 <- -1
+ricker <- function(N, K, r_ricker) N * exp(r_ricker * (1 - N / K))
+
+# Beverton-Holt parameters
+R0 <- 3
+beverton <- function(N) (R0 * N) / (1 + (R0 - 1) * N / K)
+
+# Initialize vectors
+N_ricker <- numeric(steps + 1)
+N_bh <- numeric(steps + 1)
+N_ricker_alt<- numeric(steps + 1)
+N_ricker_alt2<- numeric(steps + 1)
+N_ricker[1] <- N_bh[1] <- N0
+N_ricker_alt[1] <- N_bh[1] <- N0
+N_ricker_alt2[1] <- N_bh[1] <- N0
+
+# Simulate trajectories
+for (t in 1:steps) {
+  N_ricker[t + 1] <- ricker(N_ricker[t], K, r_ricker)
+  N_ricker_alt[t + 1] <- ricker(N_ricker[t], K, r_ricker_alt)
+  N_ricker_alt2[t + 1] <- ricker(N_ricker[t], K, r_ricker_alt2)
+  N_bh[t + 1] <- beverton(N_bh[t])
+}
+
+# Combine into data frame for plotting
+df <- data.frame(
+  time = 0:steps,
+  Ricker_high_r = N_ricker,
+  Ricker_low_r = N_ricker_alt,
+  Ricker_neg_r = N_ricker_alt2
+  #  Beverton_Holt = N_bh
+) %>%
+  pivot_longer(cols = -time, names_to = "Model", values_to = "N")
+
+# Plot
+ggplot(df, aes(x = time, y = N, color = Model, group = Model)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Ricker Model Population Trajectories",
+    #  title = "Population Trajectories: Ricker vs. Beverton-Holt",
+    subtitle = paste("Initial N_0 =", N0, ", K =", K),
+    x = "Time (t)",
+    y = expression(N[t])
+  ) +
+  #  scale_color_manual(values = c("Ricker" = "steelblue", "Beverton_Holt" = "darkgreen")) +
+  theme_minimal(base_size = 14)
+```
+
+```{r}
+# Geometric model parameters
+bigR <- 2
+N_vals <- seq(0, 100, by = 1)
+N_next <- bigR * N_vals
+
+df_geo <- data.frame(N = N_vals, N_next = N_next)
+
+ggplot(df_geo, aes(x = N, y = N_next)) +
+  geom_line(color = "orange", size = 1.2) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray50") +
+  labs(
+    title = "Geometric Growth: N[t+1] vs N[t]",
+    subtitle = paste("R =", bigR),
+    x = expression(N[t]),
+    y = expression(N[t+1])
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+Keeping in mind all the properties of the $dN/dt$ vs. $N$ plot of the logistic continuous-time model above (the upside-down parabola), let's graph the Ricker model. 
+
+```{r}
+library(ggplot2)
+
+r <- 2
+K <- 100
+N_vals <- seq(0, 200, by = 1)
+ricker <- N_vals * exp(r * (1 - N_vals / K))
+
+df <- data.frame(N = N_vals, N_next = ricker)
+
+ggplot(df, aes(x = N, y = N_next)) +
+  geom_line(color = "steelblue", size = 1.2) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray50") +
+  labs(
+    title = "Ricker Model: Next Generation vs. Current Population",
+    subtitle = paste("r =", r, ", K =", K),
+    x = expression(N[t]),
+    y = expression(N[t+1])
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+Now let's ask all of our usual questions: does this have any equilibria? What does it mean for population size, per capita growth, etc.? 
+
+We solved for equilibria above by setting $dN/dt=0$. Here, we want to set $N_t = N_{t+1} = \hat{N}$. 
+
+$$
+\hat{N} = \hat{N}e^{r(1-\frac{\hat{N}}{K})}
+$$
+
+This has a trivial equilibrium at $\hat{N}=0$. But dividing both sides by $\hat{N}$ and taking the log, we get:
+
+$$
+0 = r(1-\hat{N}/K)
+$$
+
+This simplifies to $\hat{N}=K$. If I were better at drawing you could see that on the graph above as well. Your next question, now that we have found the equilibrium for the Ricker model, might be: But is it stable? Even though this is a continuous-time model, you can still do this by taking the derivative of this equation:
+
+$$
+N_{t+1} = N_te^{r(1-\frac{N_t}{K})}
+$$
+
+And asking about its behavior at $\hat{N}$. Let's take the derivative of this equation. We're going to take advantage of the **product rule,** which says that for any u and v, $dG/dN = u'v + uv'$. In other words, when we want the derivative of a product, we take the derivative of each, multiply it by the other, and sum them. Here, $u' = 1$ (the derivative of N with respect to N). To calculate v', 
+
+$$
+v' = \frac{d}{dN}e^{r(1-N/K)} = 
+$$
+
+
+```{r}
+library(ggplot2)
+
+# Parameters
+r <- 2.2
+K <- 100
+N0 <- 10
+steps <- 30
+
+# Ricker model
+ricker <- function(N) N * exp(r * (1 - N / K))
+
+# Generate cobweb data
+N_vals <- numeric(steps + 1)
+N_vals[1] <- N0
+for (t in 1:steps) {
+  N_vals[t + 1] <- ricker(N_vals[t])
+}
+
+# Prepare cobweb segments
+df_cobweb <- data.frame(
+  x = rep(N_vals[-(steps+1)], each = 2),
+  y = c(ricker(N_vals[-(steps+1)]), N_vals[-1])
+)
+
+# Full curve
+N_seq <- seq(0, 200, by = 1)
+curve_df <- data.frame(N = N_seq, N_next = ricker(N_seq))
+
+# Plot
+ggplot() +
+  geom_line(data = curve_df, aes(x = N, y = N_next), color = "steelblue", size = 1.2) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  geom_path(data = df_cobweb, aes(x = x, y = y), color = "darkred", size = 1) +
+  labs(
+    title = "Cobweb Diagram: Ricker Model",
+    subtitle = paste("r =", r, ", K =", K),
+    x = expression(N[t]),
+    y = expression(N[t+1])
+  ) +
+  theme_minimal(base_size = 14)
+
+```
 
 ## Age structure
 
-## Stage structure 
+## Stage structure
 
 # Stochasticity
 
@@ -1368,4 +1568,4 @@ Where the way you get from population size at time t to population size at time 
 -   R\*
 -   Alternative stable states and hysteresis
 -   Resilience, multiple stressors, ball-and-cup theory
-- Logistic growth with lags (p92-95)
+-   Logistic growth with lags (p92-95)
