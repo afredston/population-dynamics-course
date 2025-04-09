@@ -883,7 +883,7 @@ $$
 \lambda = \frac{dG}{dN} \Big|_{N = \hat{N}}
 $$
 
-If $\lambda$ is positive the equilibrium is unstable, and it's stable if negative. In other words, all you need to do is get the equation for the derivative of the population growth function and evaluate it at $\hat{N}$. (Hastings, 91: "The rate of return to the equilibrium, or the rate at which the system moves away from the equilibrium, is determined by $\lambda$.") The reason this works is the Taylor expansion we walked through, but in reality you'd mostly use the equation above---or the graphical interpretation---to calculate stability.
+If $\lambda$ is positive the equilibrium is unstable, and it's stable if negative. In other words, all you need to do is get the equation for the derivative of the population growth function and evaluate it at $\hat{N}$. (Hastings, 91: "The rate of return to the equilibrium, or the rate at which the system moves away from the equilibrium, is determined by $\lambda$.") The reason this works is the Taylor expansion we walked through, but in practice you'd mostly use the equation above---or the graphical interpretation---to evaluate stability.
 
 Here's how that would have looked for the logistic model:
 
@@ -891,7 +891,7 @@ $$
 G(N) = dN/dt = rN(1-N/K)
 $$
 
-Taking the derivative (which we did above, by restating the equation as $rN - rN^2/K$:
+Restating the equation as $rN - rN^2/K$ and taking the derivative:
 
 $$
 G'(N) = dG/dN = r - \frac{2rN}{K}
@@ -976,6 +976,123 @@ $$
 Zero! We didn't have a rule of thumb for this above. We know that at this point, the first derivative of population size $dN/dt$ or $F'(N)$ is zero (because we're at the x-intercept), and the second derivative $dG/dN$ or $G'(N)$ or $F''(N)$ is... also zero---meaning the slope is flat. In math this is called a "degenerate case" because the system is neither classically stable or unstable. But we can figure out the answer graphically. Let's call $H_{max} = 25$ fish/year and $K = 100$. Then at $H_{max}$, $N = 50$. What happens if we slightly overshoot---meaning we harvest 26 fish by accident? Then $dN/dt$ becomes negative---in other words, the population's natural rate of increase is less than $H_{max}$. What happens if we harvest 24 fish? That essentially shifts the curve upwards by 1---so you are back in the land of two equilibria, a stable one at higher $N$ and an unstable one at lower $N$. This is a *saddle-node bifurcation*: it is stable on one side, and unstable on the other. (We can also see this graphically at the top of the parabola.)
 
 This point is *an optimal harvest level from an economic standpoint* because it maximizes revenue by balancing production (of the fish stock) with returns (of harvest). There is no mathematical solution that yields greater yearly harvest. However, **it is not stable**, and is extremely sensitive to any level of overharvesting. Roughgarden and Smith (1996) wrote, "Maintaining the stock at the optimal size... is like balancing a marble on top of a dome." \textcolor{green}{What are some other reasons why this might not be the most realistic or wise approach to fisheries management?}
+
+To emphasize this point, here are some plots of N vs. t in a logistic-growth, constant-harvest scenario with different levels of H. Let's start by assuming we are already at K/2 (i.e., $N_0=K/2$): 
+
+```{r}
+library(deSolve)
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+H_max <- r * K / 4
+N0 <- 50
+times <- seq(0, 8, by = 0.1)
+
+# Define harvest levels (values first, labels after)
+H_values <- c(0, 5, 20, H_max, 30)
+H_labels <- c("No harvest",
+              "Low (H = 5)",
+              "High (H = 20)",
+              paste0("Hmax (H = ", H_max, ")"),
+              "Overharvest (H = 30)")
+names(H_values) <- H_labels
+
+# Logistic model with constant harvest
+logistic_harvest <- function(t, state, parms) {
+  with(as.list(c(state, parms)), {
+    dN <- r * N * (1 - N / K) - H
+    if (N <= 0) dN <- 0
+    return(list(c(dN)))
+  })
+}
+
+# Solve for each H
+results <- lapply(names(H_values), function(label) {
+  H <- H_values[[label]]
+  out <- ode(y = c(N = N0), times = times,
+             func = logistic_harvest,
+             parms = c(r = r, K = K, H = H))
+  df <- as.data.frame(out)
+  df$Harvest <- label
+  return(df)
+})
+
+df_all <- bind_rows(results)
+
+# Plot
+ggplot(df_all, aes(x = time, y = N, color = Harvest)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Logistic Growth with Constant Harvest",
+    subtitle = paste("r =", r, ", K =", K, ", N0 =", N0),
+    x = "Time (t)",
+    y = "Population Size (N)"
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_color_brewer(palette = "Set1")
+
+```
+
+What if we draw the same curves with $N_0=0$? 
+
+```{r}
+library(deSolve)
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+H_max <- r * K / 4
+N0 <- 10
+times <- seq(0, 8, by = 0.1)
+
+# Define harvest levels (values first, labels after)
+H_values <- c(0, 5, 20, H_max, 30)
+H_labels <- c("No harvest",
+              "Low (H = 5)",
+              "High (H = 20)",
+              paste0("Hmax (H = ", H_max, ")"),
+              "Overharvest (H = 30)")
+names(H_values) <- H_labels
+
+# Logistic model with constant harvest
+logistic_harvest <- function(t, state, parms) {
+  with(as.list(c(state, parms)), {
+    dN <- r * N * (1 - N / K) - H
+    if (N <= 0) dN <- 0
+    return(list(c(dN)))
+  })
+}
+
+# Solve for each H
+results <- lapply(names(H_values), function(label) {
+  H <- H_values[[label]]
+  out <- ode(y = c(N = N0), times = times,
+             func = logistic_harvest,
+             parms = c(r = r, K = K, H = H))
+  df <- as.data.frame(out)
+  df$Harvest <- label
+  return(df)
+})
+
+df_all <- bind_rows(results)
+
+# Plot
+ggplot(df_all, aes(x = time, y = N, color = Harvest)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Logistic Growth with Constant Harvest",
+    subtitle = paste("r =", r, ", K =", K, ", N0 =", N0),
+    x = "Time (t)",
+    y = "Population Size (N)"
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_color_brewer(palette = "Set1")
+```
 
 ## Alternatives to MSY management (constant effort)
 
