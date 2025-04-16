@@ -1330,6 +1330,119 @@ ggplot(df_time, aes(x = t)) +
 
 Note that the shape of these curves relative to one another is totally dependent on the parameter values. One $K$ may be higher than the other, depending on parameters. The thing to remember about the Gompertz model is basically just that the relationship between per capita growth rate and population size is nonlinear, which may fit some data and some models better. If you work in fisheries and you hear someone mention a Gompertz model, just understand it is a density-dependent, continuous-time model that has a slightly different formulation than the logistic.
 
+## Positive density dependence 
+
+All of the density dependence we've been talking about so far is technically called *negative density dependence.* It's confusing to remember which is which, but think of it this way: is the relationship between population size and average offspring (per-capita population growth rate, $dN/Ndt$) positive or negative in the logistic model? 
+
+There's another way that density can interact with per-capita population growth rate. Think about abalone in California. All seven of our abalone species are endangered (six are critically endangered). These were massively depleted by humans because they are really easy to access and harvest. Disease, warming, heatwaves, and kelp loss have also negatively impacted these species. 
+
+Abalone are broadcast spawners. They have separate sexes, so the eggs and sperm need to meet in the water. If there are too few of them, this won't happen and we'll see a *recruitment failure*---when reproduction fails to lead to a new generation of an ecologically meaningful size. 
+
+\textcolor{green}{How would this affect the plot of N vs. dN/Ndt in the logistic growth model?}
+
+We can model this effect by introducing a new parameter into the *continuous-time* logistic growth equation, $A$ (this stands for **Allee effect,** another word for this form of positive density dependence.) Then the population growth rate is given by 
+
+$$
+dN/dt = rN(N-A)(1-N/K)
+$$
+
+
+
+Let's start by finding the equilibria of this model. Because it's a product of three terms, we can say from looking at it that it will be equal to zero if any one of the three terms is zero. The first equilibrium is when $rN = 0$; because r is a constant, that means $\hat{N}=0$. The second is when $N-a=0$, so we also have $\hat{N}=A$. Finally, if $(1-N/K)=0$, we get $\hat{N}=K$.
+
+To figure out if these equilibria are stable, let's graph the equation above. 
+
+```{r}
+library(ggplot2)
+
+# Parameters
+r <- 1
+K <- 100
+A <- 30
+
+# Allee effect model function
+allee_growth <- function(N) {
+  r * N * (N-A) * (1 - N/K)
+}
+
+# Generate values of N
+N_vals <- seq(0, 120, by = 0.1)
+dNdt_vals <- allee_growth(N_vals)
+
+# Create data frame
+df <- data.frame(N = N_vals, dNdt = dNdt_vals)
+
+# Plot
+ggplot(df, aes(x = N, y = dNdt)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_line(size = 1.2, color = "steelblue") +
+  geom_vline(xintercept = c(0, A, K), linetype = "dotted", color = "gray40") +
+  annotate("text", x = 0, y = 5, label = "N = 0", hjust = -0.1) +
+  annotate("text", x = A, y = 5, label = "N = A", hjust = -0.1) +
+  annotate("text", x = K, y = 5, label = "N = K", hjust = -0.1) +
+  labs(
+    title = expression("Growth Rate with Allee Effect:" ~ frac(dN, dt) == r*N*~(N-A)*(1 - frac(N, K))),
+    x = "Population Size (N)",
+    y = expression(dN/dt)
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+\textcolor{green}{Graphically, which equilibria are stable and which are unstable?}
+
+\textcolor{green}{Take a couple minutes to think and draw: What do you think the graph of N vs t will look like for a few different values of $N_0$?}
+
+```{r}
+library(deSolve)
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+A <- 30
+
+# Allee model ODE
+allee_model <- function(t, state, parms) {
+  N <- state["N"]
+  dN <- r * N * (N/A - 1) * (1 - N/K)
+  return(list(c(dN)))
+}
+
+# Initial conditions
+N0_vals <- c(10, 25, 30, 40, 100)  # below, at, and above A
+times <- seq(0, 50, by = 0.1)
+
+# Run simulations for each initial value
+trajectories <- lapply(N0_vals, function(N0) {
+  out <- ode(
+    y = c(N = N0),
+    times = times,
+    func = allee_model,
+    parms = NULL
+  )
+  as.data.frame(out) %>%
+    mutate(N0 = paste0("N0 = ", N0))
+})
+
+df_all <- bind_rows(trajectories)
+
+# Plot
+ggplot(df_all, aes(x = time, y = N, color = N0)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Population Trajectories under Allee Effect",
+    subtitle = "Different initial population sizes relative to Allee threshold A",
+    x = "Time (t)",
+    y = "Population Size (N)",
+    color = expression(N[0])
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+
 # Time lags and density dependence
 
 One criticism that would be very valid of all the models we have discussed so far is that they are too "neat." You all plotted data of an actual system this week, and saw that it is almost certainly much more dynamic than these smooth curves. The textbook goes into more detail about criticism of the logistic model, which mostly centers around it being very difficult to quantitatively prove, partly because it's hard to know if a stable equilibrium has been reached when looking at real data, and partly because our ability to estimate the exact parameters (of any density-dependent model---logistic, Gompertz, etc.) is limited.
@@ -1767,7 +1880,7 @@ make_cobweb <- function(r, K = 100, N0 = 10, steps = 50) {
       x = expression(N[t]),
       y = expression(N[t+1])
     ) +
-    theme_minimal(base_size = 14)
+    theme_minimal(base_size = 8)
 }
 
 # Create the three plots
@@ -1844,6 +1957,8 @@ This is also consistent with our mathematical condition for stability in the Ric
 ## Chaos in ecology
 
 That simple models in discrete time could yield chaotic dynamics at realistic values of r was a surprising discovery (see May, 1974). We now suspect that many systems have chaotic dynamics, particularly plankton systems (lots to read about this if you're interested.) \textcolor{green}{Reflect and then share:} If chaos is common in simple population models, what does that mean for the predictability of the real world? 
+
+
 
 ## Age structure
 
