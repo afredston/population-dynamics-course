@@ -1,0 +1,32 @@
+---
+title: "Marine Population Dynamics"
+subtitle: Homework 3 
+author: Alexa L. Fredston
+date: April 2025
+format: pdf
+editor: visual
+execute:
+  echo: false
+  warning: false
+---
+
+# Part 1
+
+Find a time-series *of plankton*. It can be the same one as last week, if you used plankton. If you didn't or if you want a new one, check out the [URI Narragansett Bay Long-Term Plankton Time-Series](https://web.uri.edu/gso/research/plankton/data/) or ask a friend in Ocean Sciences. As always, we want a column for time and a column for some index of (absolute or relative abundance). This can be for a single species, or for a functional group if that's the data you have. 
+
+**Question 1:** Include a plot of the time-series (N vs. t); it can be the same as the plot from last week. This week we discussed three different models: the delayed logistic, the logistic model with an Allee effect, and the Ricker model. Which of these do you think would best describe your data? Plot a line over your data from one of these models, tweaking the parameters so it seems like a reasonable fit to your data, and include the plot here. 
+
+**Question 2:** What additional phenomenon in your time-series do you think is most important to describe that is not captured by the model you chose? In other words, what single model extension do you think would get you closest to the data? In 1-2 sentences, qualitatively describe how the model could be improved to fit your data more closely. 
+
+**Question 3:** Based on Question 1, do you think your time-series exhibits equilibrium, oscillations, chaos, or none of the above / it's too hard to tell? Explain in 1-2 sentences. 
+
+**Question 4:** Generate a plot of $N_{t+1}$ vs. $N_t$ for your population, based on the real data. Include it here. Are there sections with a positive slope? With a negative slope? Is there a peak, or more than one? Is there no pattern? In addition to this 1-2 sentence description, include a sentence about what this means for the relationship between population size and growth rate (i.e., density dependence) at different population sizes (low, medium, high). 
+
+# Part 2
+
+This part of the homework asks you to look at some papers in our [readings folder on GitHub](https://github.com/afredston/population-dynamics-course/tree/main/readings).
+
+**Question 5:** Take a look at Figure 1 in Beninca *et al.* 2008, after familiarizing yourself with the paper. Are you surprised by the pattern and the result in Fig. 1b-g? Why or why not? 
+
+**Question 6:** Take a look at Figure 7 in Gascoigne and Lipcius 2004. How did they calculate the y-axis? Do you agree that this plot is supportive of an Allee effect? What else (that the authors mention in the text) might cause this pattern and why? 
+
