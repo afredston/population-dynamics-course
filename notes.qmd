@@ -323,7 +323,7 @@ data <- data.frame(x = x_vals, f = f(x_vals), df = df_vals, F = F_vals)
 ggplot(data, aes(x)) +
   geom_line(aes(y = f, color = "Function: f(x)")) +
   geom_line(aes(y = df, color = "Derivative: f'(x)"), linetype = "dashed") +
-  geom_line(aes(y = F, color = "Integral: ∫f(x)dx"), linetype = "dotted") +
+  geom_line(aes(y = F, color = "Integral of f(x)dx"), linetype = "dotted") +
   labs(title = "Graphical Interpretation of Differentiation and Integration",
        y = "Value",
        color = "Legend") +
@@ -2097,8 +2097,8 @@ In our simple example, let's assume that:
 
 * Our hypothetical organism lives for up to three years. We're going to call the individuals in their first year of life (0-364 days old) the "age 0 class",  individuals in their second year of life the "age 1 class" (just like humans: you are 1 until you turn 2), and so on. All age classes can reproduce, but their rates may differ. No individuals survive past 3, so there is no age class 3. 
 * The population has two sexes, but we are only tracking and quantifying females. (This is a not-uncommon approach in population dynamics.) 
-* Age 0 individuals have, on average, $b_0$ offspring per year (per capita). Age 1 individuals have, on average, $b_1$ offspring per year (per capita). Age 2 individuals have, on average, $b_2$ offspring per year (per capita). 
-* $s_0$ is the probability that a 0-year-old survives to become a 1-year-old. $s_1$ is the probability that a 1-year-old survives to become a 2-year-old. \textcolor{green}{(We don't need to specify a survival rate for age 2; why?)}
+* Age 0 individuals have, on average, $f_0$ offspring per year (per capita). Age 1 individuals have, on average, $f_1$ offspring per year (per capita). Age 2 individuals have, on average, $f_2$ offspring per year (per capita). These f's stand for *fecundity* or *fertility*, which are basically technical terms for average offspring per year. 
+* $p_0$ is the probability that a 0-year-old survives to become a 1-year-old. $p_1$ is the probability that a 1-year-old survives to become a 2-year-old. \textcolor{green}{(We don't need to specify a survival rate for age 2; why?)}
 * $N_t$ is the total number of individuals at time t, and it is a single value (scalar). $N_t = \sum n(t)$, where $n_t = n_0(t) + n_1(t)$. Note that these are lowercase because they are *not* total population sizes and/or because they are vectors---none of them are the same as "big N". 
 
 $n_0(t)$ is the number of offspring of 0-year-olds in year t plus the number of offspring of 1-year-olds in year t. \textcolor{green}{How would we calculate this, i.e., turn this statement into an equation?}
@@ -2110,15 +2110,15 @@ $n_2(t)$ is the number of 1-year-olds from time t-1 that survive to time t. \tex
 Conventionally we put t+1 on the left and t on the right (rather than t-1 and t). We could also denote these $n_{0,t}$ but we put t in parentheses because having everything in the subscript gets awkward when we are in t+1 land and beyond. 
 
 $$
-n_0(t+1) = n_0(t)b_0 + n_1(t)b_1 + n_2(t)b_2
+n_0(t+1) = n_0(t)f_0 + n_1(t)f_1 + n_2(t)f_2
 $$
 
 $$
-n_1(t+1) = n_0(t)s_0
+n_1(t+1) = n_0(t)p_0
 $$
 
 $$
-n_2(t+1) = n_1(t)s_1
+n_2(t+1) = n_1(t)p_1
 $$
 
 \textcolor{green}{Work out what the population size is at $t+1,t+2,t+3,t+4$ if the population at $N_t$ has (A) 10 age 0 individuals, no age 1 individuals, and 5 age 2 individuals or (B) no age 0 individuals, 10 age 1 individuals, no age 2 individuals. Hint: A table with rows for the age classes and columns for the time steps will help.}
@@ -2133,9 +2133,9 @@ n_0(t+1) \\
 n_1(t+1) \\
 n_2(t+1)
 \end{bmatrix} = \begin{bmatrix} 
-(n_0(t)b_0 + n_1(t)b_1 + n_2(t)b_2) \\
-n_0(t)s_0 \\
-n_1(t)s_1
+(n_0(t)f_0 + n_1(t)f_1 + n_2(t)f_2) \\
+n_0(t)p_0 \\
+n_1(t)p_1
 \end{bmatrix}
 $$
 
@@ -2147,9 +2147,9 @@ n_0(t+1) \\
 n_1(t+1) \\
 n_2(t+1)
 \end{bmatrix} = \begin{bmatrix} 
-b_0 & b_1 & b_2 \\
-s_0 & 0 & 0 \\
-0 & s_1 & 0
+f_0 & f_1 & f_2 \\
+p_0 & 0 & 0 \\
+0 & p_1 & 0
 \end{bmatrix}
 \begin{bmatrix} 
 n_0(t) \\
@@ -2307,9 +2307,9 @@ n_0(t+1) \\
 n_1(t+1) \\
 n_2(t+1)
 \end{bmatrix} = \begin{bmatrix} 
-b_0 & b_1 & b_2 \\
-s_0 & 0 & 0 \\
-0 & s_1 & 0
+f_0 & f_1 & f_2 \\
+p_0 & 0 & 0 \\
+0 & p_1 & 0
 \end{bmatrix}
 \begin{bmatrix} 
 n_0(t) \\
@@ -2339,6 +2339,8 @@ n(t+1) = \mathbf{L_n}n(t)
 $$
 
 You can imagine turning some or all of the elements of **L** into functions of population size and the environment. You could certainly make an argument that both birth and survival have a density dependence, either positive (Allee effects) or negative (logistic growth). We're not going to go that far in this class. Matrix population modeling is a whole class and field unto itself, adhering closely to Hal Caswell's phenomenal book on the topic. It also requires linear algebra techniques that not everyone came into this class with. But I very highly recommend that book if you are interested in learning more. We are going to unpack a few more properties of the simplest (exponential growth) model, and then discuss stage structure. 
+
+### Dominant eigenvalues and eigenvectors 
 
 One thing we might want to do, similar to when we studied geometric growth in discrete time without age structure, is get a general function for $n(t)$ as a function of the initial population size $n(0)$. This allows us to explore age structure mathematically without stepping through every generation one at a time. Without age structure, we had $N(t+1) = RN_t$ and solved this to find that $N(t) = R^tN_0$. Similarly, here, we have $n(t+1) = Ln(t)$ and can deduce that $n(t) = \mathbf{L}^tn(0)$. (Convince yourself of this by looking at the equations above.) 
 
@@ -2372,56 +2374,170 @@ $$
 
 Now, all of a sudden, we have the entire right-hand side of this equation expressed in terms of constants except for t. All we need to do is raise $\lambda$ to t. \textcolor{green}{As t gets large, what single value in this equation drives the population size?}
 
-It's the biggest $|\lambda|$---the **dominant eigenvalue**, which is often denoted $\lambda_1$. As time goes on, $n(t) \approx a_1\lambda_1^t\overrightarrow{\mathbf{v_1}}$. 
+It's the biggest $|\lambda|$---the **dominant eigenvalue**, which is often denoted $\lambda_1$. As time goes on, $n(t) \approx a_1\lambda_1^t\overrightarrow{\mathbf{v_1}}$. This tells us that a single eigenvalue drives the long-term population growth (or decline) rate, and encodes a combined effect of birth and death. **When $\lambda$ < 1, the population is declining exponentially/geometrically; when $\lambda > 1$, it's increasing.** 
+
+\textcolor{green}{Assuming you could calculate the eigenvectors, eigenvalues, and coefficients, what kind of biological questions could you explore with this model? }
 
 ### Stable age distribution 
 
+We talked about the intuition behind the dominant eigenvalue: it determines long-term population change and approximates the combined effect of birth and death. What's the intuition behind the associated eigenvector, $\overrightarrow{\mathbf{v_1}}$? 
+
+It turns out that in a scenario like the on we've been exploring---with constant birth and death rates given by **L**, that do not change over time---the population approaches a *stable age distribution.* This is actually a corollary of the population having a unique, constant growth rate that is not dependent on time or population size. For this to be the case, each age class must also have a constant growth rate---i.e., must make the same *per capita* contribution to the population every year. The growth rate would not be constant from one year to the next if the relative contributions of, for example, age 0 and age 1 individuals changed. 
+
+This is NOT THE SAME as a stable population size; as we saw in the plots earlier, these populations will exhibit exponential growth or decline. However, as they grow away from the initial conditions, they will move toward a constant *ratio of age classes*. **This is the stable age distribution, and it is given by $\overrightarrow{\mathbf{v_1}}$.** 
+
+Again, while this model doesn't actually describe many real-world populations, it can be helpful to delve into the stable age distribution to understand which life stages dominate long-term dynamics and how deviations from the stable age distribution arise and affect long-term dynamics. The Hastings textbook goes into detail on how this stable age distribution arises and demonstrates mathematically why it's stable; I'll skip this but feel free to look it up. 
+
+```{r}
+# Load libraries
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+# Leslie matrix: 3 age classes
+L <- matrix(c(
+  1.2, 1.0, 0.5,  # fecundity row
+  0.6, 0.0, 0.0,  # survival from age 0 to 1
+  0.0, 0.7, 0.0   # survival from age 1 to 2
+), nrow = 3, byrow = TRUE)
+
+# Initial population NOT in stable structure
+N0 <- c(100, 20, 5)  # mostly young
+
+# Project forward
+steps <- 30
+N_mat <- matrix(NA, nrow = 3, ncol = steps + 1)
+N_mat[, 1] <- N0
+
+for (t in 1:steps) {
+  N_mat[, t + 1] <- L %*% N_mat[, t]
+}
+
+# Convert to proportions (age structure)
+age_props <- apply(N_mat, 2, function(N) N / sum(N))
+
+# Put into data frame for plotting
+df <- as.data.frame(t(age_props))
+colnames(df) <- c("Age_0", "Age_1", "Age_2")
+df$Time <- 0:steps
+
+df_long <- pivot_longer(df, cols = starts_with("Age"), names_to = "Age", values_to = "Proportion")
+
+# Plot
+ggplot(df_long, aes(x = Time, y = Proportion, color = Age)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Convergence to Stable Age Distribution",
+    x = "Time (t)",
+    y = "Proportion in Each Age Class"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
 ## Stage structure 
 
-After all this, we still aren't quite ready to build a model of the loggerhead sea turtle. That's because we've been talking about age structure, but with turtles (and many species), what really matters is *stage structure*---how many individuals are at each life stage. These aren't the same thing. Recall how turtles can be reproductive adults for decades, but their habitat use changes a lot early in life? Not only are life stages important, but turtles stay at them for multiple years, and different durations depending on the stage. We could build a giant matrix for every possible age of turtles, but we also often don't *know* their age, only their stage.  (this is true for many surveyed populations). 
+After all this, we still aren't quite ready to build a model of the loggerhead sea turtle. That's because we've been talking about age structure, but with turtles (and many species), what really matters is *stage structure*---how many individuals are at each life stage. These aren't the same thing. Recall how turtles can be reproductive adults for decades, but their habitat use changes a lot early in life? Not only are life stages important, but turtles stay at them for multiple years, and different durations depending on the stage. We could build a giant matrix for every possible age of turtles, but we also often don't *know* their age, only their stage. (This is true for many surveyed populations). 
 
-<!-- To prove this, let's assume that that ratio is represented by a constant $c$, such that  -->
+To model stage structure we introduce a little more complexity to our matrix models (Caswell pp56-). The easiest way to start understanding this is graphically. Let's sketch a diagram of the population we described above. 
 
-<!-- $$ -->
-<!-- n_0(t+1) = n_0(t)b_0 + cn_0(t)b_1 -->
-<!-- $$ -->
 
-<!-- and -->
+```{r}
+webshot::install_phantomjs()
+library(DiagrammeR)
 
-<!-- $$ -->
-<!-- cn_0(t+1) = n_0(t)s_0 -->
-<!-- $$ -->
+grViz("
+digraph lifecycle {
 
-<!-- We now want to combine these equations and solve for $c$ by factoring out $n_0(t+1)$. Let's plug in for the left-hand side of the first equation,  -->
+  # Layout: left to right
+  graph [layout = dot, rankdir = LR]
 
-<!-- $$ -->
-<!-- n_0(t+1) = \frac{n_0(t)s_0}{c} -->
-<!-- $$ -->
+  # Node styling
+  node [shape = circle, fontname = Helvetica, fontsize = 14]
 
-<!-- And then substitute this in:  -->
+  # Nodes (stages)
+  A0 [label = 'Age 0']
+  A1 [label = 'Age 1']
+  A2 [label = 'Age 2']
 
-<!-- $$ -->
-<!-- n_0(t)b_0 + cn_0(t)b_1 = \frac{n_0(t)s_0}{c} -->
-<!-- $$ -->
+  # Arrows: survival & growth
+  A0 -> A1 [label = 'p0']
+  A1 -> A2 [label = 'p1']
+  
+  # Arrows: stasis
+ # A0 -> A0 [label = 'P₁']
+ # A1 -> A1 [label = 'P₂']
+  #A2 -> A2 [label = 'P₃']
+  
+  # Arrows: fecundity (reproduction into S1)
+  A1 -> A0 [label = 'f1']
+  A2 -> A0 [label = 'f2']
 
-<!-- Simplify down to:  -->
+}
+")
+```
 
-<!-- $$ -->
-<!-- b_0 + cb_1 = \frac{s_0}{c} -->
-<!-- $$ -->
+This is a graphical representation of the population model we wrote down in our simplest example. \textcolor{green}{What key change do we need to make to transition to a stage-structured model?}
 
-<!-- Or  -->
+In a stage-structured model, individuals don't transition states (the big circles) in every time step. Some of them will move on to the next stage, but a proportion of them will stay at the same stage. (In Caswell's book, he calls these "size classes", because that's often how we measure them---especially in natural resource applications, like fisheries and forestry.) To describe this, we need to introduce another set of parameters: $g_0, g_1$, etc., which represent the probability an individual *survives and grows to the next stage.* (We still also have $p_0, p_1$, etc. in this model; those now represent the probability that an individual *survives and stays at the same stage.*) Note that these don't sum to 1, because there are a bunch of individuals that die in every time step. In all of our discussions of stage-structured models, we'll assume that individuals can't skip stages; to get from stage 0 to 2, they have to go through 1 first. 
 
-<!-- $$ -->
-<!-- 0 = c^2b_1 + cb_0 - s_0 -->
-<!-- $$ -->
+\textcolor{green}{Try adapting the figure above to include this additional complexity, for a population with three stages but a lot of ages. Start by re-labeling the circles stages, not ages, and then think about how to add or change arrows. }
 
-<!-- Does this look like a familiar format? We can solve this with the *quadratic formula,* which says that for an equation of the form $0 = ax^2 + bx + c$, then $x = (-b \pm \sqrt{b^2-4ac}) / 2a$. This gives us:  -->
 
-<!-- $$ -->
-<!-- c = \frac{-b_0 \pm \sqrt{b_0^2 -4b_1s_0}}{2b_1} -->
-<!-- $$ -->
 
+```{r}
+
+library(DiagrammeR)
+
+grViz("
+digraph lifecycle {
+
+  # Layout: left to right
+  graph [layout = dot, rankdir = LR]
+
+  # Node styling
+  node [shape = circle, fontname = Helvetica, fontsize = 14]
+
+  # Nodes (stages)
+  A0 [label = 'Stage 0']
+  A1 [label = 'Stage 1']
+  A2 [label = 'Stage 2']
+
+  # Arrows: survival & growth
+  A0 -> A1 [label = 'g0']
+  A1 -> A2 [label = 'g1']
+  
+  # Arrows: stasis
+  A0 -> A0 [label = 'p0']
+  A1 -> A1 [label = 'p1']
+  A2 -> A2 [label = 'p2']
+  
+  # Arrows: fecundity (reproduction into S1)
+  A1 -> A0 [label = 'f1']
+  A2 -> A0 [label = 'f2']
+
+}
+")
+```
+
+Now do you see the advantage of stage-structured models? This could be an organism that lives for 50 years, but so long as we can identify the life stages *that have different birth, death, growth, or other vital rates,* we can vastly simplify the model. In the textbook there's an example of an actual stage-structured model for killer whales. They have four life stages. Stage 0 lasts for less than a year, so there is no probability of staying in that stage. Killer whales only reproduce in stages 1 and 2. \textcolor{green}{Try drawing a life cycle graph of this killer whale population model.}
+
+Now let's move onto the matrix representations of these models. We can still state that $\mathbf{n}(t+1) = \mathbf{An}(t)$. The only difference from the age-structured example above is that the matrix is slightly different (see below) and $\mathbf{n}$ is now a vector of *stage* abundances (not age). 
+
+How do we get this matrix? First of all, it will be a n-by-n matrix, where n is the number of stages. You can actually populate the entire matrix from the diagrams we've drawn. The element $a_{i,j}$ is given by the arrow in our life cycle graph from stage j to stage i. (The direction is important here; it's j --> i, not i --> j.) \textcolor{green}{For the three-stage example, try filling in **A.**}
+
+
+$$
+\begin{bmatrix}
+a[1,1] = p_0 & a[1,2] = f_1 & a[1,3] = f_2 \\
+a[2,1] = g_0 & a[2,2] = p_1 & a[2,3] = 0 \\
+a[3,1] = 0 & a[3,2] = g_1 & a[3,3] = p_2
+\end{bmatrix}
+$$
+
+This is, again, a Leslie matrix. It still has fecundities in the first row. Now, the subdiagonal contains transition probabilities (individuals that survive and grow to the next stage) and the diagonal contains probabilities of surviving and staying at the same stage. We are now, at last, ready to build a stage-structured population model of loggerhead sea turtles! Crouser et al. 1987 actually did this---a large improvement over previous, age-structured models of loggerheads. \textcolor{green}{Do you think it was reasonable for them to fit a model without density dependence or enviromental effects---i.e., a constant growth rate model---to this population? Why or why not?} 
+
+They estimated a $\lambda$ around 0.945; \textcolor{green}{Does this mean the population was increasing or decreasing?} They then calculated the stable age distribution (dominant eigenvector), the relative reproductive contributions of each age class at the stable age distribution, and then simulated how $\lambda$ would change if mortality at each life stage either increased or decreased drastically (representing human impacts or conservation measures). They found that the most sensitive life stages were juveniles and subadults: reducing mortality on those would tip the population into a growth phase, and increasing mortality on those would cause rapid collapse. This and a follow-up paper, Crowder et al. 1994, demonstrated that a popular conservation strategy for sea turtles---protecting nesting beaches and hatchlings---was much less effective than reducing at-sea mortality of juvenile and subadult sea turtles. This set of studies was extremely influential and led to the widespread adoption of "turtle excluder devices". 
 
 
 # Stochasticity
