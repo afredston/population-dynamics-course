@@ -18,6 +18,7 @@ library(dplyr)
 Alexa would like to gratefully acknowledge the following sources:
 
 -   Alan Hastings' book, "Population Biology: Concepts and Models"
+-   Hal Caswell's book, "Matrix Population Models" 
 -   Marissa Baskett's ESP121 course notes (UC Davis)
 -   Dave Tilman's UCSB course ESM201, for which Alexa was a TA
 -   chatGPT, which generated a lot of the Quarto code for the math.
@@ -1168,7 +1169,6 @@ ggplot() +
 
 For moderate levels of effort, aside from the trivial equilibrium of $N=0$ (no fish = no growth), there is only one other equilibrium, and it is stable. If population size exceeds harvest, then the population will grow up to the point where the diagonal crosses the curved line. If harvest exceeds population growth (i.e., if you go further up the constant effort line), then population size will go down, and effort will also go down. Let's explore this mathematically by writing the equation for this model and setting it equal to 0.
 
-
 $$
 0 = rN(1 - N/K) - qEN = rN - rN\^2/K - qEN = N(r - rN/K - qE) = N(r(1-N/K)-qE)
 $$
@@ -1330,27 +1330,25 @@ ggplot(df_time, aes(x = t)) +
 
 Note that the shape of these curves relative to one another is totally dependent on the parameter values. One $K$ may be higher than the other, depending on parameters. The thing to remember about the Gompertz model is basically just that the relationship between per capita growth rate and population size is nonlinear, which may fit some data and some models better. If you work in fisheries and you hear someone mention a Gompertz model, just understand it is a density-dependent, continuous-time model that has a slightly different formulation than the logistic.
 
-## Positive density dependence 
+## Positive density dependence
 
-All of the density dependence we've been talking about so far is technically called *negative density dependence.* It's confusing to remember which is which, but think of it this way: is the relationship between population size and average offspring (per-capita population growth rate, $dN/Ndt$) positive or negative in the logistic model? 
+All of the density dependence we've been talking about so far is technically called *negative density dependence.* It's confusing to remember which is which, but think of it this way: is the relationship between population size and average offspring (per-capita population growth rate, $dN/Ndt$) positive or negative in the logistic model?
 
-There's another way that density can interact with per-capita population growth rate. Think about abalone in California. All seven of our abalone species are endangered (six are critically endangered). These were massively depleted by humans because they are really easy to access and harvest. Disease, warming, heatwaves, and kelp loss have also negatively impacted these species. 
+There's another way that density can interact with per-capita population growth rate. Think about abalone in California. All seven of our abalone species are endangered (six are critically endangered). These were massively depleted by humans because they are really easy to access and harvest. Disease, warming, heatwaves, and kelp loss have also negatively impacted these species.
 
-Abalone are broadcast spawners. They have separate sexes, so the eggs and sperm need to meet in the water. If there are too few of them, this won't happen and we'll see a *recruitment failure*---when reproduction fails to lead to a new generation of an ecologically meaningful size. 
+Abalone are broadcast spawners. They have separate sexes, so the eggs and sperm need to meet in the water. If there are too few of them, this won't happen and we'll see a *recruitment failure*---when reproduction fails to lead to a new generation of an ecologically meaningful size.
 
 \textcolor{green}{How would this affect the plot of N vs. dN/Ndt in the logistic growth model?}
 
-We can model this effect by introducing a new parameter into the *continuous-time* logistic growth equation, $A$ (this stands for **Allee effect,** another word for this form of positive density dependence.) Then the population growth rate is given by 
+We can model this effect by introducing a new parameter into the *continuous-time* logistic growth equation, $A$ (this stands for **Allee effect,** another word for this form of positive density dependence.) Then the population growth rate is given by
 
 $$
 dN/dt = rN(N-A)(1-N/K)
 $$
 
-
-
 Let's start by finding the equilibria of this model. Because it's a product of three terms, we can say from looking at it that it will be equal to zero if any one of the three terms is zero. The first equilibrium is when $rN = 0$; because r is a constant, that means $\hat{N}=0$. The second is when $N-a=0$, so we also have $\hat{N}=A$. Finally, if $(1-N/K)=0$, we get $\hat{N}=K$.
 
-To figure out if these equilibria are stable, let's graph the equation above. 
+To figure out if these equilibria are stable, let's graph the equation above.
 
 ```{r}
 library(ggplot2)
@@ -1441,7 +1439,6 @@ ggplot(df_all, aes(x = time, y = N, color = N0)) +
   theme_minimal(base_size = 14)
 
 ```
-
 
 # Time lags and density dependence
 
@@ -1555,7 +1552,7 @@ ggplot(out_df, aes(x = time, y = N)) +
 
 ```
 
-And if $rT$ is large I get outcomes that are highly sensitive to initial conditions---even though we haven't introduced any randomness or stochasticity! All we've done is slightly change initial conditions or parameter values, and run a deterministic simple model, but one with time lags. 
+And if $rT$ is large I get outcomes that are highly sensitive to initial conditions---even though we haven't introduced any randomness or stochasticity! All we've done is slightly change initial conditions or parameter values, and run a deterministic simple model, but one with time lags.
 
 ```{r}
 # Parameters
@@ -1605,7 +1602,7 @@ legend("topright", legend = paste0("N0 = ", sapply(initial_values, `[[`, "N")),
 
 ```
 
-\textcolor{green}{Have you ever heard of something where tiny changes in initial conditions lead to wildly different outcomes?} People call this the *butterfly effect:* a butterfly flaps its wings and some time later there's a tornado. Mathematically, this means the system is **chaotic.** Even though the system is deterministic, not stochastic, tiny changes in some variables can lead to huge differences. 
+\textcolor{green}{Have you ever heard of something where tiny changes in initial conditions lead to wildly different outcomes?} People call this the *butterfly effect:* a butterfly flaps its wings and some time later there's a tornado. Mathematically, this means the system is **chaotic.** Even though the system is deterministic, not stochastic, tiny changes in some variables can lead to huge differences.
 
 The delayed logistic model can approximate some, but not all, population dynamics. \textcolor{green}{What species do you think it would describe well? Which would it describe poorly?}
 
@@ -1710,7 +1707,6 @@ ggplot(df, aes(x = time, y = N, color = Model, group = Model)) +
   theme_minimal(base_size = 14)
 ```
 
-
 ### First return plots
 
 We've been looking at three classes of graphs, but today we're going to add in a fourth one: $N_t$ vs. $N_{t+1}$. These are called "first return" or "next-generation" plots, and they're really common in discrete-time models. This shows how the population at time $t$ determines the population at $t+1$; in other words, given its current value, where will the population go? To orient ourselves to these figures let's quickly plot one for geometric growth, $N_{t+1}=RN_t$ (or $F(N) = R^tN_0$). \textcolor{green}{Take a few minutes and try to draw this figure yourself.}
@@ -1718,7 +1714,6 @@ We've been looking at three classes of graphs, but today we're going to add in a
 \textcolor{green}{What graph did we see much earlier in the class that looks like this one?} This plot is highly analogous to $dN/dt$ vs. $N$ in the exponential growth continuous time case. They both describe how the current population size affects the rate of change, and they both give us the direction and speed of population change.
 
 \textcolor{green}{Take a moment to think: Where are the equilibria of this model? How would you know?} Here, we can find equilibria graphically when the function crosses the "identity" (1:1) line. \textcolor{green}{Does the geometric growth model have any equilibria?}
-
 
 ```{r}
 # Geometric model parameters
@@ -1788,13 +1783,13 @@ $$
 N_{t+1} = N_te^{r(1-\frac{N_t}{K})}
 $$
 
-And asking about its behavior at $\hat{N}$. Let's take the derivative of this equation. We're going to take advantage of the **product rule,** which says that for any u and v, $dG/dN = u'v + uv'$. In other words, when we want the derivative of a product, we take the derivative of each, multiply it by the other, and sum them. Here, $u' = 1$ (the derivative of N with respect to N). v' is: 
+And asking about its behavior at $\hat{N}$. Let's take the derivative of this equation. We're going to take advantage of the **product rule,** which says that for any u and v, $dG/dN = u'v + uv'$. In other words, when we want the derivative of a product, we take the derivative of each, multiply it by the other, and sum them. Here, $u' = 1$ (the derivative of N with respect to N). v' is:
 
 $$
 v' = \frac{d}{dN}e^{r(1-N/K)} 
 $$
 
-How do we take this derivative? Hopefully this is triggering some vague memories from calculus. You need to remember two things. First, the *chain rule,* which applies to composite functions---like $f(x) = g(h(x))$. Then, $f'(x) = g'(h(x)) \times h'(x)$. In other words you multiply the derivative of the outer function (keeping the inside intact) by the derivative of the inner function. Let's work through this for an exponential function, $f(x) = e^{g(x)}$. 
+How do we take this derivative? Hopefully this is triggering some vague memories from calculus. You need to remember two things. First, the *chain rule,* which applies to composite functions---like $f(x) = g(h(x))$. Then, $f'(x) = g'(h(x)) \times h'(x)$. In other words you multiply the derivative of the outer function (keeping the inside intact) by the derivative of the inner function. Let's work through this for an exponential function, $f(x) = e^{g(x)}$.
 
 The second thing you need to remember is that the derivative of e to the something is just ... itself! $d/dx \ e^x = e^x$. So, we can separate this into:
 
@@ -1802,33 +1797,33 @@ $$
 v' = \frac{d}{dN}e^{r(1-N/K)} = e^{r(1-N/K)} \times \frac{d}{dN} r(1-N/K)
 $$
 
-Now we just have to take the derivative of $r(1-N/K)$, which we've done before. We multiply it out into $r - rN/K$, and when taking the derivative with respect to N, this turns into $-r/K$. So our whole v' turns into $-r/K \times  e^{r(1-N/K)}$. Recall that we started with $G(N) = N_te^{r(1-\frac{N_t}{K})}$ and said that $dG/dN = u'v + uv'$ (the product rule). So putting it all together (recall that here, $u' = 1$), we get:
+Now we just have to take the derivative of $r(1-N/K)$, which we've done before. We multiply it out into $r - rN/K$, and when taking the derivative with respect to N, this turns into $-r/K$. So our whole v' turns into $-r/K \times e^{r(1-N/K)}$. Recall that we started with $G(N) = N_te^{r(1-\frac{N_t}{K})}$ and said that $dG/dN = u'v + uv'$ (the product rule). So putting it all together (recall that here, $u' = 1$), we get:
 
 $$
 dG/dN = e^{r(1-N/K)} -r/Ke^{r(1-N/K)} \times N = e^{r(1-N/K)} (1-rN/K)
 $$
 
-This is the derivative of the Ricker model in discrete time. Remember, we did all this to understand whether the equilibrium $\hat{ N} = K$ is stable or unstable. Let's substitute that in. $e^{r(1-N/K)}$ turns into 1, and so does $N/K$. So we get that $dG/dN = 1 - r$. 
+This is the derivative of the Ricker model in discrete time. Remember, we did all this to understand whether the equilibrium $\hat{ N} = K$ is stable or unstable. Let's substitute that in. $e^{r(1-N/K)}$ turns into 1, and so does $N/K$. So we get that $dG/dN = 1 - r$.
 
-## Stability analysis of discrete-time models 
+## Stability analysis of discrete-time models
 
-\textcolor{green}{In continuous time, what was our stability criterion with respect to this second derivative at the equilibrium value?} Stability in continuous time is defined by the sign of the derivative near the equilibrium. If it's negative, it's stabilizing, and if it's positive, it's destabilizing. Think back to our plots of $dN/dt$ vs. $N$; if the function crosses the $dN/dt = 0$ line (meaning that, at least momentarily, population is at equilibrium) with a positive slope, the dynamics pull the system away from that point. The reverse is true if it crosses with a negative slope. 
+\textcolor{green}{In continuous time, what was our stability criterion with respect to this second derivative at the equilibrium value?} Stability in continuous time is defined by the sign of the derivative near the equilibrium. If it's negative, it's stabilizing, and if it's positive, it's destabilizing. Think back to our plots of $dN/dt$ vs. $N$; if the function crosses the $dN/dt = 0$ line (meaning that, at least momentarily, population is at equilibrium) with a positive slope, the dynamics pull the system away from that point. The reverse is true if it crosses with a negative slope.
 
 ### The mathematical rule of thumb
 
-But now think back to our first-return plot. When did we define an equilibrium? When $N_{t+1} = N_t$. Previously we were interested in $dG/dN = 0$, meaning when functions crossed the x-intercept. Now we're interested in when functions cross the identity line, meaning that $G'(N) = 1$. This is also the criterion for stability in *all discrete-time models, not just the Ricker model:* if $|f'(\hat{N})| < 1$. 
+But now think back to our first-return plot. When did we define an equilibrium? When $N_{t+1} = N_t$. Previously we were interested in $dG/dN = 0$, meaning when functions crossed the x-intercept. Now we're interested in when functions cross the identity line, meaning that $G'(N) = 1$. This is also the criterion for stability in *all discrete-time models, not just the Ricker model:* if $|f'(\hat{N})| < 1$.
 
-Revisiting the second derivative of the Ricker model at $\hat{N} = K$, $dG/dN = 1 - r$: \textcolor{green}{What values does r have to take on for this to be stable?} In other words, for what r is $|1-r| < 1$? Answer: r must be between 0 and 2. 
+Revisiting the second derivative of the Ricker model at $\hat{N} = K$, $dG/dN = 1 - r$: \textcolor{green}{What values does r have to take on for this to be stable?} In other words, for what r is $|1-r| < 1$? Answer: r must be between 0 and 2.
 
-### The graphical explanation 
+### The graphical explanation
 
 Let's try to build some graphical intuition for stability in discrete-time models, which have more complex behavior than continuous-time ones. We're again going to trace population dynamics from one moment to the next, but this time in the first-return plot. Let's start with a value of N a little above 0. Then we're going to:
 
-* Go vertically up to the curve. This gives us the next population size (at the x-value we picked, what's the y-axis value?)
-* Now let's re-consider that value to be our new x. How do we get from y to x on this plot? Go horizontally toward the 1:1 (identity) line. That translates the y you found (last time step's $N_{t+1}$) into an x (this time-step's $N_t$). 
-* Repeat! 
+-   Go vertically up to the curve. This gives us the next population size (at the x-value we picked, what's the y-axis value?)
+-   Now let's re-consider that value to be our new x. How do we get from y to x on this plot? Go horizontally toward the 1:1 (identity) line. That translates the y you found (last time step's $N_{t+1}$) into an x (this time-step's $N_t$).
+-   Repeat!
 
-Drawing plots is getting harder in this class, but let's start with a low value of r, which means the peak of the Ricker curve is on the identity line. (Because this curve has a long tail we're going to stop drawing the axes on the same scales.) We know where the equilibria are: the question is, does the dynamics of the system pull us toward or away those two points? 
+Drawing plots is getting harder in this class, but let's start with a low value of r, which means the peak of the Ricker curve is on the identity line. (Because this curve has a long tail we're going to stop drawing the axes on the same scales.) We know where the equilibria are: the question is, does the dynamics of the system pull us toward or away those two points?
 
 ```{r}
 # Load necessary package
@@ -1893,11 +1888,11 @@ grid.arrange(p_stable, p_oscillate, p_chaos, ncol = 3)
 
 ```
 
-We can see that $\hat{N}=0$ is always unstable because we are always drawing away from it, and the equilibrium $\hat{N}=K$ is very stable for low r. Let's draw out these diagrams for higher values of r. How on Earth do we interpret these cobweb diagrams? The second one eventually exhibits regular bouncing between the same population sizes. \textcolor{green}{What did we call that behavior earlier?} The third one never stabilizes and goes all over the place. \textcolor{green}{What did we call that behavior earlier?} 
+We can see that $\hat{N}=0$ is always unstable because we are always drawing away from it, and the equilibrium $\hat{N}=K$ is very stable for low r. Let's draw out these diagrams for higher values of r. How on Earth do we interpret these cobweb diagrams? The second one eventually exhibits regular bouncing between the same population sizes. \textcolor{green}{What did we call that behavior earlier?} The third one never stabilizes and goes all over the place. \textcolor{green}{What did we call that behavior earlier?}
 
-We know that the Ricker model equilibrium at $\hat{N}=K$ is stable for $0 < r < 2$. It turns out that r controls the steepness of the $N_{t+1}$ vs $N$ plot near the equilibrium point. (Remember that the second derivative was just $1-r$? That is the slope of the $N_{t+1}$ vs $N$ plot at the equilibrium! It only depends on r.) Thus, if r is small (and likely stable), the curve is not very steep when it crosses the identity line. We could have actually guessed whether the plots above would lead to stability without doing the cobweb diagrams!  
+We know that the Ricker model equilibrium at $\hat{N}=K$ is stable for $0 < r < 2$. It turns out that r controls the steepness of the $N_{t+1}$ vs $N$ plot near the equilibrium point. (Remember that the second derivative was just $1-r$? That is the slope of the $N_{t+1}$ vs $N$ plot at the equilibrium! It only depends on r.) Thus, if r is small (and likely stable), the curve is not very steep when it crosses the identity line. We could have actually guessed whether the plots above would lead to stability without doing the cobweb diagrams!
 
-To check our intuition, let's graph the exact same parameter values in N vs t space: 
+To check our intuition, let's graph the exact same parameter values in N vs t space:
 
 ```{r}
 library(ggplot2)
@@ -1941,7 +1936,7 @@ ggplot(df_all, aes(x = time, y = N, color = Model)) +
   geom_hline(aes(yintercept=K), linetype="dashed", color='grey') + 
   labs(
     title = "Population Trajectories for the Ricker Model",
-    subtitle = paste("K =", K, ", N₀ =", N0),
+    subtitle = paste("K =", K, ", N0 =", N0),
     x = "Time (t)",
     y = expression(N[t]),
     color = "Model"
@@ -1950,23 +1945,488 @@ ggplot(df_all, aes(x = time, y = N, color = Model)) +
 
 ```
 
-This is also consistent with our mathematical condition for stability in the Ricker model above. When r gets too large, we see sustained oscillations and then chaos. 
+This is also consistent with our mathematical condition for stability in the Ricker model above. When r gets too large, we see sustained oscillations and then chaos.
 
-\textcolor{green}{Reflect and then share:} The only thing varying between these curves is r. Why would the value of r, biologically speaking, have such a big impact on population dynamics? Why would larger values of r lead to more complex behavior in a discrete-time model? What are some real-world populations that might exhibit this behavior? 
+\textcolor{green}{Reflect and then share:} The only thing varying between these curves is r. Why would the value of r, biologically speaking, have such a big impact on population dynamics? Why would larger values of r lead to more complex behavior in a discrete-time model? What are some real-world populations that might exhibit this behavior?
 
 ## Chaos in ecology
 
-That simple models in discrete time could yield chaotic dynamics at realistic values of r was a surprising discovery (see May, 1974). We now suspect that many systems have chaotic dynamics, particularly plankton systems (lots to read about this if you're interested.) \textcolor{green}{Reflect and then share:} If chaos is common in simple population models, what does that mean for the predictability of the real world? 
+That simple models in discrete time could yield chaotic dynamics at realistic values of r was a surprising discovery (see May, 1974). We now suspect that many systems have chaotic dynamics, particularly plankton systems (lots to read about this if you're interested.) \textcolor{green}{Reflect and then share:} If chaos is common in simple population models, what does that mean for the predictability of the real world?
+
+# Age and stage structure 
+
+\textcolor{green}{Discuss:} Up to this point we've been assuming all individuals in a population are the same. What are some ways in which that might not be true? What might vary among individuals, and how might that variation affect population dynamics?
+
+### The loggerhead sea turtle scenario
+
+Loggerhead sea turtles, *Caretta caretta*, are large marine reptiles found in the Atlantic, Pacific, and Indian Oceans as well as the Mediterranean. This species has a complex life cycle with very different behavior and reproductive activity by life stage. Females mate every 2-3 years and then nest on beaches close to where they themselves hatched. They do not tend to their eggs, which hatch after several months. Hatchlings then make their way to the water, where they disperse into the open ocean. As they grow larger they often reappear in coastal habitats, frequenting lagoons and estuaries. Females do not reach sexual maturity until they are around 35 years old. Loggerheads can live more than 80 years and are often over a meter long. 
+
+As you can see, modeling loggerheads as a population of identical individuals who all reproduce at the same rate is probably a bad assumption. Also, loggerhead populations are generally declining worldwide. Their different life stages face very different threats. Adults are often killed by boat strikes, fishing gear entanglements, or marine debris. Habitat degradation is common in coastal areas, which is particularly harmful to species like loggerheads that return to the beaches where they hatched. Turtle sex is determined by the temperature during incubation, so climate change will likely alter the sex ratio of this species. Human activity on or near beaches poses a risk to eggs (which can be destroyed easily) and hatchlings (which may not reach the water, especially if they are disoriented by artificial light). 
+
+## Matrix refresher 
+
+A **matrix** is a rectangular array of numbers. For example, a $2 \times 3$ matrix has 2 rows and 3 columns:
+
+$$
+A = \begin{bmatrix}
+1 & 4 & 2 \\
+3 & 0 & 5
+\end{bmatrix}
+$$
+
+We usually denote a matrix with uppercase letters (e.g., $A$, $B$), and its elements with lowercase letters and subscripts, like $a_{ij}$ for the element in row $i$ and column $j$.
+
+- A matrix with $m$ rows and $n$ columns is called an **$m \times n$ matrix** (rows always go first!)
+- A one-dimensional matrix is called a **vector** (this should sound familiar from computing) 
+- A **column vector** is a matrix with size $n \times 1$
+- A **row vector** is $1 \times n$
+
+For example, a population vector tracking three age classes might look like:
+
+$$
+\mathbf{n} = \begin{bmatrix}
+n_0 \\
+n_1 \\
+n_2
+\end{bmatrix}
+$$
+
+Here, we aren't saying anything about *how to get from the matrix to a single number.* If we wanted to state **n** as the sum of the three age classes here we would just do that. Rather we're saying that this matrix *holds* entries for each age class. We're going to use matrices to track age-structured populations, because they're a tidy way to hold information about multiple ages (or stages) without transforming it (like summing it or averaging it, which we don't necessarily want to do---which is why we're moving away from calculating a single N). 
+
+Now, let's refresh matrix operations. You can add or subtract matrices to/from one another **only if they have the same dimensions**. You add corresponding elements (matrix elements with the same position):
+
+If
+
+$$
+A = \begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}, \quad
+B = \begin{bmatrix}
+5 & 6 \\
+7 & 8
+\end{bmatrix}
+$$
+
+Then:
+
+$$
+A + B = \begin{bmatrix}
+1 + 5 & 2 + 6 \\
+3 + 7 & 4 + 8
+\end{bmatrix}
+= \begin{bmatrix}
+6 & 8 \\
+10 & 12
+\end{bmatrix}
+$$
+
+Subtraction works the same way:
+
+$$
+A - B = \begin{bmatrix}
+1 - 5 & 2 - 6 \\
+3 - 7 & 4 - 8
+\end{bmatrix}
+= \begin{bmatrix}
+-4 & -4 \\
+-4 & -4
+\end{bmatrix}
+$$
+The above is called **matrix addition or subtraction**. Mathematically, you aren't supposed to just add or subtract scalars (single values); i.e., $A + 5$ is an illegal operation because a matrix is an array of numbers and a scalar is not. You can do this operation in lots of programming languages though, and in practice it typically adds the scalar elementwise (separately to every element of the matrix, i.e., adding 5 to every value in A.)
+
+**Matrix multiplication** is a little more complicated, so we'll split this into three parts: *matrix-scalar, matrix-vector, and matrix-matrix multiplication.* You can multiply a matrix by a single number (scalar) by multiplying **every entry** in the matrix:
+
+If
+
+$$
+A = \begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+\quad \text{and} \quad
+k = 5,
+$$
+
+then:
+
+$$
+kA = 5 \cdot A = \begin{bmatrix}
+5 \cdot 1 & 5 \cdot 2 \\
+5 \cdot 3 & 5 \cdot 4
+\end{bmatrix}
+= \begin{bmatrix}
+5 & 10 \\
+15 & 20
+\end{bmatrix}
+$$
+
+This operation scales the entire matrix up or down. In this class, we'll be mostly using *matrix-vector multiplication*. If $A$ is a $3 \times 3$ matrix and $\mathbf{n}$ is a $3 \times 1$ column vector:
+
+$$
+A \cdot \mathbf{n} = \begin{bmatrix}
+a_{00} & a_{01} & a_{02} \\
+a_{10} & a_{11} & a_{12} \\
+a_{20} & a_{21} & a_{22}
+\end{bmatrix}
+\begin{bmatrix}
+n_0 \\
+n_1 \\
+n_2
+\end{bmatrix}
+= 
+\begin{bmatrix}
+a_{00}n_0 + a_{01}n_1 + a_{02}n_2 \\
+a_{10}n_0 + a_{11}n_1 + a_{12}n_2 \\
+a_{20}n_0 + a_{21}n_1 + a_{22}n_2
+\end{bmatrix}
+$$
+Each new entry is a **linear combination** of the population across age classes. In other words, for square matrices, we take the ith element of the column matrix (i.e., ith row) and multiply each entry in the ith *column* of the matrix by that value. Then we *add all those values together.* For n-by-n square matrices multiplied by a n-by-1 column vector, after you do the addition for each element, you get back a n-by-1 matrix.  
+
+## Age structure 
+
+Hastings pp16-20, Caswell 8-18
+
+If your goal was to conserve loggerhead turtles, in addition to chronicling their population dynamics enough to know they are declining, your next most-pressing question would probably be: **which of these life stage-specific threats is driving population decline, or would be most valuable to protect to help the species?** 
+
+Loggerhead sea turtles have a pretty complex life cycle so we're going to introduce these models with a simpler example and come back to turtles later. To make this as easy as possible, we're going to assume that per capita birth rate and survival rate are not affected by the number of individuals (*no density dependence*). However, they ARE affected by age. 
+
+\textcolor{green}{In the discrete-time, geometric growth case, how did we calculate R from counts of individuals observed from one time step to the next?}
+
+In our simple example, let's assume that: 
+
+* Our hypothetical organism lives for up to three years. We're going to call the individuals in their first year of life (0-364 days old) the "age 0 class",  individuals in their second year of life the "age 1 class" (just like humans: you are 1 until you turn 2), and so on. All age classes can reproduce, but their rates may differ. No individuals survive past 3, so there is no age class 3. 
+* The population has two sexes, but we are only tracking and quantifying females. (This is a not-uncommon approach in population dynamics.) 
+* Age 0 individuals have, on average, $b_0$ offspring per year (per capita). Age 1 individuals have, on average, $b_1$ offspring per year (per capita). Age 2 individuals have, on average, $b_2$ offspring per year (per capita). 
+* $s_0$ is the probability that a 0-year-old survives to become a 1-year-old. $s_1$ is the probability that a 1-year-old survives to become a 2-year-old. \textcolor{green}{(We don't need to specify a survival rate for age 2; why?)}
+* $N_t$ is the total number of individuals at time t, and it is a single value (scalar). $N_t = \sum n(t)$, where $n_t = n_0(t) + n_1(t)$. Note that these are lowercase because they are *not* total population sizes and/or because they are vectors---none of them are the same as "big N". 
+
+$n_0(t)$ is the number of offspring of 0-year-olds in year t plus the number of offspring of 1-year-olds in year t. \textcolor{green}{How would we calculate this, i.e., turn this statement into an equation?}
+
+$n_1(t)$ is the number of 0-year-olds from time t-1 that survive to time t. \textcolor{green}{How would we calculate this?}
+
+$n_2(t)$ is the number of 1-year-olds from time t-1 that survive to time t. \textcolor{green}{How would we calculate this?}
+
+Conventionally we put t+1 on the left and t on the right (rather than t-1 and t). We could also denote these $n_{0,t}$ but we put t in parentheses because having everything in the subscript gets awkward when we are in t+1 land and beyond. 
+
+$$
+n_0(t+1) = n_0(t)b_0 + n_1(t)b_1 + n_2(t)b_2
+$$
+
+$$
+n_1(t+1) = n_0(t)s_0
+$$
+
+$$
+n_2(t+1) = n_1(t)s_1
+$$
+
+\textcolor{green}{Work out what the population size is at $t+1,t+2,t+3,t+4$ if the population at $N_t$ has (A) 10 age 0 individuals, no age 1 individuals, and 5 age 2 individuals or (B) no age 0 individuals, 10 age 1 individuals, no age 2 individuals. Hint: A table with rows for the age classes and columns for the time steps will help.}
+
+The equations above can be written, much more conveniently, in matrix form. \textcolor{green}{As a group, try writing these down in matrix form, with population sizes at t+1 on one side and population sizes at t on the other.}
+
+We start by just spelling out the vectors on both sides: 
+
+$$
+\begin{bmatrix} 
+n_0(t+1) \\
+n_1(t+1) \\
+n_2(t+1)
+\end{bmatrix} = \begin{bmatrix} 
+(n_0(t)b_0 + n_1(t)b_1 + n_2(t)b_2) \\
+n_0(t)s_0 \\
+n_1(t)s_1
+\end{bmatrix}
+$$
+
+We want to factor the right-hand side into a matrix multiplied by something. If we factor out the vector of population sizes, we get:
+
+$$
+\begin{bmatrix} 
+n_0(t+1) \\
+n_1(t+1) \\
+n_2(t+1)
+\end{bmatrix} = \begin{bmatrix} 
+b_0 & b_1 & b_2 \\
+s_0 & 0 & 0 \\
+0 & s_1 & 0
+\end{bmatrix}
+\begin{bmatrix} 
+n_0(t) \\
+n_1(t) \\
+n_2(t)
+\end{bmatrix}
+$$
+
+The above is a convenient way to summarize the age-structured population dynamics. We can summarize this even more compactly by defining the matrix in the middle as **L**, which stands for Leslie matrix (one of the first people to utilize this model in ecology). Then we can state,
+
+$$
+n(t+1) = \mathbf{L}n(t)
+$$
+
+Matrix population models are generally classified by the form that **L** takes, and this is the simplest one---where **L** never changes. Nonetheless this sets us up to ask all kinds of questions about population dynamics! Your first one might be, will this age-structured population still exhibit exponential growth? It *looks* like it should, but recall that **L** is a matrix---not a scalar---and *n* is a vector. This model DOES tell us that *birth and death rates* are constant, but does that itself lead to exponential growth? 
+
+Matrix models are so popular in population dynamics because they can be used to make projections of abundance across ages. Let's look at some examples.  
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Define Leslie matrix: L[i, j] = transitions from age j to age i
+# Example: 3 age classes
+L <- matrix(c(
+  1.2, 1.5, 0.5,  # fertility row
+  0.6, 0,   0,    # survival from age 0 to 1
+  0,   0.8, 0     # survival from age 1 to 2
+), nrow = 3, byrow = TRUE)
+
+# Define time steps
+t_max <- 30
+
+# Define multiple initial population vectors
+initial_conditions <- list(
+  `n0 = [10, 0, 0]` = c(10, 0, 0),
+  `n0 = [0, 10, 0]` = c(0, 10, 0),
+  `n0 = [0, 0, 10]` = c(0, 0, 10),
+  `n0 = [10, 5, 2]` = c(10, 5, 2)
+)
+
+# Function to simulate population size over time
+simulate_leslie <- function(n0, L, steps) {
+  nt <- matrix(0, nrow = steps + 1, ncol = length(n0))
+  nt[1, ] <- n0
+  for (t in 1:steps) {
+    nt[t + 1, ] <- L %*% nt[t, ]
+  }
+  # Return total population size at each step
+  total <- rowSums(nt)
+  data.frame(
+    time = 0:steps,
+    total = total
+  )
+}
+
+# Run all simulations
+results <- lapply(names(initial_conditions), function(label) {
+  df <- simulate_leslie(initial_conditions[[label]], L, t_max)
+  df$init <- label
+  df
+})
+
+# Combine into one data frame
+df_all <- bind_rows(results)
+
+# Plot
+ggplot(df_all, aes(x = time, y = total, color = init)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Population Size Over Time",
+    subtitle = expression(paste("Matrix model: ", bold(n)(t+1) == bold("L") %*% bold(n)(t))),
+    x = "Time (t)",
+    y = "Total Population Size",
+    color = "Initial Population"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Define several Leslie matrices to compare
+leslie_matrices <- list(
+  "High fertility" = matrix(c(
+    1.8, 1.2, 0.4,
+    0.6, 0,   0,
+    0,   0.8, 0
+  ), nrow = 3, byrow = TRUE),
+
+  "High survival" = matrix(c(
+    1.2, 1.5, 0.5,
+    0.9, 0,   0,
+    0,   0.95, 0
+  ), nrow = 3, byrow = TRUE),
+
+  "Low fertility" = matrix(c(
+    0.5, 0.7, 0.2,
+    0.6, 0,   0,
+    0,   0.8, 0
+  ), nrow = 3, byrow = TRUE)
+)
+
+# Initial population vector (same for all scenarios)
+n0 <- c(10, 5, 2)
+
+# Time steps
+t_max <- 30
+
+# Function to simulate total population over time
+simulate_leslie <- function(n0, L, steps) {
+  nt <- matrix(0, nrow = steps + 1, ncol = length(n0))
+  nt[1, ] <- n0
+  for (t in 1:steps) {
+    nt[t + 1, ] <- L %*% nt[t, ]
+  }
+  total <- rowSums(nt)
+  data.frame(time = 0:steps, total = total)
+}
+
+# Run simulations for each Leslie matrix
+results <- lapply(names(leslie_matrices), function(label) {
+  df <- simulate_leslie(n0, leslie_matrices[[label]], t_max)
+  df$matrix_label <- label
+  df
+})
+
+# Combine into one data frame
+df_all <- bind_rows(results)
+
+# Plot
+ggplot(df_all, aes(x = time, y = total, color = matrix_label)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Population Size Over Time for Different Leslie Matrices",
+    subtitle = expression(paste("All simulations use ", bold(n)[0], " = [10, 5, 2]")),
+    x = "Time (t)",
+    y = "Total Population Size",
+    color = "Leslie Matrix"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+Several observations here. First---yes, this model does lead to exponential growth, even with age structure. However, both the initial population sizes and the Leslie matrix parameters affect the rate of exponential growth. Let's think more about the properties of this matrix:
 
 
+$$
+\begin{bmatrix} 
+n_0(t+1) \\
+n_1(t+1) \\
+n_2(t+1)
+\end{bmatrix} = \begin{bmatrix} 
+b_0 & b_1 & b_2 \\
+s_0 & 0 & 0 \\
+0 & s_1 & 0
+\end{bmatrix}
+\begin{bmatrix} 
+n_0(t) \\
+n_1(t) \\
+n_2(t)
+\end{bmatrix}
+$$
 
-## Age structure
+A few things to notice about the Leslie matrix:
 
-## Stage structure
+* Birth rates, or fecundity, are always in the first row. 
+* The subdiagonal contains survival fractions, or probabilites. 
+* The other entries are all zero.
+* n-by-n Leslie matrices have n eigenvalues and n eigenvectors. 
+
+These things hold for **all age-structured population models, regardless of the number of age classes, or whether we make b or s conditional on other stuff.** (They are not true for stage-structured models, which we'll get to later.) What additional stuff could b or s be conditional on? They could be driven by the environment, 
+
+$$
+n(t+1) = \mathbf{L_t}n(t)
+$$
+
+Or by the population itself (i.e., density dependence). 
+
+
+$$
+n(t+1) = \mathbf{L_n}n(t)
+$$
+
+You can imagine turning some or all of the elements of **L** into functions of population size and the environment. You could certainly make an argument that both birth and survival have a density dependence, either positive (Allee effects) or negative (logistic growth). We're not going to go that far in this class. Matrix population modeling is a whole class and field unto itself, adhering closely to Hal Caswell's phenomenal book on the topic. It also requires linear algebra techniques that not everyone came into this class with. But I very highly recommend that book if you are interested in learning more. We are going to unpack a few more properties of the simplest (exponential growth) model, and then discuss stage structure. 
+
+One thing we might want to do, similar to when we studied geometric growth in discrete time without age structure, is get a general function for $n(t)$ as a function of the initial population size $n(0)$. This allows us to explore age structure mathematically without stepping through every generation one at a time. Without age structure, we had $N(t+1) = RN_t$ and solved this to find that $N(t) = R^tN_0$. Similarly, here, we have $n(t+1) = Ln(t)$ and can deduce that $n(t) = \mathbf{L}^tn(0)$. (Convince yourself of this by looking at the equations above.) 
+
+From here, we want a simple expression for $\mathbf{L}^tn(0)$ in terms of the parameters of the Leslie matrix that we can use to understand this model better. In particular, for large values of t, it would be nice to not have to figure out what L is raised to a large exponent. To simplify this, we will now take advantage of a property of n-by-n Leslie matrices, which is that they have n eigenvalues and eigenvectors. We will denote these $\lambda$ and 
+$\overrightarrow{n}$. If this doesn't sound familiar to you from linear algebra, or even if it does, here's how they are defined: for a n-by-n matrix **M**, there are at most n (and for Leslie matrices, *exactly* n) sets of scalars and vectors for which the following is true:
+
+$$
+\mathbf{M} \overrightarrow{\mathbf{v}} = \lambda \overrightarrow{\mathbf{v}}
+$$
+
+Remember, we can't just divide both sides by v, which is a column vector. In this class we won't get into actually *finding* eigenvalues and eigenvectors, but we will use them to gain inference into age- and stage-structured models. 
+
+Here, you need to know a little trick of eigenvectors. For a set of eigenvectors, e.g., $\overrightarrow{\mathbf{v_1}} = \begin{bmatrix}1 \\0 \end{bmatrix}$ and $\overrightarrow{\mathbf{v_2}} = \begin{bmatrix}0 \\1 \end{bmatrix}$, you can state any arbitrary vector $\mathbf{x}$ as $\mathbf{x} = a_1\overrightarrow{\mathbf{v_1}} + a_2\overrightarrow{\mathbf{v_2}}$, where $a_1, a_2$ are constants you can solve for computationally. 
+
+We care about this rule because it makes the equation above, $n(t) = \mathbf{L}^tn(0)$, much more tractable. Let's call the eigenvectors of **L** $\overrightarrow{\mathbf{v_1}}, \overrightarrow{\mathbf{v_2}}, \overrightarrow{\mathbf{v_3}}$ and the eigenvalues $\lambda_1, \lambda_2, \lambda_3$. Recalling that $n(0) = [n_0 + n_1 + n_2]$, we can say that 
+
+$$
+n(0) = a_1\overrightarrow{\mathbf{v_1}} + a_2\overrightarrow{\mathbf{v_2}} + a_3\overrightarrow{\mathbf{v_3}}
+$$
+Substituting this in gives us 
+
+$$
+n(t) = \mathbf{L}^tn(0) = \mathbf{L}^t(a_1\overrightarrow{\mathbf{v_1}} + a_2\overrightarrow{\mathbf{v_2}} + a_3\overrightarrow{\mathbf{v_3}}) = \mathbf{L}^ta_1\overrightarrow{\mathbf{v_1}} + \mathbf{L}^ta_2\overrightarrow{\mathbf{v_2}} + \mathbf{L}^ta_3\overrightarrow{\mathbf{v_3}}
+$$
+
+And recall that above we defined the eigenvalue as the $\lambda$ for which **M v = $\lambda$ v**? We can therefore substitute:
+
+$$
+n(t) =  \mathbf{L}^tn(0) = a_1\lambda_1^t\overrightarrow{\mathbf{v_1}} + a_2\lambda_2^t\overrightarrow{\mathbf{v_2}} + a_3\lambda_3^t\overrightarrow{\mathbf{v_3}}
+$$
+
+Now, all of a sudden, we have the entire right-hand side of this equation expressed in terms of constants except for t. All we need to do is raise $\lambda$ to t. \textcolor{green}{As t gets large, what single value in this equation drives the population size?}
+
+It's the biggest $|\lambda|$---the **dominant eigenvalue**, which is often denoted $\lambda_1$. As time goes on, $n(t) \approx a_1\lambda_1^t\overrightarrow{\mathbf{v_1}}$. 
+
+### Stable age distribution 
+
+## Stage structure 
+
+After all this, we still aren't quite ready to build a model of the loggerhead sea turtle. That's because we've been talking about age structure, but with turtles (and many species), what really matters is *stage structure*---how many individuals are at each life stage. These aren't the same thing. Recall how turtles can be reproductive adults for decades, but their habitat use changes a lot early in life? Not only are life stages important, but turtles stay at them for multiple years, and different durations depending on the stage. We could build a giant matrix for every possible age of turtles, but we also often don't *know* their age, only their stage.  (this is true for many surveyed populations). 
+
+<!-- To prove this, let's assume that that ratio is represented by a constant $c$, such that  -->
+
+<!-- $$ -->
+<!-- n_0(t+1) = n_0(t)b_0 + cn_0(t)b_1 -->
+<!-- $$ -->
+
+<!-- and -->
+
+<!-- $$ -->
+<!-- cn_0(t+1) = n_0(t)s_0 -->
+<!-- $$ -->
+
+<!-- We now want to combine these equations and solve for $c$ by factoring out $n_0(t+1)$. Let's plug in for the left-hand side of the first equation,  -->
+
+<!-- $$ -->
+<!-- n_0(t+1) = \frac{n_0(t)s_0}{c} -->
+<!-- $$ -->
+
+<!-- And then substitute this in:  -->
+
+<!-- $$ -->
+<!-- n_0(t)b_0 + cn_0(t)b_1 = \frac{n_0(t)s_0}{c} -->
+<!-- $$ -->
+
+<!-- Simplify down to:  -->
+
+<!-- $$ -->
+<!-- b_0 + cb_1 = \frac{s_0}{c} -->
+<!-- $$ -->
+
+<!-- Or  -->
+
+<!-- $$ -->
+<!-- 0 = c^2b_1 + cb_0 - s_0 -->
+<!-- $$ -->
+
+<!-- Does this look like a familiar format? We can solve this with the *quadratic formula,* which says that for an equation of the form $0 = ax^2 + bx + c$, then $x = (-b \pm \sqrt{b^2-4ac}) / 2a$. This gives us:  -->
+
+<!-- $$ -->
+<!-- c = \frac{-b_0 \pm \sqrt{b_0^2 -4b_1s_0}}{2b_1} -->
+<!-- $$ -->
+
+
 
 # Stochasticity
 
-# Dispersal and spatial population dynamic models
+# Dispersal and spatial population dynamic models / metapopulations 
 
 # Interacting populations
 
@@ -1979,4 +2439,3 @@ That simple models in discrete time could yield chaotic dynamics at realistic va
 -   R\*
 -   Alternative stable states and hysteresis
 -   Resilience, multiple stressors, ball-and-cup theory
--   Logistic growth with lags (p92-95)
