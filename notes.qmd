@@ -1,8 +1,8 @@
 ---
 title: "Marine Population Dynamics"
-subtitle: OCEA265 
+subtitle: OCEA265, UC Santa Cruz
 author: Alexa L. Fredston
-date: April 2025
+date: Spring 2025
 format: pdf
 editor: visual
 execute:
@@ -19,6 +19,7 @@ Alexa would like to gratefully acknowledge the following sources:
 
 -   Alan Hastings' book, "Population Biology: Concepts and Models"
 -   Hal Caswell's book, "Matrix Population Models" 
+-   Nicholas J. Gotelli's book, "A Primer of Ecology"
 -   Marissa Baskett's ESP121 course notes (UC Davis)
 -   Dave Tilman's UCSB course ESM201, for which Alexa was a TA
 -   chatGPT, which generated a lot of the Quarto code for the math.
@@ -1214,6 +1215,8 @@ Great! But now ... is $qE-r$ positive or negative? \textcolor{green}{What is the
 \textcolor{green}{So, under what circumstances is this a stable equilibrium?} It's when $qE < r$, meaning that the per capita harvest rate never exceeds the population's intrinsic growth rate.
 
 Let's go back to our graph of constant effort and draw a really high effort rate. \textcolor{green}{Does this ever have a stable equilibrium?} You can see that it does not graphically, because it never intersects the growth function when it has a negative slope (meaning that $G'(\hat{N})$ would be negative).
+
+So you know, this "constant effort" model has a name in fisheries: the Schaefer model. As Marc Mangel wrote in the Theoretical Ecologist's Toolbox (p215), "The Schaefer model involves a single variable $N(t)$ denoting the biomass of the stock, logistic growth of that biomass in the absence of harvest, and harvest proportional to abundance." So---just like the MSY concept in logistic growth---this model is actually being used in natural resource management. 
 
 \textcolor{green}{Discuss:} What else might cause overfishing or collapse of a harvested population that isn't captured here?
 
@@ -2539,10 +2542,153 @@ This is, again, a Leslie matrix. It still has fecundities in the first row. Now,
 
 They estimated a $\lambda$ around 0.945; \textcolor{green}{Does this mean the population was increasing or decreasing?} They then calculated the stable age distribution (dominant eigenvector), the relative reproductive contributions of each age class at the stable age distribution, and then simulated how $\lambda$ would change if mortality at each life stage either increased or decreased drastically (representing human impacts or conservation measures). They found that the most sensitive life stages were juveniles and subadults: reducing mortality on those would tip the population into a growth phase, and increasing mortality on those would cause rapid collapse. This and a follow-up paper, Crowder et al. 1994, demonstrated that a popular conservation strategy for sea turtles---protecting nesting beaches and hatchlings---was much less effective than reducing at-sea mortality of juvenile and subadult sea turtles. This set of studies was extremely influential and led to the widespread adoption of "turtle excluder devices". 
 
+# Metapopulations 
+
+As this course has progressed we've chipped away at the unrealistic assumptions in our simplest models. Because per capita population growth is unlikely to be constant, we introduced negative density dependence (logistic model) and positive density dependence (Allee effects). We also modeled the effects of time lags, both in the continuous-time delayed logistic model and in the discrete-time Ricker model, and saw how complex dynamics can quickly arise in those models. Next, we tackled the assumption that all individuals in a population are identical, and saw how we can track population dynamics across age or stage classes separately, allowing them to have different rates of fecundity, growth, and death. 
+
+The next assumption we will tackle is that populations are homogenous and perfectly mixed across *space.* Just as individuals (or groups of individuals) have different vital rates at different ages and life stages, individuals or populations may have different vital rates in different *places*. \textcolor{green}{What are some reasons why this might be the case?}
+
+The simplest way to build this into population models is to say that rather than a single population where all individuals (of the same age / stage) are identical and can reproduce with one another, we say that there is *a set of those populations*---a **metapopulation,** or a "population of populations." We call each place occupied by one of those populations a "patch." 
+
+The biggest difference between metapopulation models and population models is that the latter describes *abundance,* or $N$, and the former describes *persistence.* Metapopulation models are commonly applied to understand the relationship between changing habitat and local extinction, or "extirpation." We don't apply them to think about how many individuals are in a patch (we can use conventional population models for that) but rather to understand what proportion of an available landscape or seascape is being occupied by any population. 
+
+Hastings only spends one page on this, so I'm instead using the introduction to metapopulations from Gotelli (Chapter 4) as well as Marissa Baskett's ESP121 notes here. 
+
+## The simplest model of patch dynamics
+
+Every patch has two states: empty or occupied. A patch becomes empty due to local extinction, and it becomes occupied due to immigration. The quantity we are interested in tracking is $p$, the fraction of occupied patches (ranges from 0 to 1). In this simplest model, let's say that all patches have the same rate of extinction (e) and immigration (m). Then:
+
+$$
+\frac{dp}{dt} = immigration - extinction
+$$
+
+In words, the *rate of change of p over time* is driven by the immigration rate minus the extinction rate. [Draw a metapopulation on the board and define p.] We define the extinction rate as e and the immigration rate as i (some textbooks use m, which can also mean mortality, which is why I'm using i). Immigrants come from an occupied patch, and can only go into an unoccupied patch. Extinctions can only happen in occupied patches. Thus, we can write this equation as:
+
+$$
+\frac{dp}{dt} = ip(1-p) - ep = p(i(1-p) - e)
+$$
+
+### Equilibria and stability 
+
+Remember how in our first population model, we said that the rate of population change over time was equal to births minus deaths? This is an analogous model, except rather than continuous turnover of individuals, there is continuous turnover of occupied patches. Just as logistic (well, all) population models are stable when births equal deaths, metapopulation models are stable when immigration equals extinction. \textcolor{green}{How would we find the equilibrium where immigration equals extinction in this case? Take a few minutes to solve the below.}
+
+$$
+0 = p(i(1-p) - e)
+$$
+
+We find two equilibria: $\hat{p} = 0$, i.e. extinction, or $\hat{p} = 1 - e/i = \frac{i-e}{i}$. Let's analyze these equilibria for stability. Once again, if $dp/dt = G(p) = 0$ it tells us about equilibria, and whether $G'(p)$ is positive or negative tells us about stability. So let's take the derivative of this equation. 
+
+$$
+G'(p) = \frac{d}{dp} ip(1-p) - ep = \frac{d}{dp} ip - ip^2 - ep = i - 2ip - e
+$$
+
+Substituting in our first equilibrium, $\hat{p} = 0$, gives us $i - e$. \textcolor{green}{Remember that the equilbrium will be stable if this value is negative. When is it negative? When is it positive? When is it zero? Is it a good thing or a bad thing if the equilibrium at $\hat{p} = 0$ is stable?} 
+
+Now let's do the equilibrium at $\hat{p} = \frac{i-e}{i}$. 
+
+$$
+i - 2i(1-e/i) - e = i - 2i + 2ie/i - e = -i + 2e - e = e - i
+$$
+
+This is stable (negative) when i > e. We could have guessed this by thinking more deeply about the $\hat{p} = 1 - e/i$ equilibrium condition: for it to lead to persistence, we'd need p > 0, or $\frac{i-e}{i} > 0$; this can be simplified to $i-e>0$, or $i>e$. This should make intuitive sense. Note that this condition doesn't mean that p goes to 1; it goes to a value determined by the ratio of extinction to immigration (aka colonization).
+
+Finally, let's draw metapopulation dynamics and see the parallels with logistic population growth. 
+
+```{r}
+library(deSolve)
+library(ggplot2)
+library(dplyr)
+
+# Metapopulation model
+metapop_model <- function(t, state, parameters) {
+  p <- state[1]
+  with(as.list(parameters), {
+    dp <- p * (i * (1 - p) - e)
+    list(c(dp))
+  })
+}
+
+# Parameter combinations
+params_list <- list(
+  list(i = 0.05, e = 0.02),
+  list(i = 0.05, e = 0.05),
+  list(i = 0.05, e = 0.08),
+  list(i = 0.1,  e = 0.02),
+  list(i = 0.1,  e = 0.08)
+)
+
+# Simulation time
+times <- seq(0, 50, by = 0.1)
+p0 <- c(p = 0.1)
+
+# Simulate all parameter combinations
+simulations <- lapply(params_list, function(pars) {
+  out <- ode(y = p0, times = times, func = metapop_model, parms = pars)
+  as.data.frame(out) |>
+    mutate(i = pars$i, e = pars$e)
+})
+
+df_all <- bind_rows(simulations)
+
+# Plot p vs t
+ggplot(df_all, aes(x = time, y = p, color = interaction(i, e))) +
+  geom_line(size = 1.1) +
+  labs(
+    title = "Metapopulation Dynamics (p vs t)",
+    x = "Time (t)",
+    y = "Fraction Occupied (p)",
+    color = "i and e"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+```{r}
+# Plot dp/dt vs p for a few i and e combinations
+dp_dt_curve <- function(p, i, e) {
+  p * (i * (1 - p) - e)
+}
+
+p_vals <- seq(0, 1, by = 0.01)
+
+# Parameter sets to show
+param_grid <- expand.grid(
+  i = c(0.05, 0.1),
+  e = c(0.02, 0.08)
+)
+
+# Evaluate dp/dt
+df_dp <- param_grid |>
+  rowwise() |>
+  do({
+    data.frame(
+      p = p_vals,
+      dpdt = dp_dt_curve(p_vals, .$i, .$e),
+      i = .$i,
+      e = .$e
+    )
+  })
+
+# Plot
+ggplot(df_dp, aes(x = p, y = dpdt, color = interaction(i, e))) +
+  geom_line(size = 1.1) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    title = expression("Rate of Change" ~ (dp/dt) ~ "vs Occupancy (p)"),
+    x = "Fraction Occupied (p)",
+    y = expression(dp/dt),
+    color = "i and e"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+## Adding dispersal 
+
+## Case study: marine reserves 
 
 # Stochasticity
 
-# Dispersal and spatial population dynamic models / metapopulations 
 
 # Interacting populations
 
