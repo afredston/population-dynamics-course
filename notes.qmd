@@ -2683,16 +2683,82 @@ ggplot(df_dp, aes(x = p, y = dpdt, color = interaction(i, e))) +
 
 ```
 
-## Adding dispersal 
+## Case study: marine reserves  
 
-## Case study: marine reserves 
+Now that we've seen how metapopulation dynamics in this simple model are analogous to logistic growth---where the fraction occupied, p, eventually stabilizes, and dp/dt goes to 0---let's add in some more complexity to resemble a marine ecosystem. To do this, we'll build from a paper entitled "Role of marine reserves in recruitment to reef fisheries: A metapopulation model" (Man *et al.* 1995 *Biological Conservation*). They start with our same definitions as above, where p is the proportion occupied; extinction is e, and the proportion of occupied patches decreases at a rate $ep$; and propagules move from occupied patches to empty ones, giving an immigration rate $ip(1-p)$. (Note that the paper uses m where we use i; I chose this notation because m also can mean mortality, so I think the paper's notation is confusing.) Thus, again, 
 
-# Stochasticity
+$$
+dp/dt = ip(1-p) - ep
+$$
 
+Man et al. make three key modifications to make this model more realistic for marine reserve planning and harvested populations. First, not all patches are equal. Some proportion of them, $q_1$, are marine reserves (no fishing or other human uses), and another proportion ($q_2$) is fished; $q_1 + q_2 = 1$. This is the main management lever of the fishery; managers can increase or decrease $q_1$. (This might sound simplistic, but it is actually a common management strategy in many parts of the world, especially data-limited settings. If you're curious about some ways this can work, read more about "territorial use rights for fishers".) In their model, exploitation (fishing) affects $e$, but not $m$. Thus they define a new $e_1$ (unfished) and $e_2$ (fished) and assume that $e_2$ is much, much bigger. (Remember last week we talked about early marine reserve theory using the "scorched earth hypothesis"---that everything dies outside of the protected area?)
+
+Next, they also divide up tracking persistence into $p_1$ and $p_2$. Being natural resource managers, they're really curious about $p_2$: how can you keep a viable population in the exploited areas just by turning the dial of "how much habitat is protected"? They do assume that individuals are equally likely to go from any occupied patch into any other occupied patch, fished or unfished, so there is just one $i$ value to track here. Let's try to derive our two equations for $dp_1/dt$ and $dp_2/dt$. 
+
+Looking at our differential equation for $dp/dt$ without any marine reserve extensions, we see there are three parts: $-ep$, which deals with extinction from occupied patches; $ip$, which tells us the rate at which individuals immigrate from occupied patches; and $1-p$, which scales that down so that only empty patches are being colonized. For marine reserves, adapting $-ep$ is straightforward; we just have $-e_1p_1$. Adapting $ip$ is also straightforward; i is still a single constant that applies to offspring produced everywhere (in either patch type), so this just becomes $i(p_1+p_2)$. How do we adjust the term $(1-p)$ to represent *only available patches that are in marine reserves*? Fortunately, we defined a quantity for this! To figure out what proportion of patches in marine reserves are unoccupied, we just take $q_1-p_1$. So this becomes 
+
+$$
+dp_1/dt = i(p_1+p_2)(q_1-p_1) - e_1p_1
+$$
+
+And the exact same equation for exploited patches, because the production of offspring is the same everywhere (the first term, $i(p_1+p_2)$); we scale that down by what proportion of exploited patches are occupied, $q_2-p_2$; and then subtract out the extinction rate in this patch type. 
+
+$$
+dp_2/dt = i(p_1+p_2)(q_2-p_2) - e_2p_2
+$$
+
+They then make a third assumption, which is that $e_1 = 0$. In other words, for harvested populations, none of them die in marine reserves. \textcolor{green}{Do you think this is true?} (They also rearrange some terms in the $dp2/dt$ equation which isn't important here.) The authors add that ideally these equations would include a time lag between the recruitment process of larvae or juveniles, i, and the process of "aging into the fishery", which is when they start counting p. They note that is computationally intractable, which I'm sure it was in 1995, but it isn't now! 
+
+Let's find the equilibrium value for $\hat{p_1}$ with the simplified equation, $dp_1/dt = i(p_1+p_2)(q_1-p_1)$. When does $dp_1/dt = 0$? What does that tell us about the long-term dynamics of this system? 
+
+### Modeling the benefits of marine reserves to fisheries 
+
+In the paper they find the equilibrium value for $\hat{p_2}$; we won't go through the math for this. But I do want to highlight how these fairly simple equations can inform strategic decisions about marine spatial planning. The best way to do this is a figure from the paper, which I'll attempt to re-draw. 
+
+![Figure 2 from Man, Law, and Polunin 1995. The intensity of fishing (c, which scales with $e_2$ and is defined as $e_2/i$) modulates the relationship between how much habitat is in marine reserves ($q_1$, x-axis) and the equilibrium proportion of occupied patches in harvested areas ($p_2$, y-axis). Dots represent the protection level that maximizes occupied areas available to fishing for a given rate of fishing mortality.](metapopulations_marine_reserves_man_bio_cons_1995.png). 
+
+This implies that if fishing mortality ($e_2$ or c) is low, there's no reason for any habitat protection. The highest occupancy rate in harvested areas occurs when zero habitat is protected. But as fishing mortality increases, the marine reserves start to serve a role in producing "spillover" to the harvested areas---and you see that for very high fishing mortality rates, *if no habitat was protected, this model predicts total extinction outside of marine reserves.* 
+
+Now, there are a lot more extensions that would make this model more realistic. \textcolor{green}{If you really wanted to know how much habitat to protect to maximize fisheries benefits, what else would you need to know?}
+
+As an interesting coda, whether marine reserves increase fish biomass *in total* is still a huge area of debate. \textcolor{green}{Why do you think this has been so difficult to prove?}
+
+The marine reserve population modeling literature is large, and the early classics are well worth a read, including: 
+
+- Botsford, Hastings, and Gaines 2001. Dependence of sustainability on the configuration of marine reserves and larval dispersal distance. *Ecology Letters.*
+- Guichard *et al.* 2004. Toward a Dynamic Metacommunity Approach to Marine Reserve Theory. *BioScience.* 
+
+# Spatial population modeling 
+
+Metapopulation models don't quantify abundance, just persistence throughout the patch network (so they also don't track individual patches). Let's say we want to track actual abundance, but still incorporate some spatial structure to our population models. It turns out that you're already able to do this---and it's a chance to start blending together the modeling approaches we've been learning. Let's work through the equations on our own. We assume:
+
+- Discrete time, logistic growth dynamics
+- Two adjacent patches, indexed A and B 
+- Three age classes. Age 0 is recruits; they don't do anything except age and die (at a constant rate, $s_0$. Age 1 is juveniles; they don't reproduce but are highly mobile. Age 2 is adults; they don't move, but they do reproduce *at a patch-specific rate*, $f_A$ and $f_B$ (you can think of this as an environmental effect, although for now let's just leave it as a constant). 
+- Movement happens between patches at a fixed rate, $d$, which stands for diffusion. 
+
+\textcolor{green}{Together, let's write down a system of equations for the three age classes each year ($n_0(t+1)$ and so on).}
+
+If we have time, discuss and try extending these equations to additional complexities, such as density dependence (possibly with a patch-specific carrying capacity), more than two patches, fishing mortality, etc. 
 
 # Interacting populations
 
-# Coexistence
+We've already started to write down equations for multiple age classes or life stages; multiple patches and populations; and multiple forms of population growth. Now and for the next few weeks, we're going to consider some models of multiple interacting species. 
+
+First, I think it's worth interrogating---why do we need multispecies models at all? What can they capture that we couldn't represent with single-species models? \textcolor{green}{Try to come up with a list of ecological processes that we can't simplify down to exogenous effects on single poopulations.}
+
+Core feature of multispecies models are:
+
+- We are representing populations that are interacting, and 
+- Those populations are from different species *with different relevant traits.* 
+
+If the two populations have identical traits for all of the variables that matter, then we shouldn't care that they are from two species! For example, if we're modeling phytoplankton growth over time and every species has the exact same carrying capacity, intrinsic growth rate, and life history, then *it does not matter that they are different species* (or might have different, unrelated traits; maybe one is blue and one is pink). We could just model them jointly as one population. (Thanks are very much due to Chuliang Song at UCLA for fascinating conversations about this test for ecological models---if different species have identical traits, do they give the same results as if you modeled them as a single population?---at the 2025 American Society of Naturalists meeting in Asilomar, CA.)
+
+So by extension, our goal here is to understand: what happens when populations of species with different traits interact? 
+
+## Lotka-Volterra 
+
+# Coexistence and competition: are species good or bad for one another? 
 
 # Applications of population modeling to management and research
 
