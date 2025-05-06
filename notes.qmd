@@ -18,7 +18,7 @@ library(dplyr)
 Alexa would like to gratefully acknowledge the following sources:
 
 -   Alan Hastings' book, "Population Biology: Concepts and Models"
--   Hal Caswell's book, "Matrix Population Models" 
+-   Hal Caswell's book, "Matrix Population Models"
 -   Nicholas J. Gotelli's book, "A Primer of Ecology"
 -   Marissa Baskett's ESP121 course notes (UC Davis)
 -   Dave Tilman's UCSB course ESM201, for which Alexa was a TA
@@ -1216,7 +1216,7 @@ Great! But now ... is $qE-r$ positive or negative? \textcolor{green}{What is the
 
 Let's go back to our graph of constant effort and draw a really high effort rate. \textcolor{green}{Does this ever have a stable equilibrium?} You can see that it does not graphically, because it never intersects the growth function when it has a negative slope (meaning that $G'(\hat{N})$ would be negative).
 
-So you know, this "constant effort" model has a name in fisheries: the Schaefer model. As Marc Mangel wrote in the Theoretical Ecologist's Toolbox (p215), "The Schaefer model involves a single variable $N(t)$ denoting the biomass of the stock, logistic growth of that biomass in the absence of harvest, and harvest proportional to abundance." So---just like the MSY concept in logistic growth---this model is actually being used in natural resource management. 
+So you know, this "constant effort" model has a name in fisheries: the Schaefer model. As Marc Mangel wrote in the Theoretical Ecologist's Toolbox (p215), "The Schaefer model involves a single variable $N(t)$ denoting the biomass of the stock, logistic growth of that biomass in the absence of harvest, and harvest proportional to abundance." So---just like the MSY concept in logistic growth---this model is actually being used in natural resource management.
 
 \textcolor{green}{Discuss:} What else might cause overfishing or collapse of a harvested population that isn't captured here?
 
@@ -1956,17 +1956,17 @@ This is also consistent with our mathematical condition for stability in the Ric
 
 That simple models in discrete time could yield chaotic dynamics at realistic values of r was a surprising discovery (see May, 1974). We now suspect that many systems have chaotic dynamics, particularly plankton systems (lots to read about this if you're interested.) \textcolor{green}{Reflect and then share:} If chaos is common in simple population models, what does that mean for the predictability of the real world?
 
-# Age and stage structure 
+# Age and stage structure
 
 \textcolor{green}{Discuss:} Up to this point we've been assuming all individuals in a population are the same. What are some ways in which that might not be true? What might vary among individuals, and how might that variation affect population dynamics?
 
 ### The loggerhead sea turtle scenario
 
-Loggerhead sea turtles, *Caretta caretta*, are large marine reptiles found in the Atlantic, Pacific, and Indian Oceans as well as the Mediterranean. This species has a complex life cycle with very different behavior and reproductive activity by life stage. Females mate every 2-3 years and then nest on beaches close to where they themselves hatched. They do not tend to their eggs, which hatch after several months. Hatchlings then make their way to the water, where they disperse into the open ocean. As they grow larger they often reappear in coastal habitats, frequenting lagoons and estuaries. Females do not reach sexual maturity until they are around 35 years old. Loggerheads can live more than 80 years and are often over a meter long. 
+Loggerhead sea turtles, *Caretta caretta*, are large marine reptiles found in the Atlantic, Pacific, and Indian Oceans as well as the Mediterranean. This species has a complex life cycle with very different behavior and reproductive activity by life stage. Females mate every 2-3 years and then nest on beaches close to where they themselves hatched. They do not tend to their eggs, which hatch after several months. Hatchlings then make their way to the water, where they disperse into the open ocean. As they grow larger they often reappear in coastal habitats, frequenting lagoons and estuaries. Females do not reach sexual maturity until they are around 35 years old. Loggerheads can live more than 80 years and are often over a meter long.
 
-As you can see, modeling loggerheads as a population of identical individuals who all reproduce at the same rate is probably a bad assumption. Also, loggerhead populations are generally declining worldwide. Their different life stages face very different threats. Adults are often killed by boat strikes, fishing gear entanglements, or marine debris. Habitat degradation is common in coastal areas, which is particularly harmful to species like loggerheads that return to the beaches where they hatched. Turtle sex is determined by the temperature during incubation, so climate change will likely alter the sex ratio of this species. Human activity on or near beaches poses a risk to eggs (which can be destroyed easily) and hatchlings (which may not reach the water, especially if they are disoriented by artificial light). 
+As you can see, modeling loggerheads as a population of identical individuals who all reproduce at the same rate is probably a bad assumption. Also, loggerhead populations are generally declining worldwide. Their different life stages face very different threats. Adults are often killed by boat strikes, fishing gear entanglements, or marine debris. Habitat degradation is common in coastal areas, which is particularly harmful to species like loggerheads that return to the beaches where they hatched. Turtle sex is determined by the temperature during incubation, so climate change will likely alter the sex ratio of this species. Human activity on or near beaches poses a risk to eggs (which can be destroyed easily) and hatchlings (which may not reach the water, especially if they are disoriented by artificial light).
 
-## Matrix refresher 
+## Matrix refresher
 
 A **matrix** is a rectangular array of numbers. For example, a $2 \times 3$ matrix has 2 rows and 3 columns:
 
@@ -1979,10 +1979,10 @@ $$
 
 We usually denote a matrix with uppercase letters (e.g., $A$, $B$), and its elements with lowercase letters and subscripts, like $a_{ij}$ for the element in row $i$ and column $j$.
 
-- A matrix with $m$ rows and $n$ columns is called an **$m \times n$ matrix** (rows always go first!)
-- A one-dimensional matrix is called a **vector** (this should sound familiar from computing) 
-- A **column vector** is a matrix with size $n \times 1$
-- A **row vector** is $1 \times n$
+-   A matrix with $m$ rows and $n$ columns is called an $m \times n$ matrix (rows always go first!)
+-   A one-dimensional matrix is called a **vector** (this should sound familiar from computing)
+-   A **column vector** is a matrix with size $n \times 1$
+-   A **row vector** is $1 \times n$
 
 For example, a population vector tracking three age classes might look like:
 
@@ -1994,7 +1994,7 @@ n_2
 \end{bmatrix}
 $$
 
-Here, we aren't saying anything about *how to get from the matrix to a single number.* If we wanted to state **n** as the sum of the three age classes here we would just do that. Rather we're saying that this matrix *holds* entries for each age class. We're going to use matrices to track age-structured populations, because they're a tidy way to hold information about multiple ages (or stages) without transforming it (like summing it or averaging it, which we don't necessarily want to do---which is why we're moving away from calculating a single N). 
+Here, we aren't saying anything about *how to get from the matrix to a single number.* If we wanted to state **n** as the sum of the three age classes here we would just do that. Rather we're saying that this matrix *holds* entries for each age class. We're going to use matrices to track age-structured populations, because they're a tidy way to hold information about multiple ages (or stages) without transforming it (like summing it or averaging it, which we don't necessarily want to do---which is why we're moving away from calculating a single N).
 
 Now, let's refresh matrix operations. You can add or subtract matrices to/from one another **only if they have the same dimensions**. You add corresponding elements (matrix elements with the same position):
 
@@ -2035,8 +2035,7 @@ A - B = \begin{bmatrix}
 -4 & -4 \\
 -4 & -4
 \end{bmatrix}
-$$
-The above is called **matrix addition or subtraction**. Mathematically, you aren't supposed to just add or subtract scalars (single values); i.e., $A + 5$ is an illegal operation because a matrix is an array of numbers and a scalar is not. You can do this operation in lots of programming languages though, and in practice it typically adds the scalar elementwise (separately to every element of the matrix, i.e., adding 5 to every value in A.)
+$$ The above is called **matrix addition or subtraction**. Mathematically, you aren't supposed to just add or subtract scalars (single values); i.e., $A + 5$ is an illegal operation because a matrix is an array of numbers and a scalar is not. You can do this operation in lots of programming languages though, and in practice it typically adds the scalar elementwise (separately to every element of the matrix, i.e., adding 5 to every value in A.)
 
 **Matrix multiplication** is a little more complicated, so we'll split this into three parts: *matrix-scalar, matrix-vector, and matrix-matrix multiplication.* You can multiply a matrix by a single number (scalar) by multiplying **every entry** in the matrix:
 
@@ -2083,26 +2082,25 @@ a_{00}n_0 + a_{01}n_1 + a_{02}n_2 \\
 a_{10}n_0 + a_{11}n_1 + a_{12}n_2 \\
 a_{20}n_0 + a_{21}n_1 + a_{22}n_2
 \end{bmatrix}
-$$
-Each new entry is a **linear combination** of the population across age classes. In other words, for square matrices, we take the ith element of the column matrix (i.e., ith row) and multiply each entry in the ith *column* of the matrix by that value. Then we *add all those values together.* For n-by-n square matrices multiplied by a n-by-1 column vector, after you do the addition for each element, you get back a n-by-1 matrix.  
+$$ Each new entry is a **linear combination** of the population across age classes. In other words, for square matrices, we take the ith element of the column matrix (i.e., ith row) and multiply each entry in the ith *column* of the matrix by that value. Then we *add all those values together.* For n-by-n square matrices multiplied by a n-by-1 column vector, after you do the addition for each element, you get back a n-by-1 matrix.
 
-## Age structure 
+## Age structure
 
 Hastings pp16-20, Caswell 8-18
 
-If your goal was to conserve loggerhead turtles, in addition to chronicling their population dynamics enough to know they are declining, your next most-pressing question would probably be: **which of these life stage-specific threats is driving population decline, or would be most valuable to protect to help the species?** 
+If your goal was to conserve loggerhead turtles, in addition to chronicling their population dynamics enough to know they are declining, your next most-pressing question would probably be: **which of these life stage-specific threats is driving population decline, or would be most valuable to protect to help the species?**
 
-Loggerhead sea turtles have a pretty complex life cycle so we're going to introduce these models with a simpler example and come back to turtles later. To make this as easy as possible, we're going to assume that per capita birth rate and survival rate are not affected by the number of individuals (*no density dependence*). However, they ARE affected by age. 
+Loggerhead sea turtles have a pretty complex life cycle so we're going to introduce these models with a simpler example and come back to turtles later. To make this as easy as possible, we're going to assume that per capita birth rate and survival rate are not affected by the number of individuals (*no density dependence*). However, they ARE affected by age.
 
 \textcolor{green}{In the discrete-time, geometric growth case, how did we calculate R from counts of individuals observed from one time step to the next?}
 
-In our simple example, let's assume that: 
+In our simple example, let's assume that:
 
-* Our hypothetical organism lives for up to three years. We're going to call the individuals in their first year of life (0-364 days old) the "age 0 class",  individuals in their second year of life the "age 1 class" (just like humans: you are 1 until you turn 2), and so on. All age classes can reproduce, but their rates may differ. No individuals survive past 3, so there is no age class 3. 
-* The population has two sexes, but we are only tracking and quantifying females. (This is a not-uncommon approach in population dynamics.) 
-* Age 0 individuals have, on average, $f_0$ offspring per year (per capita). Age 1 individuals have, on average, $f_1$ offspring per year (per capita). Age 2 individuals have, on average, $f_2$ offspring per year (per capita). These f's stand for *fecundity* or *fertility*, which are basically technical terms for average offspring per year. 
-* $p_0$ is the probability that a 0-year-old survives to become a 1-year-old. $p_1$ is the probability that a 1-year-old survives to become a 2-year-old. \textcolor{green}{(We don't need to specify a survival rate for age 2; why?)}
-* $N_t$ is the total number of individuals at time t, and it is a single value (scalar). $N_t = \sum n(t)$, where $n_t = n_0(t) + n_1(t)$. Note that these are lowercase because they are *not* total population sizes and/or because they are vectors---none of them are the same as "big N". 
+-   Our hypothetical organism lives for up to three years. We're going to call the individuals in their first year of life (0-364 days old) the "age 0 class", individuals in their second year of life the "age 1 class" (just like humans: you are 1 until you turn 2), and so on. All age classes can reproduce, but their rates may differ. No individuals survive past 3, so there is no age class 3.
+-   The population has two sexes, but we are only tracking and quantifying females. (This is a not-uncommon approach in population dynamics.)
+-   Age 0 individuals have, on average, $f_0$ offspring per year (per capita). Age 1 individuals have, on average, $f_1$ offspring per year (per capita). Age 2 individuals have, on average, $f_2$ offspring per year (per capita). These f's stand for *fecundity* or *fertility*, which are basically technical terms for average offspring per year.
+-   $p_0$ is the probability that a 0-year-old survives to become a 1-year-old. $p_1$ is the probability that a 1-year-old survives to become a 2-year-old. \textcolor{green}{(We don't need to specify a survival rate for age 2; why?)}
+-   $N_t$ is the total number of individuals at time t, and it is a single value (scalar). $N_t = \sum n(t)$, where $n_t = n_0(t) + n_1(t)$. Note that these are lowercase because they are *not* total population sizes and/or because they are vectors---none of them are the same as "big N".
 
 $n_0(t)$ is the number of offspring of 0-year-olds in year t plus the number of offspring of 1-year-olds in year t. \textcolor{green}{How would we calculate this, i.e., turn this statement into an equation?}
 
@@ -2110,7 +2108,7 @@ $n_1(t)$ is the number of 0-year-olds from time t-1 that survive to time t. \tex
 
 $n_2(t)$ is the number of 1-year-olds from time t-1 that survive to time t. \textcolor{green}{How would we calculate this?}
 
-Conventionally we put t+1 on the left and t on the right (rather than t-1 and t). We could also denote these $n_{0,t}$ but we put t in parentheses because having everything in the subscript gets awkward when we are in t+1 land and beyond. 
+Conventionally we put t+1 on the left and t on the right (rather than t-1 and t). We could also denote these $n_{0,t}$ but we put t in parentheses because having everything in the subscript gets awkward when we are in t+1 land and beyond.
 
 $$
 n_0(t+1) = n_0(t)f_0 + n_1(t)f_1 + n_2(t)f_2
@@ -2128,7 +2126,7 @@ $$
 
 The equations above can be written, much more conveniently, in matrix form. \textcolor{green}{As a group, try writing these down in matrix form, with population sizes at t+1 on one side and population sizes at t on the other.}
 
-We start by just spelling out the vectors on both sides: 
+We start by just spelling out the vectors on both sides:
 
 $$
 \begin{bmatrix} 
@@ -2167,9 +2165,9 @@ $$
 n(t+1) = \mathbf{L}n(t)
 $$
 
-Matrix population models are generally classified by the form that **L** takes, and this is the simplest one---where **L** never changes. Nonetheless this sets us up to ask all kinds of questions about population dynamics! Your first one might be, will this age-structured population still exhibit exponential growth? It *looks* like it should, but recall that **L** is a matrix---not a scalar---and *n* is a vector. This model DOES tell us that *birth and death rates* are constant, but does that itself lead to exponential growth? 
+Matrix population models are generally classified by the form that **L** takes, and this is the simplest one---where **L** never changes. Nonetheless this sets us up to ask all kinds of questions about population dynamics! Your first one might be, will this age-structured population still exhibit exponential growth? It *looks* like it should, but recall that **L** is a matrix---not a scalar---and *n* is a vector. This model DOES tell us that *birth and death rates* are constant, but does that itself lead to exponential growth?
 
-Matrix models are so popular in population dynamics because they can be used to make projections of abundance across ages. Let's look at some examples.  
+Matrix models are so popular in population dynamics because they can be used to make projections of abundance across ages. Let's look at some examples.
 
 ```{r}
 library(ggplot2)
@@ -2303,7 +2301,6 @@ ggplot(df_all, aes(x = time, y = total, color = matrix_label)) +
 
 Several observations here. First---yes, this model does lead to exponential growth, even with age structure. However, both the initial population sizes and the Leslie matrix parameters affect the rate of exponential growth. Let's think more about the properties of this matrix:
 
-
 $$
 \begin{bmatrix} 
 n_0(t+1) \\
@@ -2323,53 +2320,50 @@ $$
 
 A few things to notice about the Leslie matrix:
 
-* Birth rates, or fecundity, are always in the first row. 
-* The subdiagonal contains survival fractions, or probabilites. 
-* The other entries are all zero.
-* n-by-n Leslie matrices have n eigenvalues and n eigenvectors. 
+-   Birth rates, or fecundity, are always in the first row.
+-   The subdiagonal contains survival fractions, or probabilites.
+-   The other entries are all zero.
+-   n-by-n Leslie matrices have n eigenvalues and n eigenvectors.
 
-These things hold for **all age-structured population models, regardless of the number of age classes, or whether we make b or s conditional on other stuff.** (They are not true for stage-structured models, which we'll get to later.) What additional stuff could b or s be conditional on? They could be driven by the environment, 
+These things hold for **all age-structured population models, regardless of the number of age classes, or whether we make b or s conditional on other stuff.** (They are not true for stage-structured models, which we'll get to later.) What additional stuff could b or s be conditional on? They could be driven by the environment,
 
 $$
 n(t+1) = \mathbf{L_t}n(t)
 $$
 
-Or by the population itself (i.e., density dependence). 
-
+Or by the population itself (i.e., density dependence).
 
 $$
 n(t+1) = \mathbf{L_n}n(t)
 $$
 
-You can imagine turning some or all of the elements of **L** into functions of population size and the environment. You could certainly make an argument that both birth and survival have a density dependence, either positive (Allee effects) or negative (logistic growth). We're not going to go that far in this class. Matrix population modeling is a whole class and field unto itself, adhering closely to Hal Caswell's phenomenal book on the topic. It also requires linear algebra techniques that not everyone came into this class with. But I very highly recommend that book if you are interested in learning more. We are going to unpack a few more properties of the simplest (exponential growth) model, and then discuss stage structure. 
+You can imagine turning some or all of the elements of **L** into functions of population size and the environment. You could certainly make an argument that both birth and survival have a density dependence, either positive (Allee effects) or negative (logistic growth). We're not going to go that far in this class. Matrix population modeling is a whole class and field unto itself, adhering closely to Hal Caswell's phenomenal book on the topic. It also requires linear algebra techniques that not everyone came into this class with. But I very highly recommend that book if you are interested in learning more. We are going to unpack a few more properties of the simplest (exponential growth) model, and then discuss stage structure.
 
-### Dominant eigenvalues and eigenvectors 
+### Dominant eigenvalues and eigenvectors
 
-One thing we might want to do, similar to when we studied geometric growth in discrete time without age structure, is get a general function for $n(t)$ as a function of the initial population size $n(0)$. This allows us to explore age structure mathematically without stepping through every generation one at a time. Without age structure, we had $N(t+1) = RN_t$ and solved this to find that $N(t) = R^tN_0$. Similarly, here, we have $n(t+1) = Ln(t)$ and can deduce that $n(t) = \mathbf{L}^tn(0)$. (Convince yourself of this by looking at the equations above.) 
+One thing we might want to do, similar to when we studied geometric growth in discrete time without age structure, is get a general function for $n(t)$ as a function of the initial population size $n(0)$. This allows us to explore age structure mathematically without stepping through every generation one at a time. Without age structure, we had $N(t+1) = RN_t$ and solved this to find that $N(t) = R^tN_0$. Similarly, here, we have $n(t+1) = Ln(t)$ and can deduce that $n(t) = \mathbf{L}^tn(0)$. (Convince yourself of this by looking at the equations above.)
 
-From here, we want a simple expression for $\mathbf{L}^tn(0)$ in terms of the parameters of the Leslie matrix that we can use to understand this model better. In particular, for large values of t, it would be nice to not have to figure out what L is raised to a large exponent. To simplify this, we will now take advantage of a property of n-by-n Leslie matrices, which is that they have n eigenvalues and eigenvectors. We will denote these $\lambda$ and 
-$\overrightarrow{n}$. If this doesn't sound familiar to you from linear algebra, or even if it does, here's how they are defined: for a n-by-n matrix **M**, there are at most n (and for Leslie matrices, *exactly* n) sets of scalars and vectors for which the following is true:
+From here, we want a simple expression for $\mathbf{L}^tn(0)$ in terms of the parameters of the Leslie matrix that we can use to understand this model better. In particular, for large values of t, it would be nice to not have to figure out what L is raised to a large exponent. To simplify this, we will now take advantage of a property of n-by-n Leslie matrices, which is that they have n eigenvalues and eigenvectors. We will denote these $\lambda$ and $\overrightarrow{n}$. If this doesn't sound familiar to you from linear algebra, or even if it does, here's how they are defined: for a n-by-n matrix **M**, there are at most n (and for Leslie matrices, *exactly* n) sets of scalars and vectors for which the following is true:
 
 $$
 \mathbf{M} \overrightarrow{\mathbf{v}} = \lambda \overrightarrow{\mathbf{v}}
 $$
 
-Remember, we can't just divide both sides by v, which is a column vector. In this class we won't get into actually *finding* eigenvalues and eigenvectors, but we will use them to gain inference into age- and stage-structured models. 
+Remember, we can't just divide both sides by v, which is a column vector. In this class we won't get into actually *finding* eigenvalues and eigenvectors, but we will use them to gain inference into age- and stage-structured models.
 
-Here, you need to know a little trick of eigenvectors. For a set of eigenvectors, e.g., $\overrightarrow{\mathbf{v_1}} = \begin{bmatrix}1 \\0 \end{bmatrix}$ and $\overrightarrow{\mathbf{v_2}} = \begin{bmatrix}0 \\1 \end{bmatrix}$, you can state any arbitrary vector $\mathbf{x}$ as $\mathbf{x} = a_1\overrightarrow{\mathbf{v_1}} + a_2\overrightarrow{\mathbf{v_2}}$, where $a_1, a_2$ are constants you can solve for computationally. 
+Here, you need to know a little trick of eigenvectors. For a set of eigenvectors, e.g., $\overrightarrow{\mathbf{v_1}} = \begin{bmatrix}1 \\0 \end{bmatrix}$ and $\overrightarrow{\mathbf{v_2}} = \begin{bmatrix}0 \\1 \end{bmatrix}$, you can state any arbitrary vector $\mathbf{x}$ as $\mathbf{x} = a_1\overrightarrow{\mathbf{v_1}} + a_2\overrightarrow{\mathbf{v_2}}$, where $a_1, a_2$ are constants you can solve for computationally.
 
-We care about this rule because it makes the equation above, $n(t) = \mathbf{L}^tn(0)$, much more tractable. Let's call the eigenvectors of **L** $\overrightarrow{\mathbf{v_1}}, \overrightarrow{\mathbf{v_2}}, \overrightarrow{\mathbf{v_3}}$ and the eigenvalues $\lambda_1, \lambda_2, \lambda_3$. Recalling that $n(0) = [n_0 + n_1 + n_2]$, we can say that 
+We care about this rule because it makes the equation above, $n(t) = \mathbf{L}^tn(0)$, much more tractable. Let's call the eigenvectors of **L** $\overrightarrow{\mathbf{v_1}}, \overrightarrow{\mathbf{v_2}}, \overrightarrow{\mathbf{v_3}}$ and the eigenvalues $\lambda_1, \lambda_2, \lambda_3$. Recalling that $n(0) = [n_0 + n_1 + n_2]$, we can say that
 
 $$
 n(0) = a_1\overrightarrow{\mathbf{v_1}} + a_2\overrightarrow{\mathbf{v_2}} + a_3\overrightarrow{\mathbf{v_3}}
-$$
-Substituting this in gives us 
+$$ Substituting this in gives us
 
 $$
 n(t) = \mathbf{L}^tn(0) = \mathbf{L}^t(a_1\overrightarrow{\mathbf{v_1}} + a_2\overrightarrow{\mathbf{v_2}} + a_3\overrightarrow{\mathbf{v_3}}) = \mathbf{L}^ta_1\overrightarrow{\mathbf{v_1}} + \mathbf{L}^ta_2\overrightarrow{\mathbf{v_2}} + \mathbf{L}^ta_3\overrightarrow{\mathbf{v_3}}
 $$
 
-And recall that above we defined the eigenvalue as the $\lambda$ for which **M v = $\lambda$ v**? We can therefore substitute:
+And recall that above we defined the eigenvalue as the $\lambda$ for which **M v =** $\lambda$ v? We can therefore substitute:
 
 $$
 n(t) =  \mathbf{L}^tn(0) = a_1\lambda_1^t\overrightarrow{\mathbf{v_1}} + a_2\lambda_2^t\overrightarrow{\mathbf{v_2}} + a_3\lambda_3^t\overrightarrow{\mathbf{v_3}}
@@ -2377,19 +2371,19 @@ $$
 
 Now, all of a sudden, we have the entire right-hand side of this equation expressed in terms of constants except for t. All we need to do is raise $\lambda$ to t. \textcolor{green}{As t gets large, what single value in this equation drives the population size?}
 
-It's the biggest $|\lambda|$---the **dominant eigenvalue**, which is often denoted $\lambda_1$. As time goes on, $n(t) \approx a_1\lambda_1^t\overrightarrow{\mathbf{v_1}}$. This tells us that a single eigenvalue drives the long-term population growth (or decline) rate, and encodes a combined effect of birth and death. **When $\lambda$ < 1, the population is declining exponentially/geometrically; when $\lambda > 1$, it's increasing.** 
+It's the biggest $|\lambda|$---the **dominant eigenvalue**, which is often denoted $\lambda_1$. As time goes on, $n(t) \approx a_1\lambda_1^t\overrightarrow{\mathbf{v_1}}$. This tells us that a single eigenvalue drives the long-term population growth (or decline) rate, and encodes a combined effect of birth and death. **When** $\lambda$ \< 1, the population is declining exponentially/geometrically; when $\lambda > 1$, it's increasing.
 
 \textcolor{green}{Assuming you could calculate the eigenvectors, eigenvalues, and coefficients, what kind of biological questions could you explore with this model? }
 
-### Stable age distribution 
+### Stable age distribution
 
-We talked about the intuition behind the dominant eigenvalue: it determines long-term population change and approximates the combined effect of birth and death. What's the intuition behind the associated eigenvector, $\overrightarrow{\mathbf{v_1}}$? 
+We talked about the intuition behind the dominant eigenvalue: it determines long-term population change and approximates the combined effect of birth and death. What's the intuition behind the associated eigenvector, $\overrightarrow{\mathbf{v_1}}$?
 
-It turns out that in a scenario like the on we've been exploring---with constant birth and death rates given by **L**, that do not change over time---the population approaches a *stable age distribution.* This is actually a corollary of the population having a unique, constant growth rate that is not dependent on time or population size. For this to be the case, each age class must also have a constant growth rate---i.e., must make the same *per capita* contribution to the population every year. The growth rate would not be constant from one year to the next if the relative contributions of, for example, age 0 and age 1 individuals changed. 
+It turns out that in a scenario like the on we've been exploring---with constant birth and death rates given by **L**, that do not change over time---the population approaches a *stable age distribution.* This is actually a corollary of the population having a unique, constant growth rate that is not dependent on time or population size. For this to be the case, each age class must also have a constant growth rate---i.e., must make the same *per capita* contribution to the population every year. The growth rate would not be constant from one year to the next if the relative contributions of, for example, age 0 and age 1 individuals changed.
 
-This is NOT THE SAME as a stable population size; as we saw in the plots earlier, these populations will exhibit exponential growth or decline. However, as they grow away from the initial conditions, they will move toward a constant *ratio of age classes*. **This is the stable age distribution, and it is given by $\overrightarrow{\mathbf{v_1}}$.** 
+This is NOT THE SAME as a stable population size; as we saw in the plots earlier, these populations will exhibit exponential growth or decline. However, as they grow away from the initial conditions, they will move toward a constant *ratio of age classes*. **This is the stable age distribution, and it is given by** $\overrightarrow{\mathbf{v_1}}$.
 
-Again, while this model doesn't actually describe many real-world populations, it can be helpful to delve into the stable age distribution to understand which life stages dominate long-term dynamics and how deviations from the stable age distribution arise and affect long-term dynamics. The Hastings textbook goes into detail on how this stable age distribution arises and demonstrates mathematically why it's stable; I'll skip this but feel free to look it up. 
+Again, while this model doesn't actually describe many real-world populations, it can be helpful to delve into the stable age distribution to understand which life stages dominate long-term dynamics and how deviations from the stable age distribution arise and affect long-term dynamics. The Hastings textbook goes into detail on how this stable age distribution arises and demonstrates mathematically why it's stable; I'll skip this but feel free to look it up.
 
 ```{r}
 # Load libraries
@@ -2438,12 +2432,11 @@ ggplot(df_long, aes(x = Time, y = Proportion, color = Age)) +
 
 ```
 
-## Stage structure 
+## Stage structure
 
-After all this, we still aren't quite ready to build a model of the loggerhead sea turtle. That's because we've been talking about age structure, but with turtles (and many species), what really matters is *stage structure*---how many individuals are at each life stage. These aren't the same thing. Recall how turtles can be reproductive adults for decades, but their habitat use changes a lot early in life? Not only are life stages important, but turtles stay at them for multiple years, and different durations depending on the stage. We could build a giant matrix for every possible age of turtles, but we also often don't *know* their age, only their stage. (This is true for many surveyed populations). 
+After all this, we still aren't quite ready to build a model of the loggerhead sea turtle. That's because we've been talking about age structure, but with turtles (and many species), what really matters is *stage structure*---how many individuals are at each life stage. These aren't the same thing. Recall how turtles can be reproductive adults for decades, but their habitat use changes a lot early in life? Not only are life stages important, but turtles stay at them for multiple years, and different durations depending on the stage. We could build a giant matrix for every possible age of turtles, but we also often don't *know* their age, only their stage. (This is true for many surveyed populations).
 
-To model stage structure we introduce a little more complexity to our matrix models (Caswell pp56-). The easiest way to start understanding this is graphically. Let's sketch a diagram of the population we described above. 
-
+To model stage structure we introduce a little more complexity to our matrix models (Caswell pp56-). The easiest way to start understanding this is graphically. Let's sketch a diagram of the population we described above.
 
 ```{r}
 webshot::install_phantomjs()
@@ -2482,11 +2475,9 @@ digraph lifecycle {
 
 This is a graphical representation of the population model we wrote down in our simplest example. \textcolor{green}{What key change do we need to make to transition to a stage-structured model?}
 
-In a stage-structured model, individuals don't transition states (the big circles) in every time step. Some of them will move on to the next stage, but a proportion of them will stay at the same stage. (In Caswell's book, he calls these "size classes", because that's often how we measure them---especially in natural resource applications, like fisheries and forestry.) To describe this, we need to introduce another set of parameters: $g_0, g_1$, etc., which represent the probability an individual *survives and grows to the next stage.* (We still also have $p_0, p_1$, etc. in this model; those now represent the probability that an individual *survives and stays at the same stage.*) Note that these don't sum to 1, because there are a bunch of individuals that die in every time step. In all of our discussions of stage-structured models, we'll assume that individuals can't skip stages; to get from stage 0 to 2, they have to go through 1 first. 
+In a stage-structured model, individuals don't transition states (the big circles) in every time step. Some of them will move on to the next stage, but a proportion of them will stay at the same stage. (In Caswell's book, he calls these "size classes", because that's often how we measure them---especially in natural resource applications, like fisheries and forestry.) To describe this, we need to introduce another set of parameters: $g_0, g_1$, etc., which represent the probability an individual *survives and grows to the next stage.* (We still also have $p_0, p_1$, etc. in this model; those now represent the probability that an individual *survives and stays at the same stage.*) Note that these don't sum to 1, because there are a bunch of individuals that die in every time step. In all of our discussions of stage-structured models, we'll assume that individuals can't skip stages; to get from stage 0 to 2, they have to go through 1 first.
 
 \textcolor{green}{Try adapting the figure above to include this additional complexity, for a population with three stages but a lot of ages. Start by re-labeling the circles stages, not ages, and then think about how to add or change arrows. }
-
-
 
 ```{r}
 
@@ -2525,10 +2516,9 @@ digraph lifecycle {
 
 Now do you see the advantage of stage-structured models? This could be an organism that lives for 50 years, but so long as we can identify the life stages *that have different birth, death, growth, or other vital rates,* we can vastly simplify the model. In the textbook there's an example of an actual stage-structured model for killer whales. They have four life stages. Stage 0 lasts for less than a year, so there is no probability of staying in that stage. Killer whales only reproduce in stages 1 and 2. \textcolor{green}{Try drawing a life cycle graph of this killer whale population model.}
 
-Now let's move onto the matrix representations of these models. We can still state that $\mathbf{n}(t+1) = \mathbf{An}(t)$. The only difference from the age-structured example above is that the matrix is slightly different (see below) and $\mathbf{n}$ is now a vector of *stage* abundances (not age). 
+Now let's move onto the matrix representations of these models. We can still state that $\mathbf{n}(t+1) = \mathbf{An}(t)$. The only difference from the age-structured example above is that the matrix is slightly different (see below) and $\mathbf{n}$ is now a vector of *stage* abundances (not age).
 
-How do we get this matrix? First of all, it will be a n-by-n matrix, where n is the number of stages. You can actually populate the entire matrix from the diagrams we've drawn. The element $a_{i,j}$ is given by the arrow in our life cycle graph from stage j to stage i. (The direction is important here; it's j --> i, not i --> j.) \textcolor{green}{For the three-stage example, try filling in **A.**}
-
+How do we get this matrix? First of all, it will be a n-by-n matrix, where n is the number of stages. You can actually populate the entire matrix from the diagrams we've drawn. The element $a_{i,j}$ is given by the arrow in our life cycle graph from stage j to stage i. (The direction is important here; it's j --\> i, not i --\> j.) \textcolor{green}{For the three-stage example, try filling in **A.**}
 
 $$
 \begin{bmatrix}
@@ -2538,21 +2528,21 @@ a[3,1] = 0 & a[3,2] = g_1 & a[3,3] = p_2
 \end{bmatrix}
 $$
 
-This is, again, a Leslie matrix. It still has fecundities in the first row. Now, the subdiagonal contains transition probabilities (individuals that survive and grow to the next stage) and the diagonal contains probabilities of surviving and staying at the same stage. We are now, at last, ready to build a stage-structured population model of loggerhead sea turtles! Crouser et al. 1987 actually did this---a large improvement over previous, age-structured models of loggerheads. \textcolor{green}{Do you think it was reasonable for them to fit a model without density dependence or enviromental effects---i.e., a constant growth rate model---to this population? Why or why not?} 
+This is, again, a Leslie matrix. It still has fecundities in the first row. Now, the subdiagonal contains transition probabilities (individuals that survive and grow to the next stage) and the diagonal contains probabilities of surviving and staying at the same stage. We are now, at last, ready to build a stage-structured population model of loggerhead sea turtles! Crouser et al. 1987 actually did this---a large improvement over previous, age-structured models of loggerheads. \textcolor{green}{Do you think it was reasonable for them to fit a model without density dependence or enviromental effects---i.e., a constant growth rate model---to this population? Why or why not?}
 
-They estimated a $\lambda$ around 0.945; \textcolor{green}{Does this mean the population was increasing or decreasing?} They then calculated the stable age distribution (dominant eigenvector), the relative reproductive contributions of each age class at the stable age distribution, and then simulated how $\lambda$ would change if mortality at each life stage either increased or decreased drastically (representing human impacts or conservation measures). They found that the most sensitive life stages were juveniles and subadults: reducing mortality on those would tip the population into a growth phase, and increasing mortality on those would cause rapid collapse. This and a follow-up paper, Crowder et al. 1994, demonstrated that a popular conservation strategy for sea turtles---protecting nesting beaches and hatchlings---was much less effective than reducing at-sea mortality of juvenile and subadult sea turtles. This set of studies was extremely influential and led to the widespread adoption of "turtle excluder devices". 
+They estimated a $\lambda$ around 0.945; \textcolor{green}{Does this mean the population was increasing or decreasing?} They then calculated the stable age distribution (dominant eigenvector), the relative reproductive contributions of each age class at the stable age distribution, and then simulated how $\lambda$ would change if mortality at each life stage either increased or decreased drastically (representing human impacts or conservation measures). They found that the most sensitive life stages were juveniles and subadults: reducing mortality on those would tip the population into a growth phase, and increasing mortality on those would cause rapid collapse. This and a follow-up paper, Crowder et al. 1994, demonstrated that a popular conservation strategy for sea turtles---protecting nesting beaches and hatchlings---was much less effective than reducing at-sea mortality of juvenile and subadult sea turtles. This set of studies was extremely influential and led to the widespread adoption of "turtle excluder devices".
 
-# Metapopulations 
+# Metapopulations
 
-As this course has progressed we've chipped away at the unrealistic assumptions in our simplest models. Because per capita population growth is unlikely to be constant, we introduced negative density dependence (logistic model) and positive density dependence (Allee effects). We also modeled the effects of time lags, both in the continuous-time delayed logistic model and in the discrete-time Ricker model, and saw how complex dynamics can quickly arise in those models. Next, we tackled the assumption that all individuals in a population are identical, and saw how we can track population dynamics across age or stage classes separately, allowing them to have different rates of fecundity, growth, and death. 
+As this course has progressed we've chipped away at the unrealistic assumptions in our simplest models. Because per capita population growth is unlikely to be constant, we introduced negative density dependence (logistic model) and positive density dependence (Allee effects). We also modeled the effects of time lags, both in the continuous-time delayed logistic model and in the discrete-time Ricker model, and saw how complex dynamics can quickly arise in those models. Next, we tackled the assumption that all individuals in a population are identical, and saw how we can track population dynamics across age or stage classes separately, allowing them to have different rates of fecundity, growth, and death.
 
 The next assumption we will tackle is that populations are homogenous and perfectly mixed across *space.* Just as individuals (or groups of individuals) have different vital rates at different ages and life stages, individuals or populations may have different vital rates in different *places*. \textcolor{green}{What are some reasons why this might be the case?}
 
-The simplest way to build this into population models is to say that rather than a single population where all individuals (of the same age / stage) are identical and can reproduce with one another, we say that there is *a set of those populations*---a **metapopulation,** or a "population of populations." We call each place occupied by one of those populations a "patch." 
+The simplest way to build this into population models is to say that rather than a single population where all individuals (of the same age / stage) are identical and can reproduce with one another, we say that there is *a set of those populations*---a **metapopulation,** or a "population of populations." We call each place occupied by one of those populations a "patch."
 
-The biggest difference between metapopulation models and population models is that the latter describes *abundance,* or $N$, and the former describes *persistence.* Metapopulation models are commonly applied to understand the relationship between changing habitat and local extinction, or "extirpation." We don't apply them to think about how many individuals are in a patch (we can use conventional population models for that) but rather to understand what proportion of an available landscape or seascape is being occupied by any population. 
+The biggest difference between metapopulation models and population models is that the latter describes *abundance,* or $N$, and the former describes *persistence.* Metapopulation models are commonly applied to understand the relationship between changing habitat and local extinction, or "extirpation." We don't apply them to think about how many individuals are in a patch (we can use conventional population models for that) but rather to understand what proportion of an available landscape or seascape is being occupied by any population.
 
-Hastings only spends one page on this, so I'm instead using the introduction to metapopulations from Gotelli (Chapter 4) as well as Marissa Baskett's ESP121 notes here. 
+Hastings only spends one page on this, so I'm instead using the introduction to metapopulations from Gotelli (Chapter 4) as well as Marissa Baskett's ESP121 notes here.
 
 ## The simplest model of patch dynamics
 
@@ -2562,13 +2552,13 @@ $$
 \frac{dp}{dt} = immigration - extinction
 $$
 
-In words, the *rate of change of p over time* is driven by the immigration rate minus the extinction rate. [Draw a metapopulation on the board and define p.] We define the extinction rate as e and the immigration rate as i (some textbooks use m, which can also mean mortality, which is why I'm using i). Immigrants come from an occupied patch, and can only go into an unoccupied patch. Extinctions can only happen in occupied patches. Thus, we can write this equation as:
+In words, the *rate of change of p over time* is driven by the immigration rate minus the extinction rate. \[Draw a metapopulation on the board and define p.\] We define the extinction rate as e and the immigration rate as i (some textbooks use m, which can also mean mortality, which is why I'm using i). Immigrants come from an occupied patch, and can only go into an unoccupied patch. Extinctions can only happen in occupied patches. Thus, we can write this equation as:
 
 $$
 \frac{dp}{dt} = ip(1-p) - ep = p(i(1-p) - e)
 $$
 
-### Equilibria and stability 
+### Equilibria and stability
 
 Remember how in our first population model, we said that the rate of population change over time was equal to births minus deaths? This is an analogous model, except rather than continuous turnover of individuals, there is continuous turnover of occupied patches. Just as logistic (well, all) population models are stable when births equal deaths, metapopulation models are stable when immigration equals extinction. \textcolor{green}{How would we find the equilibrium where immigration equals extinction in this case? Take a few minutes to solve the below.}
 
@@ -2576,23 +2566,23 @@ $$
 0 = p(i(1-p) - e)
 $$
 
-We find two equilibria: $\hat{p} = 0$, i.e. extinction, or $\hat{p} = 1 - e/i = \frac{i-e}{i}$. Let's analyze these equilibria for stability. Once again, if $dp/dt = G(p) = 0$ it tells us about equilibria, and whether $G'(p)$ is positive or negative tells us about stability. So let's take the derivative of this equation. 
+We find two equilibria: $\hat{p} = 0$, i.e. extinction, or $\hat{p} = 1 - e/i = \frac{i-e}{i}$. Let's analyze these equilibria for stability. Once again, if $dp/dt = G(p) = 0$ it tells us about equilibria, and whether $G'(p)$ is positive or negative tells us about stability. So let's take the derivative of this equation.
 
 $$
 G'(p) = \frac{d}{dp} ip(1-p) - ep = \frac{d}{dp} ip - ip^2 - ep = i - 2ip - e
 $$
 
-Substituting in our first equilibrium, $\hat{p} = 0$, gives us $i - e$. \textcolor{green}{Remember that the equilbrium will be stable if this value is negative. When is it negative? When is it positive? When is it zero? Is it a good thing or a bad thing if the equilibrium at $\hat{p} = 0$ is stable?} 
+Substituting in our first equilibrium, $\hat{p} = 0$, gives us $i - e$. \textcolor{green}{Remember that the equilbrium will be stable if this value is negative. When is it negative? When is it positive? When is it zero? Is it a good thing or a bad thing if the equilibrium at $\hat{p} = 0$ is stable?}
 
-Now let's do the equilibrium at $\hat{p} = \frac{i-e}{i}$. 
+Now let's do the equilibrium at $\hat{p} = \frac{i-e}{i}$.
 
 $$
 i - 2i(1-e/i) - e = i - 2i + 2ie/i - e = -i + 2e - e = e - i
 $$
 
-This is stable (negative) when i > e. We could have guessed this by thinking more deeply about the $\hat{p} = 1 - e/i$ equilibrium condition: for it to lead to persistence, we'd need p > 0, or $\frac{i-e}{i} > 0$; this can be simplified to $i-e>0$, or $i>e$. This should make intuitive sense. Note that this condition doesn't mean that p goes to 1; it goes to a value determined by the ratio of extinction to immigration (aka colonization).
+This is stable (negative) when i \> e. We could have guessed this by thinking more deeply about the $\hat{p} = 1 - e/i$ equilibrium condition: for it to lead to persistence, we'd need p \> 0, or $\frac{i-e}{i} > 0$; this can be simplified to $i-e>0$, or $i>e$. This should make intuitive sense. Note that this condition doesn't mean that p goes to 1; it goes to a value determined by the ratio of extinction to immigration (aka colonization).
 
-Finally, let's draw metapopulation dynamics and see the parallels with logistic population growth. 
+Finally, let's draw metapopulation dynamics and see the parallels with logistic population growth.
 
 ```{r}
 library(deSolve)
@@ -2683,9 +2673,9 @@ ggplot(df_dp, aes(x = p, y = dpdt, color = interaction(i, e))) +
 
 ```
 
-## Case study: marine reserves  
+## Case study: marine reserves
 
-Now that we've seen how metapopulation dynamics in this simple model are analogous to logistic growth---where the fraction occupied, p, eventually stabilizes, and dp/dt goes to 0---let's add in some more complexity to resemble a marine ecosystem. To do this, we'll build from a paper entitled "Role of marine reserves in recruitment to reef fisheries: A metapopulation model" (Man *et al.* 1995 *Biological Conservation*). They start with our same definitions as above, where p is the proportion occupied; extinction is e, and the proportion of occupied patches decreases at a rate $ep$; and propagules move from occupied patches to empty ones, giving an immigration rate $ip(1-p)$. (Note that the paper uses m where we use i; I chose this notation because m also can mean mortality, so I think the paper's notation is confusing.) Thus, again, 
+Now that we've seen how metapopulation dynamics in this simple model are analogous to logistic growth---where the fraction occupied, p, eventually stabilizes, and dp/dt goes to 0---let's add in some more complexity to resemble a marine ecosystem. To do this, we'll build from a paper entitled "Role of marine reserves in recruitment to reef fisheries: A metapopulation model" (Man *et al.* 1995 *Biological Conservation*). They start with our same definitions as above, where p is the proportion occupied; extinction is e, and the proportion of occupied patches decreases at a rate $ep$; and propagules move from occupied patches to empty ones, giving an immigration rate $ip(1-p)$. (Note that the paper uses m where we use i; I chose this notation because m also can mean mortality, so I think the paper's notation is confusing.) Thus, again,
 
 $$
 dp/dt = ip(1-p) - ep
@@ -2693,72 +2683,125 @@ $$
 
 Man et al. make three key modifications to make this model more realistic for marine reserve planning and harvested populations. First, not all patches are equal. Some proportion of them, $q_1$, are marine reserves (no fishing or other human uses), and another proportion ($q_2$) is fished; $q_1 + q_2 = 1$. This is the main management lever of the fishery; managers can increase or decrease $q_1$. (This might sound simplistic, but it is actually a common management strategy in many parts of the world, especially data-limited settings. If you're curious about some ways this can work, read more about "territorial use rights for fishers".) In their model, exploitation (fishing) affects $e$, but not $m$. Thus they define a new $e_1$ (unfished) and $e_2$ (fished) and assume that $e_2$ is much, much bigger. (Remember last week we talked about early marine reserve theory using the "scorched earth hypothesis"---that everything dies outside of the protected area?)
 
-Next, they also divide up tracking persistence into $p_1$ and $p_2$. Being natural resource managers, they're really curious about $p_2$: how can you keep a viable population in the exploited areas just by turning the dial of "how much habitat is protected"? They do assume that individuals are equally likely to go from any occupied patch into any other occupied patch, fished or unfished, so there is just one $i$ value to track here. Let's try to derive our two equations for $dp_1/dt$ and $dp_2/dt$. 
+Next, they also divide up tracking persistence into $p_1$ and $p_2$. Being natural resource managers, they're really curious about $p_2$: how can you keep a viable population in the exploited areas just by turning the dial of "how much habitat is protected"? They do assume that individuals are equally likely to go from any occupied patch into any other occupied patch, fished or unfished, so there is just one $i$ value to track here. Let's try to derive our two equations for $dp_1/dt$ and $dp_2/dt$.
 
-Looking at our differential equation for $dp/dt$ without any marine reserve extensions, we see there are three parts: $-ep$, which deals with extinction from occupied patches; $ip$, which tells us the rate at which individuals immigrate from occupied patches; and $1-p$, which scales that down so that only empty patches are being colonized. For marine reserves, adapting $-ep$ is straightforward; we just have $-e_1p_1$. Adapting $ip$ is also straightforward; i is still a single constant that applies to offspring produced everywhere (in either patch type), so this just becomes $i(p_1+p_2)$. How do we adjust the term $(1-p)$ to represent *only available patches that are in marine reserves*? Fortunately, we defined a quantity for this! To figure out what proportion of patches in marine reserves are unoccupied, we just take $q_1-p_1$. So this becomes 
+Looking at our differential equation for $dp/dt$ without any marine reserve extensions, we see there are three parts: $-ep$, which deals with extinction from occupied patches; $ip$, which tells us the rate at which individuals immigrate from occupied patches; and $1-p$, which scales that down so that only empty patches are being colonized. For marine reserves, adapting $-ep$ is straightforward; we just have $-e_1p_1$. Adapting $ip$ is also straightforward; i is still a single constant that applies to offspring produced everywhere (in either patch type), so this just becomes $i(p_1+p_2)$. How do we adjust the term $(1-p)$ to represent *only available patches that are in marine reserves*? Fortunately, we defined a quantity for this! To figure out what proportion of patches in marine reserves are unoccupied, we just take $q_1-p_1$. So this becomes
 
 $$
 dp_1/dt = i(p_1+p_2)(q_1-p_1) - e_1p_1
 $$
 
-And the exact same equation for exploited patches, because the production of offspring is the same everywhere (the first term, $i(p_1+p_2)$); we scale that down by what proportion of exploited patches are occupied, $q_2-p_2$; and then subtract out the extinction rate in this patch type. 
+And the exact same equation for exploited patches, because the production of offspring is the same everywhere (the first term, $i(p_1+p_2)$); we scale that down by what proportion of exploited patches are occupied, $q_2-p_2$; and then subtract out the extinction rate in this patch type.
 
 $$
 dp_2/dt = i(p_1+p_2)(q_2-p_2) - e_2p_2
 $$
 
-They then make a third assumption, which is that $e_1 = 0$. In other words, for harvested populations, none of them die in marine reserves. \textcolor{green}{Do you think this is true?} (They also rearrange some terms in the $dp2/dt$ equation which isn't important here.) The authors add that ideally these equations would include a time lag between the recruitment process of larvae or juveniles, i, and the process of "aging into the fishery", which is when they start counting p. They note that is computationally intractable, which I'm sure it was in 1995, but it isn't now! 
+They then make a third assumption, which is that $e_1 = 0$. In other words, for harvested populations, none of them die in marine reserves. \textcolor{green}{Do you think this is true?} (They also rearrange some terms in the $dp2/dt$ equation which isn't important here.) The authors add that ideally these equations would include a time lag between the recruitment process of larvae or juveniles, i, and the process of "aging into the fishery", which is when they start counting p. They note that is computationally intractable, which I'm sure it was in 1995, but it isn't now!
 
-Let's find the equilibrium value for $\hat{p_1}$ with the simplified equation, $dp_1/dt = i(p_1+p_2)(q_1-p_1)$. When does $dp_1/dt = 0$? What does that tell us about the long-term dynamics of this system? 
+Let's find the equilibrium value for $\hat{p_1}$ with the simplified equation, $dp_1/dt = i(p_1+p_2)(q_1-p_1)$. When does $dp_1/dt = 0$? What does that tell us about the long-term dynamics of this system?
 
-### Modeling the benefits of marine reserves to fisheries 
+### Modeling the benefits of marine reserves to fisheries
 
-In the paper they find the equilibrium value for $\hat{p_2}$; we won't go through the math for this. But I do want to highlight how these fairly simple equations can inform strategic decisions about marine spatial planning. The best way to do this is a figure from the paper, which I'll attempt to re-draw. 
+In the paper they find the equilibrium value for $\hat{p_2}$; we won't go through the math for this. But I do want to highlight how these fairly simple equations can inform strategic decisions about marine spatial planning. The best way to do this is a figure from the paper, which I'll attempt to re-draw.
 
-![Figure 2 from Man, Law, and Polunin 1995. The intensity of fishing (c, which scales with $e_2$ and is defined as $e_2/i$) modulates the relationship between how much habitat is in marine reserves ($q_1$, x-axis) and the equilibrium proportion of occupied patches in harvested areas ($p_2$, y-axis). Dots represent the protection level that maximizes occupied areas available to fishing for a given rate of fishing mortality.](metapopulations_marine_reserves_man_bio_cons_1995.png). 
+![Figure 2 from Man, Law, and Polunin 1995. The intensity of fishing (c, which scales with \$e_2\$ and is defined as \$e_2/i\$) modulates the relationship between how much habitat is in marine reserves (\$q_1\$, x-axis) and the equilibrium proportion of occupied patches in harvested areas (\$p_2\$, y-axis). Dots represent the protection level that maximizes occupied areas available to fishing for a given rate of fishing mortality.](metapopulations_marine_reserves_man_bio_cons_1995.png).
 
-This implies that if fishing mortality ($e_2$ or c) is low, there's no reason for any habitat protection. The highest occupancy rate in harvested areas occurs when zero habitat is protected. But as fishing mortality increases, the marine reserves start to serve a role in producing "spillover" to the harvested areas---and you see that for very high fishing mortality rates, *if no habitat was protected, this model predicts total extinction outside of marine reserves.* 
+This implies that if fishing mortality ($e_2$ or c) is low, there's no reason for any habitat protection. The highest occupancy rate in harvested areas occurs when zero habitat is protected. But as fishing mortality increases, the marine reserves start to serve a role in producing "spillover" to the harvested areas---and you see that for very high fishing mortality rates, *if no habitat was protected, this model predicts total extinction outside of marine reserves.*
 
 Now, there are a lot more extensions that would make this model more realistic. \textcolor{green}{If you really wanted to know how much habitat to protect to maximize fisheries benefits, what else would you need to know?}
 
 As an interesting coda, whether marine reserves increase fish biomass *in total* is still a huge area of debate. \textcolor{green}{Why do you think this has been so difficult to prove?}
 
-The marine reserve population modeling literature is large, and the early classics are well worth a read, including: 
+The marine reserve population modeling literature is large, and the early classics are well worth a read, including:
 
-- Botsford, Hastings, and Gaines 2001. Dependence of sustainability on the configuration of marine reserves and larval dispersal distance. *Ecology Letters.*
-- Guichard *et al.* 2004. Toward a Dynamic Metacommunity Approach to Marine Reserve Theory. *BioScience.* 
+-   Botsford, Hastings, and Gaines 2001. Dependence of sustainability on the configuration of marine reserves and larval dispersal distance. *Ecology Letters.*
+-   Guichard *et al.* 2004. Toward a Dynamic Metacommunity Approach to Marine Reserve Theory. *BioScience.*
 
-# Spatial population modeling 
+# Spatial population modeling
 
 Metapopulation models don't quantify abundance, just persistence throughout the patch network (so they also don't track individual patches). Let's say we want to track actual abundance, but still incorporate some spatial structure to our population models. It turns out that you're already able to do this---and it's a chance to start blending together the modeling approaches we've been learning. Let's work through the equations on our own. We assume:
 
-- Discrete time, logistic growth dynamics
-- Two adjacent patches, indexed A and B 
-- Three age classes. Age 0 is recruits; they don't do anything except age and die (at a constant rate, $s_0$. Age 1 is juveniles; they don't reproduce but are highly mobile. Age 2 is adults; they don't move, but they do reproduce *at a patch-specific rate*, $f_A$ and $f_B$ (you can think of this as an environmental effect, although for now let's just leave it as a constant). 
-- Movement happens between patches at a fixed rate, $d$, which stands for diffusion. 
+-   Discrete time, logistic growth dynamics
+-   Two adjacent patches, indexed A and B
+-   Three age classes. Age 0 is recruits; they don't do anything except age and die (at a constant rate, $s_0$. Age 1 is juveniles; they don't reproduce but are highly mobile. Age 2 is adults; they don't move, but they do reproduce *at a patch-specific rate*, $f_A$ and $f_B$ (you can think of this as an environmental effect, although for now let's just leave it as a constant).
+-   Movement happens between patches at a fixed rate, $d$, which stands for diffusion.
 
 \textcolor{green}{Together, let's write down a system of equations for the three age classes each year ($n_0(t+1)$ and so on).}
 
-If we have time, discuss and try extending these equations to additional complexities, such as density dependence (possibly with a patch-specific carrying capacity), more than two patches, fishing mortality, etc. 
+If we have time, discuss and try extending these equations to additional complexities, such as density dependence (possibly with a patch-specific carrying capacity), more than two patches, fishing mortality, etc.
 
 # Interacting populations
 
-We've already started to write down equations for multiple age classes or life stages; multiple patches and populations; and multiple forms of population growth. Now and for the next few weeks, we're going to consider some models of multiple interacting species. 
+We've already started to write down equations for multiple age classes or life stages; multiple patches and populations; and multiple forms of population growth. Now and for the next few weeks, we're going to consider some models of multiple interacting species.
 
 First, I think it's worth interrogating---why do we need multispecies models at all? What can they capture that we couldn't represent with single-species models? \textcolor{green}{Try to come up with a list of ecological processes that we can't simplify down to exogenous effects on single poopulations.}
 
 Core feature of multispecies models are:
 
-- We are representing populations that are interacting, and 
-- Those populations are from different species *with different relevant traits.* 
+-   We are representing populations that are interacting, and
+-   Those populations are from different species *with different relevant traits.*
 
 If the two populations have identical traits for all of the variables that matter, then we shouldn't care that they are from two species! For example, if we're modeling phytoplankton growth over time and every species has the exact same carrying capacity, intrinsic growth rate, and life history, then *it does not matter that they are different species* (or might have different, unrelated traits; maybe one is blue and one is pink). We could just model them jointly as one population. (Thanks are very much due to Chuliang Song at UCLA for fascinating conversations about this test for ecological models---if different species have identical traits, do they give the same results as if you modeled them as a single population?---at the 2025 American Society of Naturalists meeting in Asilomar, CA.)
 
-So by extension, our goal here is to understand: what happens when populations of species with different traits interact? 
+So by extension, our goal here is to understand: what happens when populations of species with different traits interact?
 
-## Lotka-Volterra 
+There are many kinds of species interactions. I will broadly group these as: interactions that reduce population growth for both species (we start with these); interactions that reduce growth in one population and increase it in the other; and interactions that increase population growth for both species (we will mostly ignore these). 
 
-# Coexistence and competition: are species good or bad for one another? 
+## Lotka-Volterra competition 
+
+Let's start with a population of species 1 that is growing logistically:
+
+$$
+\frac{dN_1}{dt} = r_1N_1(1-(N_1/K_1)) = r_1N_1\left(\frac{K_1 - N_1}{K_1}\right)
+$$
+So far this is just regular logistic growth with a bunch of bonus subscripts. But let's say that we want to reduce population growth by an extra term related to another population of another species, $N_2$. \textcolor{green}{Where in this equation should we put this?}
+
+Let's have it slow down the rate at which species 1 approaches carrying capacity: 
+
+$$
+\frac{dN_1}{dt} = r_1N_1(1-(N_1/K_1)) = r_1N_1\left(\frac{K_1 - N_1 - f(N_2)}{K_1}\right)
+$$
+
+There are lots of formulations for $f(N_2)$ that we could write down that would be reasonable. The simplest is just to call it a constant $\alpha$ that scales the population size of the other species. If we include that and factor out $K_1$, we get:
+
+$$
+\frac{dN_1}{dt} = r_1N_1(1-(N_1/K_1)) = \left(\frac{r_1N_1}{K_1}\right)(K_1 - N_1 - \alpha N_2)
+$$
+
+And we can write the same for the other population, 
+
+$$
+\frac{dN_2}{dt} = \left(\frac{r_2N_2}{K_2}\right)(K_2 - N_2 - \beta N_1)
+$$
+
+Let's think a little more about $\alpha$ and $\beta$---the "competition coefficients". \textcolor{green}{In words, what is the relative effect of Species 1's population size *vs.* the population size of Species 2 if $\alpha$ = 0.5? 1? 4?} 
+
+When $N_1$ increases, this slows down $dN_1/dt$. We've been calling this *negative density dependence* (\textcolor{green}{who remembers why it is negative?}) You could also call it, equivalently, *the strength of intraspecific competition*. 
+
+Conversely, $\alpha$ is the *strength of interspecific competition*. It tells you, relative to the effect of adding another individual of Species 1, what the effect is of adding another individual of Species 2. When $\alpha > 1$, Species 2 inhibits Species 1 more than Species 1 inhibits itself. Be sure you understand what happens to this system of equations if $\alpha=1$! Note, also, that $\alpha$ and $\beta$ don't need to be the same number (and usually aren't). 
+
+### Equilibria
+
+Can we find the equilibrium population sizes for these equations? Let's set each equal to 0. 
+
+$$
+0 = \left(\frac{r_1N_1}{K_1}\right)(K_1 - N_1 - \alpha N_2)
+$$
+$$
+\hat{N_1} = (K_1 - \alpha N_2)
+$$
+
+$$
+\hat{N_2} = (K_2 - \beta N_1)
+$$
+
+\textcolor{green}{What is the intuition behind these equilibria in words?} 
+
+The next thing we might want to do is understand how the dynamics of each population influences the other at different population sizes. Let's unpack that graphically. 
+
+
+# Coexistence and competition: are species good or bad for one another?
 
 # Applications of population modeling to management and research
 
