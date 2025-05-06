@@ -2,7 +2,7 @@
 title: "Marine Population Dynamics"
 subtitle: OCEA265, UC Santa Cruz
 author: Alexa L. Fredston
-date: Spring 2025
+date: last-modified
 format: pdf
 editor: visual
 execute:
@@ -2731,11 +2731,115 @@ Metapopulation models don't quantify abundance, just persistence throughout the 
 
 If we have time, discuss and try extending these equations to additional complexities, such as density dependence (possibly with a patch-specific carrying capacity), more than two patches, fishing mortality, etc.
 
+# Stochasticity in population dynamics 
+
+When this course was approved by the UCSC Registrar, stochasticity was listed as an important topic I planned to cover. I was subsequently surprised to learn that this topic is not explored in any of the introductory population modeling texts I was using. Many of you are familiar with the concept of stochasticity as "noise" or "variation" in data, but what does it mean to introduce it into theoretical models? To answer this question we turn to Marc Mangel's "The Theoretical Biologist's Toolbox" (chapter seven). 
+
+Up to now, we have only learned about **deterministic models**. This means that for any combination of parameter values and initial conditions, *there is only one possible outcome*. This is true even in models that result in chaos! We call the dynamics chaotic because tiny differences in parameter values or initial conditions lead to hugely divergent outcomes, but *they are still deterministic---just with a very high sensitivity that makes qualitative predictions impossible*. 
+
+Stochastic models are fundamentally not this way. In stochastic dynamics, even the simplest models can have multiple outcomes. This is probably a better description of nature, where we can take the exact same management action and see a range of different outcomes. Let's explore this in the simplest possible way, by revisiting our model of exponential growth in discrete time: $N_t = R^tN_0$. Now, we add a simple error term, $N(t+1) = RN(t) + z(t)$. Note that because it is a function of time, $z$ is different in every time step! It's not a constant. The simplest definition of $z$ is that it is normally distributed with a mean of 0 and a variance of $\sigma^2$, where $\sigma$ is a standard deviation parameter that you could set (for a simulation) or estimate from data. Let's plot how that affects the exponential model. 
+
+```{r}
+set.seed(10)
+library(ggplot2)
+n0 <- 1
+R <- 1.05
+sigma = 0.2
+t <- seq(1, 50, 1)
+
+stochastic_exp <- function(t, sigma, n0, R) {
+  pop_vec <- c()
+  pop_vec[1] = n0
+  for(i in 1:max(t)) {
+    z = rnorm(1, 0, sigma)
+    pop_vec[i+1] = pop_vec[i]*R + z
+  }
+  return(pop_vec[1:max(t)]) # cut off final t+1 value 
+}
+
+dat <- NULL
+for(j in 1:10) {
+  out <- data.frame(
+    run = j, 
+    t = t, 
+    pop = stochastic_exp(t=t, sigma=sigma, n0=n0, R=R)
+  )
+  dat <- bind_rows(dat, out)
+}
+
+dat <- bind_rows(dat, 
+                 data.frame(
+                   run = 11, 
+                   t = t, 
+                   pop = n0 * R^t 
+                 )) # add no-stochasticity run 
+
+dat$run <- factor(dat$run)
+
+ggplot(dat) +
+  geom_line(aes(x=t, y=pop, color=run, group = run)) + 
+  labs(x="Time",y="N", title="Stochastic Exponential Growth") +
+  theme_bw() + 
+  theme(legend.position="none")
+```
+
+In this most simple case, the deterministic trajectory is predicted to be the same as the average of the stochastic trajectories. However, this is just a product of how simple exponential growth is (i.e., the first derivative of this model is linear). If that were not the case, we could not get back the deterministic trajectory just by averaging the stochastic ones. 
+
+In the plot above we added a super simple error term to the end of the equation. We could also add it *inside* of the growth rate, such that there is random fluctuation in per-capita growth from one time step to the next (rather than stochasticity in population size): $N(t+1) = (R + z)N_t$. Let's re-generate the above plot with the same parameter values but this form of stochastic dynamics instead. 
+
+```{r}
+set.seed(11)
+library(ggplot2)
+n0 <- 1
+R <- 1.05
+sigma = 0.2
+t <- seq(1, 50, 1)
+
+stochastic_exp_2 <- function(t, sigma, n0, R) {
+  pop_vec <- c()
+  pop_vec[1] = n0
+  for(i in 1:max(t)) {
+    z = rnorm(1, 0, sigma)
+    pop_vec[i+1] = pop_vec[i]*(R + z)
+  }
+  return(pop_vec[1:max(t)]) # cut off final t+1 value 
+}
+
+dat <- NULL
+for(j in 1:10) {
+  out <- data.frame(
+    run = j, 
+    t = t, 
+    pop = stochastic_exp_2(t=t, sigma=sigma, n0=n0, R=R)
+  )
+  dat <- bind_rows(dat, out)
+}
+
+dat <- bind_rows(dat, 
+                 data.frame(
+                   run = 11, 
+                   t = t, 
+                   pop = n0 * R^t 
+                 )) # add no-stochasticity run 
+
+dat$run <- factor(dat$run)
+
+ggplot(dat) +
+  geom_line(aes(x=t, y=pop, color=run, group = run)) + 
+  labs(x="Time",y="N", title="Stochastic Exponential Growth") +
+  theme_bw() + 
+  theme(legend.position="none")
+```
+
+This form of stochasticity---which modifies per capita growth rather than overall population size---leads to much greater fluctuations in predicted dynamics. Which form of stochasticity is "right"? As with other decisions in this class, the answer is partly based on biology (where do you actually think stochasticity enters the system?) and partly on your data (which more resembles the system you are trying to model?) Mangel goes into depth on other kinds of stochasticity that are more useful in modeling real-world systems, including Brownian motion (a continuous-time form of stochasticity that accumulates over time, meaning that uncertainty builds as the system evolves forward). 
+
+We're going to pause our discussion of stochasticity here, because it's veering into statistical modeling, and there are other courses at UCSC to learn about autoregressive processes (take the time-series class!) and Bayesian statistics (where you can simultaneously model underlying processes and variation introduced by different processes, including data collection; also a class worth taking). Suffice it to say that if one issue you have had in this class is that all of the models look much "neater" than your data, you may still be able to use these mechanistic models to understand your study system, with some extensions that capture sources of stochasticity. 
+
 # Interacting populations
 
 We've already started to write down equations for multiple age classes or life stages; multiple patches and populations; and multiple forms of population growth. Now and for the next few weeks, we're going to consider some models of multiple interacting species.
 
-First, I think it's worth interrogating---why do we need multispecies models at all? What can they capture that we couldn't represent with single-species models? \textcolor{green}{Try to come up with a list of ecological processes that we can't simplify down to exogenous effects on single poopulations.}
+First, I think it's worth interrogating---why do we need multispecies models at all? What can they capture that we couldn't represent with single-species models? \textcolor{green}{Try to come up with a list of ecological processes that we can't simplify down to exogenous effects on single populations.}
 
 Core feature of multispecies models are:
 
