@@ -2910,7 +2910,14 @@ $$
 
 \textcolor{green}{What is the intuition behind these equilibria in words?} 
 
-The next thing we might want to do is understand how the dynamics of each population influences the other at different population sizes. Let's unpack that graphically. 
+As always, from equilibria, we then think about stability. It would help to understand how the dynamics of each population influences the other at different population sizes. Let's unpack that graphically. Remember how in the delayed logistic model, we plotted N(t) vs N(t+1)? Let's do a version of that here, and plot $N_1$ vs $N_2$. 
+
+Once we have these axes drawn, just as we have in the past, let's figure out where the equilibria are on the plot. \textcolor{green}{Take a moment to think: Where would the equilibrium value of $\hat{N_1}$ be?}
+
+Both species' equilibria are described by a line with a negative slope. One intercept is their own carrying capacity, the slope is the competition coefficient, and the other intercept is when the species' population size is 0. Because the competition coefficients are usually different, these lines have different slopes, and may cross at some point where both population sizes are above 0. \textcolor{green}{Ecologically, what does this point represent?}
+
+
+Is this two-species equilibrium point stable or unstable? 
 
 
 # Coexistence and competition: are species good or bad for one another?
