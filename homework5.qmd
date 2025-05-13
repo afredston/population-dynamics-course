@@ -1,0 +1,24 @@
+---
+title: "Marine Population Dynamics"
+subtitle: Homework 5 
+author: Alexa L. Fredston
+date: May 2025
+format: pdf
+editor: visual
+execute:
+  echo: false
+  warning: false
+---
+# Part I
+
+**Question 1:** Revisit an earlier model that you fitted to your data. If it was a continuous-time model, fit the discrete-time analog instead. Now, try adding stochasticity to it, in whatever form you think makes sense for your study system (this can just be an additive error term like we discussed in class, or anything else you want to try). You may want to run a number of simulations of this model, and remember to draw from the error distribution *at each time step, not just once per model run.* (If you need an example of code for this, there's one in the class notes.) Plot the range of simulated outcomes on top of your data (include the plot here) and discuss whether the stochastic model describes your data better than the deterministic model or not (1-2 sentences). 
+
+# Part II
+
+Here you will continue working with real data but I want you to use data *from multiple spatial patches.* This could be multiple sites where samples were taken, or grid cells, or you can just divide your data (by latitude bin, for example). Don't spend too much time on exactly how to delienate the data spatially (and you can always email with questions), but aim for at least 4 patches. 
+
+**Question 2:** For the kind of data you chose, and the kind of research questions you're interested in, do you think it would be more suitable to fit a metapopulation model or a spatial population model? Answer in 1-2 sentences. 
+
+**Question 3:** For your own data, plot p vs t (if it's a metapopulation model) or N vs t in each patch (if it's a spatial population model). Include the plot here. 
+
+**Question 4:** Imagine we want to throw everything and the kitchen sink into modeling these data---sort of like the killer whale example we discussed in class. What are all the features of your study system that you think you'd need to model? They can be things that we've discussed or things that we haven't covered yet. Describe in words, in a paragraph or a bulleted list, what the model would need to describe (think of how we've translated statements about age structure into equations, for example; I want you to do this for every aspect of how you think you'd really want to model this population for a real science project.) Remember, this is the last week we're doing single-species population models, so what I'm asking you to do here is to look back over everything you've learned and write down the best mechanistic model of your study system that you can. 
