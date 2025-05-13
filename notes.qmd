@@ -4,7 +4,7 @@ subtitle: OCEA265, UC Santa Cruz
 author: Alexa L. Fredston
 date: Spring 2025
 format: pdf
-editor: visual
+editor: source
 execute:
   echo: false
   warning: false
@@ -20,6 +20,7 @@ Alexa would like to gratefully acknowledge the following sources:
 -   Alan Hastings' book, "Population Biology: Concepts and Models"
 -   Hal Caswell's book, "Matrix Population Models"
 -   Nicholas J. Gotelli's book, "A Primer of Ecology"
+-   Marc Mangel's book, "The Theoretical Biologist's Toolkit" 
 -   Marissa Baskett's ESP121 course notes (UC Davis)
 -   Dave Tilman's UCSB course ESM201, for which Alexa was a TA
 -   chatGPT, which generated a lot of the Quarto code for the math.
@@ -2731,7 +2732,7 @@ Metapopulation models don't quantify abundance, just persistence throughout the 
 
 If we have time, discuss and try extending these equations to additional complexities, such as density dependence (possibly with a patch-specific carrying capacity), more than two patches, fishing mortality, etc.
 
-# Interacting populations
+# Interacting populations 
 
 We've already started to write down equations for multiple age classes or life stages; multiple patches and populations; and multiple forms of population growth. Now and for the next few weeks, we're going to consider some models of multiple interacting species.
 
@@ -2742,22 +2743,21 @@ Core feature of multispecies models are:
 -   We are representing populations that are interacting, and
 -   Those populations are from different species *with different relevant traits.*
 
-If the two populations have identical traits for all of the variables that matter, then we shouldn't care that they are from two species! For example, if we're modeling phytoplankton growth over time and every species has the exact same carrying capacity, intrinsic growth rate, and life history, then *it does not matter that they are different species* (or might have different, unrelated traits; maybe one is blue and one is pink). We could just model them jointly as one population. (Thanks are very much due to Chuliang Song at UCLA for fascinating conversations about this test for ecological models---if different species have identical traits, do they give the same results as if you modeled them as a single population?---at the 2025 American Society of Naturalists meeting in Asilomar, CA.)
-
 So by extension, our goal here is to understand: what happens when populations of species with different traits interact?
 
-There are many kinds of species interactions. I will broadly group these as: interactions that reduce population growth for both species (we start with these); interactions that reduce growth in one population and increase it in the other; and interactions that increase population growth for both species (we will mostly ignore these). 
+There are many kinds of species interactions. I will broadly group these as: interactions that reduce population growth for both species (we start with these); interactions that reduce growth in one population and increase it in the other; and interactions that increase population growth for both species (we will mostly ignore these).
 
-## Lotka-Volterra competition 
+## Lotka-Volterra competition
 
 Let's start with a population of species 1 that is growing logistically:
 
 $$
 \frac{dN_1}{dt} = r_1N_1(1-(N_1/K_1)) = r_1N_1\left(\frac{K_1 - N_1}{K_1}\right)
-$$
+$$ 
+
 So far this is just regular logistic growth with a bunch of bonus subscripts. But let's say that we want to reduce population growth by an extra term related to another population of another species, $N_2$. \textcolor{green}{Where in this equation should we put this?}
 
-Let's have it slow down the rate at which species 1 approaches carrying capacity: 
+Let's have it slow down the rate at which species 1 approaches carrying capacity:
 
 $$
 \frac{dN_1}{dt} = r_1N_1(1-(N_1/K_1)) = r_1N_1\left(\frac{K_1 - N_1 - f(N_2)}{K_1}\right)
@@ -2769,25 +2769,26 @@ $$
 \frac{dN_1}{dt} = r_1N_1(1-(N_1/K_1)) = \left(\frac{r_1N_1}{K_1}\right)(K_1 - N_1 - \alpha N_2)
 $$
 
-And we can write the same for the other population, 
+And we can write the same for the other population,
 
 $$
 \frac{dN_2}{dt} = \left(\frac{r_2N_2}{K_2}\right)(K_2 - N_2 - \beta N_1)
 $$
 
-Let's think a little more about $\alpha$ and $\beta$---the "competition coefficients". \textcolor{green}{In words, what is the relative effect of Species 1's population size *vs.* the population size of Species 2 if $\alpha$ = 0.5? 1? 4?} 
+Let's think a little more about $\alpha$ and $\beta$---the "competition coefficients". \textcolor{green}{In words, what is the relative effect of Species 1's population size *vs.* the population size of Species 2 if $\alpha$ = 0.5? 1? 4?}
 
-When $N_1$ increases, this slows down $dN_1/dt$. We've been calling this *negative density dependence* (\textcolor{green}{who remembers why it is negative?}) You could also call it, equivalently, *the strength of intraspecific competition*. 
+When $N_1$ increases, this slows down $dN_1/dt$. We've been calling this *negative density dependence* (\textcolor{green}{who remembers why it is negative?}) You could also call it, equivalently, *the strength of intraspecific competition*.
 
-Conversely, $\alpha$ is the *strength of interspecific competition*. It tells you, relative to the effect of adding another individual of Species 1, what the effect is of adding another individual of Species 2. When $\alpha > 1$, Species 2 inhibits Species 1 more than Species 1 inhibits itself. Be sure you understand what happens to this system of equations if $\alpha=1$! Note, also, that $\alpha$ and $\beta$ don't need to be the same number (and usually aren't). 
+Conversely, $\alpha$ is the *strength of interspecific competition*. It tells you, relative to the effect of adding another individual of Species 1, what the effect is of adding another individual of Species 2. When $\alpha > 1$, Species 2 inhibits Species 1 more than Species 1 inhibits itself. Be sure you understand what happens to this system of equations if $\alpha=1$! Note, also, that $\alpha$ and $\beta$ don't need to be the same number (and usually aren't).
 
-### Equilibria
+### Equilibria and state-space plots
 
-Can we find the equilibrium population sizes for these equations? Let's set each equal to 0. 
+Can we find the equilibrium population sizes for these equations? Let's set each equal to 0.
 
 $$
 0 = \left(\frac{r_1N_1}{K_1}\right)(K_1 - N_1 - \alpha N_2)
-$$
+$$ 
+
 $$
 \hat{N_1} = (K_1 - \alpha N_2)
 $$
@@ -2796,17 +2797,130 @@ $$
 \hat{N_2} = (K_2 - \beta N_1)
 $$
 
-\textcolor{green}{What is the intuition behind these equilibria in words?} 
+\textcolor{green}{What is the intuition behind these equilibria in words?}
 
-The next thing we might want to do is understand how the dynamics of each population influences the other at different population sizes. Let's unpack that graphically. 
+The next thing we might want to do is understand how the dynamics of each population influences the other at different population sizes. Let's unpack that graphically. We're going to use plots a little like the "first return" plots from the delay logistic model, where we plotted $N_t$ vs. $N_{t+1}$, but here it'll be $N_1$ vs $N_2$. 
+
+First we're going to draw those axes. This is called a *state-space plot.* Any point on this graph represents a combination of abundances of the two species. We use this graph to represent the state of our two quantities of interest at the same time. As both populations change in size, we can trace a path on this plot (do this as a demonstration). 
+
+Now we're going to draw the *isocline* for Species 1: the line along which its population is at equilibrium. (Notice how the equation for $\hat{N_1}$ is the equation for a line? What are the x- and y-intercepts on the $N_1$ vs $N_2$ plot?) Be sure to label the line $dN_1/dt = 0$. 
+
+Another way to think about this is by rearranging the equilibria so just $K$ is on one side. That gives the intuition that in a single-species model, carrying capacity is "filled" by just individuals of that one species. In this Lotka-Volterra model, each species' carrying capacity is "filled" by individuals of both species: $K_1 = \hat{N_1} + \alpha N_2$. $N_2$ obviously is not a constant, but realize that in this model, $\hat{N_1}$ isn't either! There is a wide range of equilibrium values of Species 1 *depending on how many individuals of Species 2 there are* (as well as other parameters, of course). 
+
+![](gotelli_fig_5.3.png)
+
+To the left of the isocline for Species 1, the joint abundance of $N_1$ and $N_2$ is less than $K_1$, so Species 1 will increase (draw horizontal arrows) and $dN_1/dt > 0$. To the right of the isocline, the joint abundance of $N_1$ and $N_2$ is greater than $K_1$, so Species 1 will decrease. When we are drawing these graphs, pay very close attention to which species you are plotting, and note that the arrows are parallel to the axis of the species we're focusing on (so right now we're drawing horizontal arrows for the species on the horizontal axis). 
+
+On a separate plot, let's plot the isocline of Species 2. What are the x- and y-intercepts? What happens below and above the isocline? 
+
+![](gotelli_fig_5.4.png)
+
+You may have realized by now that there are an infinite number of these lines that we can draw, depending on the values of the two interspecific competition coefficients and the two carrying capacities. However, all of these fall into four qualitative outcomes. Let's plot the two isoclines on top of each other and explore those outcomes. 
+
+In the first case, $K_1/\alpha > K_2$, and $K_1 > K_2/\beta$. \textcolor{green}{Take a moment to try drawing those lines yourself on the state-space graph. Once you draw the isoclines, for each species (it helps to use different colors), draw the horizontal and vertical arrows representing their population growth rates in different parts of the state space.}
+
+![](gotelli_fig_5.5.png)
+
+The top right portion of this state space is easy. We are beyond the isoclines for both species, and both will decline until we hit an isocline (we'll talk more about what happens at that point later.) 
+
+Now, think about the bottom left of this state space (when both populations are at low abundance). We are below both isoclines, so both will grow. But what happens when we hit the isocline for Species 2? We're still in the positive population growth rate space for Species 1, so it is just going to keep growing---pulling the system into an area where the growth rate of Species 2 is negative. 
+
+We call this case **competitive exclusion** (of Species 2 by Species 1) because *no matter where you start in the state space, Species 2 will go extinct*. 
+
+The second case is if we flip these lines and the isocline of Species 2 is always above Species 1. This system will now tend toward the equilibrium where Species 2 goes to $K_2$ and Species 1 goes to zero. \textcolor{green}{Draw arrows to show this. }
+
+![](gotelli_fig_5.6.png)
 
 
-# Coexistence and competition: are species good or bad for one another?
+The next cases are where things get really fun, because the isoclines are going to cross. \textcolor{green}{What does it mean ecologically for the system of two populations for isoclines to cross?}
+
+Let's start by drawing our isocline for Species 1, and the horizontal arrows. Now, the isocline for Species 2 is going to have a shallower slope. Draw this, and the horizontal arrows. \textcolor{green}{Do you think the point where the lines cross is stable or unstable?}
+
+![](gotelli_fig_5.7.png)
+
+Our final case is when the Species 1 line is shallower than the Species 2 line. Draw that state-space figure. This is an unstable equilibrium, and the "winner" is hard to predict: it depends on initial conditions and growth rates. 
+
+![](gotelli_fig_5.8.png)
+
+### Population trends over time in Lotka-Volterra competition 
+
+```{r}
+library(deSolve)
+library(tibble)
+library(ggplot2)
+
+simulate_lv <- function(r1, r2, K1, K2, alpha12, alpha21, N0 = c(10, 10)) {
+  lv_model <- function(t, state, parms) {
+    with(as.list(c(state, parms)), {
+      dN1 <- r1 * N1 * (1 - (N1 + alpha12 * N2) / K1)
+      dN2 <- r2 * N2 * (1 - (N2 + alpha21 * N1) / K2)
+      list(c(dN1, dN2))
+    })
+  }
+  parms <- c(r1 = r1, r2 = r2, K1 = K1, K2 = K2, alpha12 = alpha12, alpha21 = alpha21)
+  times <- seq(0, 100, by = 0.1)
+  out <- ode(y = c(N1 = N0[1], N2 = N0[2]), times = times, func = lv_model, parms = parms)
+  as_tibble(out)
+}
+
+# Example: Coexistence
+coexist_df <- simulate_lv(0.5, 0.3, 120, 80, 0.5, 0.5)
+
+# Example: Species 1 wins
+s1_wins_df <- simulate_lv(0.5, 0.3, 120, 80, 0.3, 1.2)
+
+# Example: Species 2 wins
+s2_wins_df <- simulate_lv(0.5, 0.3, 120, 80, 1.2, 0.3)
+
+# Example: Bistability
+bistable_df <- simulate_lv(0.5, 0.3, 120, 80, 1.5, 1.5)
+
+# Plot one case:
+ggplot(coexist_df, aes(x = time)) +
+  geom_line(aes(y = N1, color = "Species 1"), size = 1.2) +
+  geom_line(aes(y = N2, color = "Species 2"), size = 1.2, linetype = "dashed") +
+  labs(
+    title = "Coexistence Over Time",
+    x = "Time (t)",
+    y = "Population Size",
+    color = "Species"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+### Criteria for coexistence 
+
+By now you hopefully understand qualitatively that there are four possible outcomes anytime two species interact: one wins, the other wins, they coexist stably, or they have an unstable equilibrium where one is likely to outcompete the other but it's hard to guess which. The more interesting question is maybe *when you expect each of these outcomes,* which we will answer next. 
+
+Is there a way to guess the outcome of Lotka-Volterra competition without drawing these graphs? Just like with the other models we've discussed, the answer is yes! The key insight here is to think about what happens if we end up on the state-space diagram where one population is at really low abundance and its competitor is at high abundance. Does it have a chance of increasing then (i.e., a positive per capita growth rate)? If so, then we can argue that it will persist in that scenario. 
+
+The mathematical criterion describing that situation is: 
+
+$$
+\frac{dN_1}{N_1dt} = r_1 \big(\frac{K_1 - 0 - \alpha K_2}{K_1} \big)
+$$
+
+Remember, we're looking for this quantity to be above 0. Because $r_1$ is always positive, that means that we can just look for the right-hand term to be positive as well:
+
+$$
+\frac{K_1 - \alpha K_2}{K_1} > 0
+$$
+
+Which we can rearrange to state the criterion for Species 1 to successfully invade: $K_1/K_2 > \alpha$. This suggests an intuitive proportionality between the carrying capacity of Species 1 and the competitive strength of Species 2. 
+
+The analogous inequality holds for the persistence of Species 2 ($K_2/K_1 > \beta$). If we invert both sides of this, we can directly compare it to the first inequality! \textcolor{green}{Using just these two inequalities, write down mathematical conditions for the four outcomes we found graphically earlier.}
+
+These sets of inequalities can be interpreted in a number of ways. One is by asking: What happens to stable coexistence as $\alpha$ and $\beta$ approach 1? Remember that those parameters tell us how much an individual of one species inhibits the other, so when they are close to 1, it means they affect each other about as much as they affect themselves. As these species get really similar, the ratio of carrying capacities that allows coexistence becomes vanishingly small. This led to the *principle of competitive exclusion*, which is that species with identical resource use cannot coexist. 
+
+This idea---that very similar species are unlikely to coexist---has received a lot of attention in theoretical ecology. In nature, there are lots of similar species, which has been difficult to explain with models. In the next few sections of these notes we'll introduce some other attempts to explain the biodiversity we see in nature with simple models of coexistence. \textcolor{green}{Besides this Lotka-Volterra criterion---that species should inhibit others at a rate different from that at which they inhibit themselves---what other mechanisms for coexistence have you heard of?}
+
+## "R Star" 
+
+## Lotka-Volterra predation 
 
 # Applications of population modeling to management and research
 
 # Other topics to add:
 
--   R\*
 -   Alternative stable states and hysteresis
 -   Resilience, multiple stressors, ball-and-cup theory
