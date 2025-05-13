@@ -3026,9 +3026,67 @@ These sets of inequalities can be interpreted in a number of ways. One is by ask
 
 This idea---that very similar species are unlikely to coexist---has received a lot of attention in theoretical ecology. In nature, there are lots of similar species, which has been difficult to explain with models. In the next few sections of these notes we'll introduce some other attempts to explain the biodiversity we see in nature with simple models of coexistence. \textcolor{green}{Besides this Lotka-Volterra criterion---that species should inhibit others at a rate different from that at which they inhibit themselves---what other mechanisms for coexistence have you heard of?}
 
-## "R Star" 
+## Alternative models for coexistence
+
+### R\*
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Define resource axis
+R_vals <- seq(0, 10, by = 0.1)
+
+# Define species growth curves relative to resource R
+growth_species1 <- 0.5 * (R_vals / (R_vals + 2)) - 0.05  # net growth rate for species 1
+growth_species2 <- 0.6 * (R_vals / (R_vals + 1)) - 0.05  # net growth rate for species 2
+
+# Combine into dataframe
+df <- data.frame(R = R_vals, Species1 = growth_species1, Species2 = growth_species2)
+
+# Find R* (where net growth rate = 0)
+rstar1 <- approx(df$Species1, df$R, xout = 0)$y
+rstar2 <- approx(df$Species2, df$R, xout = 0)$y
+
+# Plot
+plot <- ggplot(df, aes(x = R)) +
+  geom_line(aes(y = Species1, color = "Species 1"), size = 1.2) +
+  geom_line(aes(y = Species2, color = "Species 2"), size = 1.2, linetype = "dashed") +
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  geom_vline(xintercept = rstar1, color = "blue", linetype = "dotted") +
+  geom_vline(xintercept = rstar2, color = "red", linetype = "dotted") +
+  annotate("text", x = rstar1, y = 0.05, label = "R*1", color = "blue") +
+  annotate("text", x = rstar2, y = 0.05, label = "R*2", color = "red") +
+  labs(x = "Resource Level (R)", y = "Net Growth Rate", color = "Species",
+       title = "Tilman's R* Theory: Competitive Outcome") +
+  theme_minimal(base_size = 14)
+
+plot
+```
 
 ## Lotka-Volterra predation 
+
+Competition is a major focus of terrestrial community ecology, where people are often studying birds, plants, insects, and other taxa that frequently and intensely compete with one another. In the oceans, species interactions are more likely to be consumptive: marine stuff tends to eat other marine stuff. To model those interactions, we need to adapt the models above to represent predator-prey dynamics.
+
+The Lotka-Volterra analog calls the predator population P and the prey or "victim" population V. We can say generically that $dV/dt = f(V,P)$. But what is f here? Well, it depends on what we think drives the abundance of V. Maybe we think that in the absence of predators, V would increase exponentially (this is the simplest case):
+
+$$
+\frac{dV}{dt} = rV
+$$
+
+But this exponential increase is offset by losses that occur when predators are present. We write down a form for this where losses are proportional to *the product of* the number of predators and the number of prey,
+
+$$
+
+\frac{dV}{dt} = rV - \alpha V P
+
+$$
+
+This is not the same $\alpha$ as before. Now, it is measuring the effect of a single predator on *per capita* growth of prey, $dV/Vdt$. We call this **capture efficiency**. (Its units are victims / (victim times time times predator).) When we multiply this by V ($\alpha V$), it gives us the rate of prey capture by a single predator as a function of prey density---also known as the **functional response**. 
+
+We also think that predator growth rates are affected by both predators and prey, $dP/dt = g(P,V)$. For the sake of simplicity we say this predator is specialized only on this prey source. 
+
+
 
 # Applications of population modeling to management and research
 
