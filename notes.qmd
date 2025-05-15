@@ -2858,7 +2858,9 @@ Core feature of multispecies models are:
 
 So by extension, our goal here is to understand: what happens when populations of species with different traits interact?
 
-There are many kinds of species interactions. I will broadly group these as: interactions that reduce population growth for both species (we start with these); interactions that reduce growth in one population and increase it in the other; and interactions that increase population growth for both species (we will mostly ignore these).
+There are many kinds of species interactions. I will broadly group these as: interactions that reduce population growth for both species (we start with these); interactions that reduce growth in one population and increase it in the other; and interactions that increase population growth for both species (we will mostly ignore these). 
+
+The sections of these notes about Lotka-Volterra models are drawn from A Primer of Ecology (Gotelli, 4th Ed.).
 
 ## Lotka-Volterra competition
 
@@ -3026,9 +3028,69 @@ These sets of inequalities can be interpreted in a number of ways. One is by ask
 
 This idea---that very similar species are unlikely to coexist---has received a lot of attention in theoretical ecology. In nature, there are lots of similar species, which has been difficult to explain with models. In the next few sections of these notes we'll introduce some other attempts to explain the biodiversity we see in nature with simple models of coexistence. \textcolor{green}{Besides this Lotka-Volterra criterion---that species should inhibit others at a rate different from that at which they inhibit themselves---what other mechanisms for coexistence have you heard of?}
 
+## Lotka-Volterra predation 
+
+Competition is a major focus of terrestrial community ecology, where people are often studying birds, plants, insects, and other taxa that frequently and intensely compete with one another. In the oceans, species interactions are more likely to be consumptive: marine stuff tends to eat other marine stuff. To model those interactions, we need to adapt the models above to represent predator-prey dynamics.
+
+The Lotka-Volterra analog calls the predator population P and the prey or "victim" population V. We can say generically that $dV/dt = f(V,P)$. But what is f here? Well, it depends on what we think drives the abundance of V. Maybe we think that in the absence of predators, V would increase exponentially (this is the simplest case):
+
+$$
+\frac{dV}{dt} = rV
+$$
+
+But this exponential increase is offset by losses that occur when predators are present. We write down a form for this where losses are proportional to *the product of* the number of predators and the number of prey,
+
+$$
+
+\frac{dV}{dt} = rV - \alpha V P
+
+$$
+
+This is not the same $\alpha$ as before. Now, it is measuring the effect of a single predator on *per capita* growth of prey, $dV/Vdt$. We call this **capture efficiency**. (Its units are victims / (victim times time times predator).) When we multiply this by V ($\alpha V$), it gives us the rate of prey capture by a single predator as a function of prey density---also known as the **functional response**. 
+
+We also think that predator growth rates are affected by both predators and prey, $dP/dt = g(P,V)$. For the sake of simplicity we say this predator is specialized only on this prey source and its population can only grow when the prey population is present.
+
+$$
+\frac{dP}{dt} = \beta VP - qP
+$$
+
+Here $\beta VP$ indicates random encounters of predators and victims, and $\beta$ represents **conversion efficiency**---the effect of a single victim on the per capita growth rate, $dP/Pdt$, of the predator. (This is analogous to catchability in the constant harvest model.) 
+
+Setting the victim equation equal to zero, we find the following equilibrium solution:
+
+$$
+\hat{P} = \frac{r}{\alpha}
+$$
+
+Wait a minute; why is the victim equilibrium---where that population is not changing in size---defined in terms of the predator population? In this simplest formulation of a predator-prey model, a specific number of predators maintains the victim population at zero growth. Doing the same for predators, we find 
+
+$$
+\hat{V} = \frac{q}{\beta}
+$$
+
+Again, we find that a threshold number of victims maintains the predator population at a fixed size. Let's plot these two isoclines in state space, now with victims on the x-axis and predators on the y-axis. 
+
+![](gotelli_fig_6.1.png)
+
+![](gotelli_fig_6.2.png)
+
+Now we put this all together to jointly map predator and prey populations: 
+
+![](gotelli_fig_6.3.png)
+
+Unlike the competition model, there is only one possible outcome of combining these isoclines. The intuition behind what this means for population dynamics is clearer if we look at an actual plot of population sizes over time. 
+
+![](gotelli_fig_6.4.png)
+
+At first, prey experience low predation and grow quickly. As the prey population increases, predators also increase, albeit with a slight lag. They then deplete the prey population which quickly declines. As predators decline in turn, prey are released from predation and can increase, starting the cycle over again. 
+
+Unlike the Lotka-Volterra competition model, where there are multiple qualitatively different outcomes and the parameters are hard to estimate, here we actually see predator-prey cycles in nature not infrequently---with canonical examples that include moose and wolves on Isle Royale, for example. There are lots of extensions of the Lotka-Volterra predator-prey model (see Gotelli) to add complexity, such as a victim carrying capacity. 
+
 ## Alternative models for coexistence
 
 ### R\*
+
+There are many other models for coexistence besides Lotka-Volterra. One group of those focuses less on extensions of density-dependent growth, and more on the idea that coexistence is limited by competition for resources. Here, our quantity of interest for a given resource R is R\*: the lowest resource level at which a population can persist. The idea is that maybe coexistence is facilitated by species being better at exploiting some resources than others. 
 
 ```{r}
 library(ggplot2)
@@ -3064,27 +3126,33 @@ plot <- ggplot(df, aes(x = R)) +
 plot
 ```
 
-## Lotka-Volterra predation 
+```{r}
+library(ggplot2)
+library(patchwork)
 
-Competition is a major focus of terrestrial community ecology, where people are often studying birds, plants, insects, and other taxa that frequently and intensely compete with one another. In the oceans, species interactions are more likely to be consumptive: marine stuff tends to eat other marine stuff. To model those interactions, we need to adapt the models above to represent predator-prey dynamics.
+make_zngi_plot <- function(r1star, r2star, slope1, slope2, title) {
+  ggplot(data.frame(R1 = c(0, 10)), aes(x = R1)) +
+    geom_abline(intercept = r2star, slope = -1/slope1, color = "blue", size = 1.2) +
+    geom_abline(intercept = r2star, slope = -1/slope2, color = "red", linetype = "dashed", size = 1.2) +
+    geom_point(aes(x = r1star, y = 0), color = "blue") +
+    geom_point(aes(x = 0, y = r2star), color = "red") +
+    annotate("text", x = r1star + 0.5, y = 0.5, label = "R*1", color = "blue") +
+    annotate("text", x = 0.5, y = r2star + 0.5, label = "R*2", color = "red") +
+    coord_cartesian(xlim = c(0, 10), ylim = c(0, 10)) +
+    labs(x = "Resource 1", y = "Resource 2", title = title) +
+    theme_minimal(base_size = 14)
+}
 
-The Lotka-Volterra analog calls the predator population P and the prey or "victim" population V. We can say generically that $dV/dt = f(V,P)$. But what is f here? Well, it depends on what we think drives the abundance of V. Maybe we think that in the absence of predators, V would increase exponentially (this is the simplest case):
+p1 <- make_zngi_plot(3, 7, 1.5, 0.5, "Species 1 Wins")
+p2 <- make_zngi_plot(7, 3, 0.5, 1.5, "Species 2 Wins")
+p3 <- make_zngi_plot(5, 5, 1, 1, "Stable Coexistence")
+p4 <- make_zngi_plot(5, 5, 0.5, 2, "Unstable Coexistence")
 
-$$
-\frac{dV}{dt} = rV
-$$
+(p1 | p2) / (p3 | p4)
+```
 
-But this exponential increase is offset by losses that occur when predators are present. We write down a form for this where losses are proportional to *the product of* the number of predators and the number of prey,
+# Food web models 
 
-$$
-
-\frac{dV}{dt} = rV - \alpha V P
-
-$$
-
-This is not the same $\alpha$ as before. Now, it is measuring the effect of a single predator on *per capita* growth of prey, $dV/Vdt$. We call this **capture efficiency**. (Its units are victims / (victim times time times predator).) When we multiply this by V ($\alpha V$), it gives us the rate of prey capture by a single predator as a function of prey density---also known as the **functional response**. 
-
-We also think that predator growth rates are affected by both predators and prey, $dP/dt = g(P,V)$. For the sake of simplicity we say this predator is specialized only on this prey source. 
 
 
 
