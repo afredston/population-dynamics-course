@@ -3041,9 +3041,7 @@ $$
 But this exponential increase is offset by losses that occur when predators are present. We write down a form for this where losses are proportional to *the product of* the number of predators and the number of prey,
 
 $$
-
 \frac{dV}{dt} = rV - \alpha V P
-
 $$
 
 This is not the same $\alpha$ as before. Now, it is measuring the effect of a single predator on *per capita* growth of prey, $dV/Vdt$. We call this **capture efficiency**. (Its units are victims / (victim times time times predator).) When we multiply this by V ($\alpha V$), it gives us the rate of prey capture by a single predator as a function of prey density---also known as the **functional response**. 
@@ -3090,70 +3088,104 @@ Unlike the Lotka-Volterra competition model, where there are multiple qualitativ
 
 ### R\*
 
-There are many other models for coexistence besides Lotka-Volterra. One group of those focuses less on extensions of density-dependent growth, and more on the idea that coexistence is limited by competition for resources. Here, our quantity of interest for a given resource R is R\*: the lowest resource level at which a population can persist. The idea is that maybe coexistence is facilitated by species being better at exploiting some resources than others. 
+There are many other models that make predictions of species coexistence besides Lotka-Volterra. One group of those focuses less on extensions of density-dependent growth, and more on the idea that coexistence is limited by competition for resources. Actually, this is a different way of thinking about quantifying population growth, where populations grow purely as a function of resource availability (where resources are broadly defined and can include abiotic and biotic pools) and mortality. Sound familiar? Ecosystem models or "box models" are often *consumer resource models* at heart. You learn these in biological oceanography, but today we'll put an ecological twist on them. 
+
+Lotka-Volterra competition doesn't give rise to coexistence very easily. Recall that there were many scenarios in which the equilibrium state was reached when one species outcompeted the other. Yet in nature, we see many species coexisting. One early explanation for this was *niche diversification*; broadly, we have immense biodiversity on Earth because each species has a different *environmental niche*. It follows from the principle of competitive exclusion that two species with identical niches cannot coexist. (For a nice summary of this, see Hutchinson's "Homage to Santa Rosalia or Why Are There So Many Kinds of Animals?")
+
+Niche diversification or *differentiation* seems intuitive when looking at animals and plants. Fish have different foraging strategies, plants often partition habitat at small scales, and so on. There is also evidence for this happening in time, which is called the *storage effect* (when species use resources and habitats in different seasons or times of day, for example). Yet it's hard to argue that there are as many distinct environmental niches as there are species of phytoplankton (G.E. Hutchinson called this, famously, "the paradox of the plankton"). He argued that in some systems,  *equilibrium is never reached*, especially among fast-growing, short-lived organisms such as plankton. 
+
+This theory is appealing because niches are hard (maybe impossible) to measure, but resources are easy---and these consumer-resource models are all about temporal variability in resource density. Here, a resource is anything in the environment a species uses that gets depleted as a population grows. We denote those resources R, which I understand is super confusing since that represented discrete-time average growth earlier! We say that a single population on a single resource will grow according to the Monod equation, 
+
+$$
+b = r\frac{R}{K_S + R}
+$$
+
+Where $K_S$ is a half-velocity constant: the value of R when $b = 0.5r$. This implies that in the absence of mortality, 
 
 ```{r}
-library(ggplot2)
-library(dplyr)
-
-# Define resource axis
-R_vals <- seq(0, 10, by = 0.1)
-
-# Define species growth curves relative to resource R
-growth_species1 <- 0.5 * (R_vals / (R_vals + 2)) - 0.05  # net growth rate for species 1
-growth_species2 <- 0.6 * (R_vals / (R_vals + 1)) - 0.05  # net growth rate for species 2
-
-# Combine into dataframe
-df <- data.frame(R = R_vals, Species1 = growth_species1, Species2 = growth_species2)
-
-# Find R* (where net growth rate = 0)
-rstar1 <- approx(df$Species1, df$R, xout = 0)$y
-rstar2 <- approx(df$Species2, df$R, xout = 0)$y
-
-# Plot
-plot <- ggplot(df, aes(x = R)) +
-  geom_line(aes(y = Species1, color = "Species 1"), size = 1.2) +
-  geom_line(aes(y = Species2, color = "Species 2"), size = 1.2, linetype = "dashed") +
-  geom_hline(yintercept = 0, linetype = "dotted") +
-  geom_vline(xintercept = rstar1, color = "blue", linetype = "dotted") +
-  geom_vline(xintercept = rstar2, color = "red", linetype = "dotted") +
-  annotate("text", x = rstar1, y = 0.05, label = "R*1", color = "blue") +
-  annotate("text", x = rstar2, y = 0.05, label = "R*2", color = "red") +
-  labs(x = "Resource Level (R)", y = "Net Growth Rate", color = "Species",
-       title = "Tilman's R* Theory: Competitive Outcome") +
-  theme_minimal(base_size = 14)
-
-plot
+r <- 0.04
+s <- seq(0, 1000, 1)
+ks <- 50
+b <- r * (s / (ks + s))
+plot(s, b)
 ```
+
+But we know that there is some mortality rate. Let's say this is fixed at m. Then, any resource level below where a line at m intersects the curve above would be insufficient for this population; in other words, it needs a minimum resource concentration for b to be equal to or greater than m. We call this value **R\* **. 
 
 ```{r}
-library(ggplot2)
-library(patchwork)
+r <- 0.04
+m <- 0.03
+s <- seq(0, 1000, 1)
+ks <- 50
+b <- r * (s / (ks + s))
 
-make_zngi_plot <- function(r1star, r2star, slope1, slope2, title) {
-  ggplot(data.frame(R1 = c(0, 10)), aes(x = R1)) +
-    geom_abline(intercept = r2star, slope = -1/slope1, color = "blue", size = 1.2) +
-    geom_abline(intercept = r2star, slope = -1/slope2, color = "red", linetype = "dashed", size = 1.2) +
-    geom_point(aes(x = r1star, y = 0), color = "blue") +
-    geom_point(aes(x = 0, y = r2star), color = "red") +
-    annotate("text", x = r1star + 0.5, y = 0.5, label = "R*1", color = "blue") +
-    annotate("text", x = 0.5, y = r2star + 0.5, label = "R*2", color = "red") +
-    coord_cartesian(xlim = c(0, 10), ylim = c(0, 10)) +
-    labs(x = "Resource 1", y = "Resource 2", title = title) +
-    theme_minimal(base_size = 14)
-}
+rstar <- ((m / r) * ks) / (1-(m/r))
 
-p1 <- make_zngi_plot(3, 7, 1.5, 0.5, "Species 1 Wins")
-p2 <- make_zngi_plot(7, 3, 0.5, 1.5, "Species 2 Wins")
-p3 <- make_zngi_plot(5, 5, 1, 1, "Stable Coexistence")
-p4 <- make_zngi_plot(5, 5, 0.5, 2, "Unstable Coexistence")
-
-(p1 | p2) / (p3 | p4)
+ggplot(data=data.frame(s=s, b=b)) + 
+  geom_line(aes(x=s, y=b)) +
+  geom_hline(aes(yintercept=m), color = "blue") + 
+  geom_vline(aes(xintercept=rstar), color="red", linetype="dashed") +
+  theme_bw()
 ```
 
-# Food web models 
+\textcolor{green}{Where on this plot is $dN/dt$ positive? Negative? Zero?}
+
+You can probably see here that R\* is an equilibrium: b = d. Is R\* stable or unstable? If you have $R < R *$, the population declines, which allows the resource to recover; then R\* will increase. If $R > R *$, the population will use up the resource until it is depleted to R\*.
+
+Let's add another consumer with its own curve of birth rate as a function of resource availability, but with the same value of m. (As you have probably already realized, m is a lot like a sinking rate in a NPZ model.) 
+
+```{r}
+r1 <- 0.04
+r2 <- 0.08
+m <- 0.03
+s <- seq(0, 1000, 1)
+ks1 <- 50
+ks2 <- 75
+b1 <-  r1 * (s / (ks1 + s)) 
+b2 <- r2 * (s / (ks2 + s))
+
+rstar1 <- ((m / r1) * ks1) / (1-(m/r1))
+rstar2 <- ((m / r2) * ks2) / (1-(m/r2))
+
+ggplot(data=data.frame(s=s, b1=b1, b2=b2)) + 
+  geom_line(aes(x=s, y=b1), color="black") +
+    geom_line(aes(x=s, y=b2), color="gray") +
+geom_hline(aes(yintercept=m), color = "blue") + 
+  geom_vline(aes(xintercept=rstar1), color="red", linetype="dashed") +
+    geom_vline(aes(xintercept=rstar2), color="purple", linetype="dashed") +
+
+  theme_bw()
+```
+
+Label both R\* values on the plot for both species. \textcolor{green}{What is the outcome of this two-consumer, one-resource model?} In this scenario, the species that can have a positive growth rate at a lower resource concentration will always win. (Re-draw the lines crossing, which I can't seem to do on a computer, and discuss what that implies at artificially high resource concentrations.) 
+
+What if we introduce a second resource? Now, we need to put a resource on each axis. Just like in the Lotka-Volterra models, we're going to draw species' isoclines on these plots: the lines at which their growth is zero (birth = death). We actually did that above, when we drew a line at R\*. If we do that for a species' R\* values *on both axes*, we get an isocline that looks like a right angle. 
+
+Let's assume, for simplicity, that Resource 1 and Resource 2 come into the system at an equal rate. Then we can draw (images courtesy of Brian O'Neill, University of Wisconsin)...
+
+![](brian_oneill_tilman_rstar_1.png)
+
+![](brian_oneill_tilman_rstar_2.png)
 
 
+![](brian_oneill_tilman_rstar_3.png)
+
+
+![](brian_oneill_tilman_rstar_4.png)
+
+# Many interacting species
+
+## Food web models
+
+You hopefully learned in an introductory ecology about food web models. These are intuitive maps of what eats what in an ecosystem. These are a central concept in community ecology, anchoring our understanding of how energy flows through ecosystems and how species affect each other. Food webs historically emphasized bottom-up processes: producers do photosynthesis, primary consumers eat producers, secondary consumers eat primary consumers, apex predators eat everything. 
+
+![](paine_1980_food_web.png)
+
+## Trophic cascades 
+
+However, it has always been clear that populations at higher trophic levels can influence lower trophic levels as much as the reverse. A canonical example of this is a *trophic cascade*, when predators indirectly mediate other species interactions (see Ripple et al. 2016 TREE). One common consequence of a trophic cascade is the elimination of a predator leading to a decline in lower trophic level diversity, essentially because the predator was maintaining high biodiversity by interfering with competition. In Bob Paine's iconic experiments removing *Pisaster* (a top predator sea star) from an island's rocky shores, the community declined from 15 species to 8, because mussels outcompeted every other similar species with which it had previously coexisted under the predation pressure of *Pisaster* (Paine 1966). 
+
+## Network models 
 
 
 # Applications of population modeling to management and research
