@@ -1,0 +1,27 @@
+---
+title: "Marine Population Dynamics"
+subtitle: Homework 6 
+author: Alexa L. Fredston
+date: May 2025
+format: pdf
+editor: source
+execute:
+  echo: false
+  warning: false
+---
+
+This problem set asks you to do some research on the history of trophic cascades and regime shifts in a system you are interested in. By "system" I mean some combination of a habitat and a place, like "California kelp forests" or "Northeast Pacific upwelling zones" or whatever describes the places that you study. This should be the same system from which you drew data for earlier problem sets in this course. Don't overthink this; reach out to me if you have trouble defining your system. 
+
+**Question 1:** Describe the system you study in a few sentences; where it is, what kinds of species it comprises, what its major features are that distinguish it from other systems, etc. 
+
+**Question 2:** Do a brief literature search for trophic cascades in this system. Have any been described? If so, summarize how the cascade unfolded in a few sentences and include a reference. If not, state why you think they haven't occurred in this system in 1-2 sentences. 
+
+**Question 3:** If you did describe a trophic cascade above, do you think it was a regime shift? Why or why not?
+
+**Question 4:** Do a brief literature search for regime shifts in this system. Describe the regime shift or shifts that has/have occurred (a few sentences, or up to a paragraph if you need it). 
+
+**Question 5:** Based on your knowledge of it and your reading of the literature, do you think this system is better-described by regime shifts or by gradual ecological responses to changing conditions? Explain in a few sentences, or up to a paragraph if you need it. If you think regime shifts do occur in this system, include a (hand- or computer-drawn) figure of the ball-and-cup diagram labeling what ecological regimes the different cups represent in the system you study. 
+
+**Question 6:** In class, we drew diagrams with "conditions" on the x-axis, "ecosystem state" on the y-axis, and various curves depending on, essentially, the answer to Question 5. Draw (by hand or on a computer, whichever works for you) what you think best describes the system you're studying---in other words, draw your response to Question 5 in a figure, with some context-specific annotation (including what the state is that you might measure, and what the different parts of the curve might look like in nature). This is meant to be a qualitative diagram, not a quantitative plot, so don't worry about exact curve shapes or numbers. 
+
+**Question 7:** Look back through the single-species time-series that you've generated of real data from this system for earlier problem sets in this course. Qualitatively, do you see any evidence for tipping points or alternative stable states in this time-series? Why or why not? Answer in a few sentences. 

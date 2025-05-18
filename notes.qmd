@@ -674,7 +674,8 @@ ggplot(df, aes(x = N, y = g)) +
 
 ```
 
-The equation describing this line is, $$
+The equation describing this line is, 
+$$
 g(N) = r(1-\frac{N}{K})
 $$
 
@@ -729,7 +730,9 @@ We addressed that assumption by making per capita growth conditional on populati
 
 $$
 N(t) =  \frac{N_0e^{rt}}{1+N_0(e^{rt}-1)/K}
-$$ If you want to challenge yourself to walk through this integral, it's on p84-85 of the textbook. Before we go any further, let's draw $N$ vs. $t$, $dN/dt$ vs. $N$, and $dN/Ndt$ vs. $N$ on the board.
+$$ 
+
+If you want to challenge yourself to walk through this integral, it's on p84-85 of the textbook. Before we go any further, let's draw $N$ vs. $t$, $dN/dt$ vs. $N$, and $dN/Ndt$ vs. $N$ on the board.
 
 ## Stability and equilibrium analysis
 
@@ -2245,13 +2248,13 @@ leslie_matrices <- list(
     0.6, 0,   0,
     0,   0.8, 0
   ), nrow = 3, byrow = TRUE),
-
+  
   "High survival" = matrix(c(
     1.2, 1.5, 0.5,
     0.9, 0,   0,
     0,   0.95, 0
   ), nrow = 3, byrow = TRUE),
-
+  
   "Low fertility" = matrix(c(
     0.5, 0.7, 0.2,
     0.6, 0,   0,
@@ -3149,11 +3152,11 @@ rstar2 <- ((m / r2) * ks2) / (1-(m/r2))
 
 ggplot(data=data.frame(s=s, b1=b1, b2=b2)) + 
   geom_line(aes(x=s, y=b1), color="black") +
-    geom_line(aes(x=s, y=b2), color="gray") +
-geom_hline(aes(yintercept=m), color = "blue") + 
+  geom_line(aes(x=s, y=b2), color="gray") +
+  geom_hline(aes(yintercept=m), color = "blue") + 
   geom_vline(aes(xintercept=rstar1), color="red", linetype="dashed") +
-    geom_vline(aes(xintercept=rstar2), color="purple", linetype="dashed") +
-
+  geom_vline(aes(xintercept=rstar2), color="purple", linetype="dashed") +
+  
   theme_bw()
 ```
 
@@ -3185,12 +3188,185 @@ You hopefully learned in an introductory ecology about food web models. These ar
 
 However, it has always been clear that populations at higher trophic levels can influence lower trophic levels as much as the reverse. A canonical example of this is a *trophic cascade*, when predators indirectly mediate other species interactions (see Ripple et al. 2016 TREE). One common consequence of a trophic cascade is the elimination of a predator leading to a decline in lower trophic level diversity, essentially because the predator was maintaining high biodiversity by interfering with competition. In Bob Paine's iconic experiments removing *Pisaster* (a top predator sea star) from an island's rocky shores, the community declined from 15 species to 8, because mussels outcompeted every other similar species with which it had previously coexisted under the predation pressure of *Pisaster* (Paine 1966). 
 
-## Network models 
+This is where we'll end our discussion of models of interacting species. I could easily teach another entire course on community ecology, exploring the many mathematical models that aim to theoretically predict the diversity and coexistence we see in ecosystems. But this veers quite far away from population dynamics, which is what you signed up to learn. So we return to some special topics in population dynamics to wrap up this course. 
 
+# Resilience, stability, and tipping points
 
-# Applications of population modeling to management and research
+Textcolor{green}{Take a moment to reflect, and then share: What does "resilience" mean in the context of population dynamics?}
 
-# Other topics to add:
+Much of classical ecological theory brought principles from physics and chemistry to bear on modeling populations, with a major focus on quantifying equilibria and stability. Yet the degree to which stability is a feature of ecosystems---and what it would look like in nature for an ecosystem to be "stable"---is widely debated. Notably, the conditions for stability are essentially always violated in the present day. The idea that species can be in equilibrium with their environment hinges on the environment not changing, which is never true now. Plus even in an unchanging environment it's likely that ecosystems are frequently in transient states. 
 
--   Alternative stable states and hysteresis
--   Resilience, multiple stressors, ball-and-cup theory
+In 1973, CS Holling wrote a seminal paper (cited more than 27,000 times as of the writing of these notes) confronting this flaw in ecological models: that they are unrealistically simple and their dynamics often lead to global instability or global stability---neither of which seem very plausible. He argued that instead, thinking of the phase plane of interacting species, there are likely to be regions that lead to stable equilibria---a "domain of attraction"---and regions that lead to extinction of one species. (We did see some phase plane plots that were not globally stable or unstable, but those were decided by chance initial conditions, not by fundamentally different dynamics in different parts of the phase plane---which is what Holling argued for.) 
+
+Fundamental to this issue is the question, how complex is a real state-space plane of an ecosystem? Can we develop models that suggest multiple "domains of attraction" exist? Early theoretical ecological models suggested that there are "alternative stable states", which means multiple domains of attraction (see May, 1977). \textcolor{blue}{Draw ball-and-cup diagram and label domain of attraction and stable and unstable equilibria.}
+
+What features are we looking for these models to capture in order to be more "realistic"? Holling gives the example of an alpine lake in Italy for which we have historical data for about 4,000 years. The lake ecosystem persisted essentially unchanged even as the land around it shifted from grassland to forest (post-glaciation) and the construction of Roman highways. Then suddenly, shortly after 171 BC, the entire aquatic ecosystem altered to a eutrophic and high-productivity state, from which it did not rebound. Holling wrote, "The whole sequence of environmental changes can be viewed as changes in parameters or driving variables, and the long persistence in the face of these major changes suggests that natural systems have a high capacity to absorb change without dramatically altering. But this resilient character has its limits, and when the limits are passed, as by the construction of a Roman highway, the system rapidly changes to another condition." \textcolor{blue}{Draw two cases of "conditions" (x-axis) vs. ecosystem state (y-axis): a downward-sloping line and a steep drop-off like in the lake example.}
+
+Holling proposed new definitions for stability and resilience as the two defining features of ecosystems:
+
+- **Resilience** determines the persistence of relationships within a system and is a measure of the ability of these systems to absorb changes of state variables, driving variables, and parameters, and still persist. Resilience tells us 
+- **Stability** is the ability of a system to return to an equilibrium state after a temporary disturbance. The more rapidly it returns, and with the least fluctuation, the more stable it is. 
+
+This implies two measurements for stability: its displacement from a historical baseline, and its return time. Holling proposed measuring resilience as the size and depth of the domain of attraction in the state-space plane (how big is the cup?) Also note that the term "equilibrium" is nowhere to be found here! The point is that we look for resilience instead. 
+
+## An example using constant harvest of a density-dependent population
+
+We didn't use these words at the time, but we actually---in a single species!---found a case like the lake one above when we looked at the constant-harvest (MSY) model in a logistically growing population. Recall when we drew, 
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+H_max <- r * K / 4  # maximum sustainable harvest
+
+# Harvest values and labels
+H_vals <- c(0, H_max / 2, H_max)
+harvest_labels <- data.frame(
+  H = H_vals,
+  H_label = paste0("H = ", round(H_vals, 2))
+)
+
+# Population values
+N_vals <- seq(0, 120, by = 0.5)
+
+# Define the logistic growth with harvesting
+F_N <- function(N, H) {
+  r * N * (1 - N / K) - H
+}
+
+# Create data frame
+df <- expand.grid(N = N_vals, H = H_vals) %>%
+  mutate(dNdt = F_N(N, H)) %>%
+  left_join(harvest_labels, by = "H")
+
+# Plot
+ggplot(df, aes(x = N, y = dNdt, color = H_label)) +
+  geom_line(size = 1.2) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    title = "Logistic Growth With Varying Harvest Rates",
+    subtitle = paste("H_max =", round(H_max, 2), "occurs at N = K/2 =", K / 2),
+    x = "Population Size (N)",
+    y = "dN/dt",
+    color = "Harvest Rate"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+Now for the population where H = Hmax, let's actually draw its population size through time, starting out at K and introducing constant harvest. (Ignore the actual values in terms of K and H; I generated these plots with a Ricker model so they aren't at the exact theoretical points as in the continuous-time logistic, but they're just here for illustration.)
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+H_max <- r * K / 4  # maximum sustainable harvest
+
+t <- seq(1, 20, 1)
+N <- c()
+N[1] <- K
+
+for(i in 2:max(t)) {
+  N[i] <- N[i-1] * exp(r * (1-(N[i-1]/K))) - H_max
+}
+
+ggplot(data = data.frame(t = t, N = N)) +
+  geom_line(aes(x=t, y=N)) + 
+  labs(title = "Initial population size = K; Maximum harvest") +
+  theme_bw()
+```
+
+What happens if the population starts at a smaller population size? 
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+H_max <- r * K / 4  # maximum sustainable harvest
+
+t <- seq(1, 20, 1)
+N <- c()
+N[1] <- K / 4
+
+for(i in 2:max(t)) {
+  N[i] <- N[i-1] * exp(r * (1-(N[i-1]/K))) - H_max
+}
+
+ggplot(data = data.frame(t = t, N = N)) +
+  geom_line(aes(x=t, y=N)) + 
+  labs(title = "Initial population size = K/4; Maximum harvest") +
+  theme_bw()
+```
+
+Even smaller? 
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Parameters
+r <- 1
+K <- 100
+H_max <- r * K / 4  # maximum sustainable harvest
+
+t <- seq(1, 20, 1)
+N <- c()
+N[1] <- K * 0.2
+
+for(i in 2:max(t)) {
+  N[i] <- N[i-1] * exp(r * (1-(N[i-1]/K))) - H_max
+}
+
+ggplot(data = data.frame(t = t, N = N)) +
+  geom_line(aes(x=t, y=N)) + 
+  labs(title = "Initial population size = 0.1K; Maximum harvest") +
+  scale_y_continuous(limits=c(0, 100)) +
+  theme_bw()
+```
+
+We will see this pattern both as a function of different initial population sizes, and different values of H (recall that when H was just below Hmax there was a stable and an unstable equilibrium value). Think back to the curve above with different values of H. The values of H below Hmax generated two equilibria, one stable or unstable. Now in this resilience framework, let's focus more on the outcome for population size (asking---does the system still look the same, ie have a bunch of fish?) and on varying H. 
+
+### Hysteresis 
+
+![](hysteresis.png)
+
+The solid line delineates the basin of attraction; think of it like a valley. The dashed line can be thought of as a ridge. On that ridge, the system can roll toward the state it may have started in---the relatively high-abundance state shown by the solid line. But what if the system rolls in the other direction---below or to the right of the lines? In those domains, *no amount of harvest reduction will avoid collapse*. The possibility of resilience evaporates and---because of the memory of the system---it cannot be recovered by changing any parameters. This is the definition of *hysteresis in ecology*. 
+
+In the interior area defined by these lines, **alternative stable states** exist: the system could have the same level of harvest and very different population sizes, depending in part on its history. Don't be fooled by the use of "stable" in this name. Recall that when we solved this model, some equilibria were stable and others were not. Equilibria that aren't stable don't count as alternative stable states. What we're talking about here as the two "alternative stable states" are the two stable equilibria: moderate harvest and relatively high N, or moderate harvest and extinction. Let's try to draw this second stable state. 
+
+![](hysteresis2.png)
+
+This figure now is a quantitative representation of the core property of hysteresis: the S-shaped plot. Where the curve folds back on itself and the middle equilibrium is unstable, we get a situation like two valleys separated by a hill. There are two domains of attraction, both of which have some degree of resilience and stability, so systems are likely to stay within them. But when conditions push the system from one into the other, it's very difficult to reverse---and, crucially, cannot be reversed just by reverting to the initial conditions pre-transition (see Scheffer *et al.* 2001 *Nature*. 
+
+![](scheffer_et_al_2001_fig_1.png)
+
+## Regime shifts
+
+There's a couple of phrases that are often thrown around in ecology and conservation that are intimately related to the concepts of resilience, stability, and hysteresis. Have you ever heard of **regime shifts** or **ecological tipping points**?
+
+Regime shifts are usually defined as the ecological changes observed when systems transition between states. Different criteria have been proposed for what counts as a regime shift, but they are usually:
+
+- Abrupt
+- High-amplitude (big changes)
+- Across multiple functional groups or trophic levels (community-wide) 
+- Resulting in a change in the structure or function of an ecosystem 
+
+Frequently, although not always, regime shifts look like ecological collapses to us. It's important to realize that the concept of an ecological collapse is a human-created one. When a rocky reef transitions to a mangrove forest, or a desert transitions to a grassland, we can describe those as regime shifts---but whether they are "collapses" is not really an ecological property. 
+
+The dashed line in the hysteresis figure above is often what people mean when they say tipping point. This term is really poorly defined, and it is also used to mean *the abiotic or environmental conditions that caused a regime shift* (describe the planetary boundaries project). \textcolor{green}{Try drawing and labeling the hysteresis diagram for an estuary or a coral reef.}
+
+We learned earlier about another nonlinear ecological feedback process whereby removing a predator causes huge changes across trophic levels---a *trophic cascade*. Not all regime shifts are trophic cascades, and not all trophic cascades are regime shifts. For example, I'm not sure the *Pisaster* rocky reef example is a regime shift; it still was a rocky reef afterward. By contrast, the removal of sea otters causing a transition from kelp forests to urchin barrens is definitely a trophic cascade *and* a regime shift. 
+
+This discussion is hopefully illustrating the ways in which these definitions are a bit slippery. There is not clear  consensus about exactly which state variables at exactly which values should define resilience or regime shifts. Yet understandably, conservationists would like to avoid regime shifts, and protecting resilience is seen as the best path forward for conserving many ecosystems. You are probably aware that UCSC has a huge focus on "coastal resilience". I didn't introduce this yet, but there is also a vast literature on *social-ecological resilience*---building resilience into the societies that interact with nature as well as the ecosystems themselves. 
+
+A large and controversial meta-analysis study recently found that across the published literature measuring some state variable in response to some environmental driver, "Thresholds for ecological responses to global change do not emerge from empirical data" (that's the actual title of Hillebrand *et al.* 2020 *Nature Ecology and Evolution*). They found that instead, responses scale gradually with changing conditions (this could be nonlinear or linear but the key insight is there is not much support for the S-shaped curve). So the degree to which resilience theory and regime shifts actually characterize many ecosystems in which we work is a huge open question. 
+
