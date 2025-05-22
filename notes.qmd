@@ -3192,7 +3192,7 @@ This is where we'll end our discussion of models of interacting species. I could
 
 # Resilience, stability, and tipping points
 
-Textcolor{green}{Take a moment to reflect, and then share: What does "resilience" mean in the context of population dynamics?}
+\textcolor{green}{Take a moment to reflect, and then share: What does "resilience" mean in the context of population dynamics?}
 
 Much of classical ecological theory brought principles from physics and chemistry to bear on modeling populations, with a major focus on quantifying equilibria and stability. Yet the degree to which stability is a feature of ecosystems---and what it would look like in nature for an ecosystem to be "stable"---is widely debated. Notably, the conditions for stability are essentially always violated in the present day. The idea that species can be in equilibrium with their environment hinges on the environment not changing, which is never true now. Plus even in an unchanging environment it's likely that ecosystems are frequently in transient states. 
 
@@ -3257,95 +3257,19 @@ ggplot(df, aes(x = N, y = dNdt, color = H_label)) +
 
 ```
 
-Now for the population where H = Hmax, let's actually draw its population size through time, starting out at K and introducing constant harvest. (Ignore the actual values in terms of K and H; I generated these plots with a Ricker model so they aren't at the exact theoretical points as in the continuous-time logistic, but they're just here for illustration.)
-
-```{r}
-library(ggplot2)
-library(dplyr)
-
-# Parameters
-r <- 1
-K <- 100
-H_max <- r * K / 4  # maximum sustainable harvest
-
-t <- seq(1, 20, 1)
-N <- c()
-N[1] <- K
-
-for(i in 2:max(t)) {
-  N[i] <- N[i-1] * exp(r * (1-(N[i-1]/K))) - H_max
-}
-
-ggplot(data = data.frame(t = t, N = N)) +
-  geom_line(aes(x=t, y=N)) + 
-  labs(title = "Initial population size = K; Maximum harvest") +
-  theme_bw()
-```
-
-What happens if the population starts at a smaller population size? 
-
-```{r}
-library(ggplot2)
-library(dplyr)
-
-# Parameters
-r <- 1
-K <- 100
-H_max <- r * K / 4  # maximum sustainable harvest
-
-t <- seq(1, 20, 1)
-N <- c()
-N[1] <- K / 4
-
-for(i in 2:max(t)) {
-  N[i] <- N[i-1] * exp(r * (1-(N[i-1]/K))) - H_max
-}
-
-ggplot(data = data.frame(t = t, N = N)) +
-  geom_line(aes(x=t, y=N)) + 
-  labs(title = "Initial population size = K/4; Maximum harvest") +
-  theme_bw()
-```
-
-Even smaller? 
-
-```{r}
-library(ggplot2)
-library(dplyr)
-
-# Parameters
-r <- 1
-K <- 100
-H_max <- r * K / 4  # maximum sustainable harvest
-
-t <- seq(1, 20, 1)
-N <- c()
-N[1] <- K * 0.2
-
-for(i in 2:max(t)) {
-  N[i] <- N[i-1] * exp(r * (1-(N[i-1]/K))) - H_max
-}
-
-ggplot(data = data.frame(t = t, N = N)) +
-  geom_line(aes(x=t, y=N)) + 
-  labs(title = "Initial population size = 0.1K; Maximum harvest") +
-  scale_y_continuous(limits=c(0, 100)) +
-  theme_bw()
-```
-
-We will see this pattern both as a function of different initial population sizes, and different values of H (recall that when H was just below Hmax there was a stable and an unstable equilibrium value). Think back to the curve above with different values of H. The values of H below Hmax generated two equilibria, one stable or unstable. Now in this resilience framework, let's focus more on the outcome for population size (asking---does the system still look the same, ie have a bunch of fish?) and on varying H. 
+Let's try to draw the equilibrium outcomes of different combinations of harvest and initial population size. What happens if you start at every factorial combination of low, moderate, and very high H, and different values of $N_0$? Draw a state-space plot of "conditions" (here, harvest) vs "ecosystem state" (here, equilibrium N). Use the plot above (or the one I tend to draw, where the dashed line comes down rather than the curves going up to meet it). Connect the stable equilibria with a solid line and the unstable equilibria with a dashed line. 
 
 ### Hysteresis 
 
 ![](hysteresis.png)
 
-The solid line delineates the basin of attraction; think of it like a valley. The dashed line can be thought of as a ridge. On that ridge, the system can roll toward the state it may have started in---the relatively high-abundance state shown by the solid line. But what if the system rolls in the other direction---below or to the right of the lines? In those domains, *no amount of harvest reduction will avoid collapse*. The possibility of resilience evaporates and---because of the memory of the system---it cannot be recovered by changing any parameters. This is the definition of *hysteresis in ecology*. 
+The solid line delineates the basin of attraction; think of it like a valley. The dashed line can be thought of as a ridge. On that ridge, the system can roll toward the state it may have started in---the relatively high-abundance state shown by the solid line. But what if the system rolls in the other direction---below or to the right of the lines? In those domains, *no amount of harvest reduction will avoid collapse*. 
 
-In the interior area defined by these lines, **alternative stable states** exist: the system could have the same level of harvest and very different population sizes, depending in part on its history. Don't be fooled by the use of "stable" in this name. Recall that when we solved this model, some equilibria were stable and others were not. Equilibria that aren't stable don't count as alternative stable states. What we're talking about here as the two "alternative stable states" are the two stable equilibria: moderate harvest and relatively high N, or moderate harvest and extinction. Let's try to draw this second stable state. 
+In the interior area defined by these lines, **alternative stable states** exist: the system could have the same level of harvest and very different population sizes, depending in part on its history. Don't be fooled by the use of "stable" in this name. Recall that when we solved this model, some equilibria were stable and others were not. Equilibria that aren't stable don't count as alternative stable states. What we're talking about here as the two "alternative stable states" are the two stable equilibria: moderate harvest and relatively high N, or moderate harvest and extinction. Looking back at the logistic growth plot from earlier, add in the stable states at extinction. 
 
 ![](hysteresis2.png)
 
-This figure now is a quantitative representation of the core property of hysteresis: the S-shaped plot. Where the curve folds back on itself and the middle equilibrium is unstable, we get a situation like two valleys separated by a hill. There are two domains of attraction, both of which have some degree of resilience and stability, so systems are likely to stay within them. But when conditions push the system from one into the other, it's very difficult to reverse---and, crucially, cannot be reversed just by reverting to the initial conditions pre-transition (see Scheffer *et al.* 2001 *Nature*. 
+This figure now is a quantitative representation of the core property of **hysteresis:** the S-shaped plot. Where the curve folds back on itself and the middle equilibrium is unstable, we get a situation like two valleys separated by a hill. There are two domains of attraction, both of which have some degree of resilience and stability, so systems are likely to stay within them. But when conditions push the system from one into the other, it's very difficult to reverse---and, crucially, cannot be reversed just by reverting to the initial conditions pre-transition (see Scheffer *et al.* 2001 *Nature*.) 
 
 ![](scheffer_et_al_2001_fig_1.png)
 
